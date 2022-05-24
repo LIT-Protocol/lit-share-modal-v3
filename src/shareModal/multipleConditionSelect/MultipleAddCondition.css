@@ -1,0 +1,18 @@
+.lsm-multiple-condition-select-container {
+    margin-top: 3.5em;
+    overflow-y: scroll;
+    height: calc(100vh - 8.5em);
+}
+
+.lsm-multiple-condition-select-prompt {
+    color: var(--lsm-primary-color);
+    font-family: var(--lsm-primary-font);
+    font-weight: var(--lsm-primary-font-weight);
+    text-align: center;
+    font-size: 1.05em;
+}
+
+.lsm-multiple-condition-select-prompt {
+    margin: 1em 0;
+}
+

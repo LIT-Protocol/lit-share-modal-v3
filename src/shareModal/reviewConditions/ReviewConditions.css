@@ -1,0 +1,63 @@
+.lsm-review-conditions-container {
+    font-family: var(--lsm-primary-font);
+    box-sizing: border-box;
+    padding: 0 0.5em;
+    margin-top: 3.5em;
+    overflow-y: scroll;
+    height: calc(100vh - 8.5em);
+}
+
+.lsm-review-conditions-group-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.lsm-review-conditions-prompt {
+    font-weight: var(--lsm-primary-font-weight);
+    font-size: 1.1em;
+    margin: 1em 0 0.5em;
+}
+
+.lsm-review-conditions-group {
+    box-sizing: border-box;
+    padding: 1em;
+    overflow-wrap: break-word;
+    font-weight: var(--lsm-primary-font-weight);
+    display: flex;
+    flex-direction: column;
+    margin: 0.75em 0;
+}
+
+.lsm-review-conditions-group:first-child {
+    margin: 0 0 0.75em;
+}
+
+.lsm-review-condition-humanized-text {
+
+}
+
+.lsm-review-condition-operator-text {
+    margin: 0.75em 0;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.lsm-review-conditions-permanent {
+    font-weight: var(--lsm-primary-font-weight);
+    margin: 1.5em auto;
+    text-align: center;
+}
+
+.lsm-review-conditions-permanent-checkbox {
+    margin-right: 0.25em;
+}
+
+.lsm-review-conditions-link {
+    font-weight: var(--lsm-primary-font-weight);
+    margin: 0.75em auto;
+    text-align: center;
+}
+
+.lsm-review-conditions-link-icon {
+    margin-left: 0.25em;
+}

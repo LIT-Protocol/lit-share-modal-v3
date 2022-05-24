@@ -1,0 +1,41 @@
+.lsm-chain-selector-container {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 0.5em;
+    justify-content: center;
+    align-items: center;
+}
+
+.lsm-chain-selector {
+    width: 100%;
+    font-family: var(--lsm-primary-font);
+}
+
+.lsm__control {
+    border-radius: var(--lsm-border-radius) !important;
+    padding: 0.25em 0;
+}
+
+.lsm__menu {
+    border-radius: 0 !important;
+}
+
+.lsm__menu-list {
+    padding: 0 !important;
+}
+
+.lsm__option {
+    padding: 0.75em 0.75em !important;
+}
+
+.lsm-chain-selector-control-icon {
+    height: 2em;
+    margin-right: 0.5em;
+    min-width: 2.5em;
+}
+
+.lsm-chain-selector-option-icons {
+    height: 1em;
+    margin-right: 0.5em;
+}

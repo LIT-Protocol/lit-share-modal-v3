@@ -1,0 +1,31 @@
+.lsm-reusable-select-container {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    /*margin-bottom: 0.75em;*/
+}
+
+.lsm-reusable-select {
+    width: 100%;
+    font-family: var(--lsm-primary-font);
+}
+
+.lsm__control {
+    border-radius: var(--lsm-border-radius) !important;
+    padding: 0.25em 0;
+    font-size: 1em;
+}
+
+.lsm__menu {
+    border-radius: 0 !important;
+}
+
+.lsm__menu-list {
+    padding: 0 !important;
+}
+
+.lsm__option {
+    padding: 0.75em 0.75em !important;
+}

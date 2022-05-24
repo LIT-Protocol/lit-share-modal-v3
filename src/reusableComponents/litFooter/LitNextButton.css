@@ -1,0 +1,24 @@
+.lsm-next-button {
+    height: 3rem;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    border-radius: 0.25rem;
+    border: none;
+    color: var(--lsm-contrast-color);
+    background-color: var(--lsm-accent-color);
+    cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+.lsm-next-button:disabled {
+    background-color: var(--lsm-disabled-color);
+}
+
+.lsm-next-button:hover {
+    opacity: 0.9;
+}
+
+.lsm-next-arrow {
+    margin-left: 0.5rem;
+}

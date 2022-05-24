@@ -1,0 +1,28 @@
+.lsm-token-select {
+    /*margin-bottom: 0.75em;*/
+}
+
+.lsm__control {
+    border-radius: var(--lsm-border-radius) !important;
+    padding: 0.25em 0;
+    font-size: 1em;
+}
+
+.lsm__menu {
+    border-radius: 0 !important;
+}
+
+.lsm__menu-list {
+    padding: 0 !important;
+}
+
+.lsm__option {
+    padding: 0.75em 0.75em !important;
+    display: flex !important;
+    align-items: center !important;
+    font-family: var(--lsm-primary-font);
+}
+
+.lsm-chain-selector-options-icons {
+    margin-right: 0.75em;
+}

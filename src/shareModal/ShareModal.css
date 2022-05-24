@@ -1,0 +1,42 @@
+.lsm-share-modal-container {
+    box-sizing: border-box;
+    padding: 0 0.5em;
+    background-color: var(--lsm-background-color);
+}
+
+.lsm-condition-container {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--lsm-primary-font);
+    box-sizing: border-box;
+    padding: 0.75em 0.5rem 0;
+}
+
+.lsm-condition-prompt-text {
+    font-weight: var(--lsm-primary-font-weight);
+    font-size: 1em;
+    margin: 1em 0 0.5em;
+}
+
+.lsm-condition-prompt-text-no-margin {
+    font-weight: var(--lsm-primary-font-weight);
+    font-size: 1em;
+}
+
+.lsm-radio-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 97%;
+    margin-bottom: 0.75em;
+}
+
+.lsm-radio-label {
+    font-weight: var(--lsm-primary-font-weight);
+    margin-left: 0.25em;
+}
+
+/*for desktop*/
+@media (min-width: 768px) {
+
+}
