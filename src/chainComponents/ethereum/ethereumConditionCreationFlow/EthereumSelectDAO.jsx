@@ -5,7 +5,7 @@ import LitFooter from "../../../reusableComponents/litFooter/LitFooter";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
 import LitJsSdk from "lit-js-sdk";
 
-const EthereumSelectDAO = ({ setSelectPage, handleUpdateAccessControlConditions }) => {
+const EthereumSelectDAO = ({ setSelectPage, handleUpdateUnifiedAccessControlConditions }) => {
   const { setDisplayedPage, chainOptions, flow } = useContext(ShareModalContext);
   const [DAOAddress, setDAOAddress] = useState("");
   const [subChain, setSubChain] = useState({});
@@ -33,8 +33,9 @@ const EthereumSelectDAO = ({ setSelectPage, handleUpdateAccessControlConditions 
   );
 
   const handleSubmit = () => {
-    const accessControlConditions = [
+    const unifiedAccessControlConditions = [
       {
+        conditionType: 'evmBasic',
         contractAddress: DAOAddress,
         standardContractType: "MolochDAOv2.1",
         chain: subChain.value,
@@ -47,7 +48,7 @@ const EthereumSelectDAO = ({ setSelectPage, handleUpdateAccessControlConditions 
       },
     ];
 
-    handleUpdateAccessControlConditions(accessControlConditions);
+    handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
 
     if (flow === 'singleCondition') {
       setDisplayedPage('review');
@@ -75,7 +76,7 @@ const EthereumSelectDAO = ({ setSelectPage, handleUpdateAccessControlConditions 
         DAOhaus)</p>
       <LitFooter backAction={() => setSelectPage('chooseAccess')}
                  nextAction={handleSubmit}
-                 nextDisableConditions={(!subChain['name'] || !DAOAddress.length)}/>
+                 nextDisableConditions={(!subChain['value'] || !DAOAddress.length)}/>
     </div>
   );
 };

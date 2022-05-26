@@ -6,49 +6,34 @@ import React, {
 } from "react";
 import { ShareModalContext } from "./createShareContext";
 
-// import baseCss from "../index.css";
-// import modalCss from "./ShareModal.css";
-// import litChainSelectorCss from "../reusableComponents/litChainSelector/LitChainSelector.css";
-// import litHeaderCss from "../reusableComponents/litHeader/LitHeader.css";
-// import singleConditionSelectCss from "../shareModal/singleConditionSelect/SingleConditionSelect.css";
-// import litChooseAccessButtonCss from "../reusableComponents/litChooseAccessButton/LitChooseAccessButton.css";
-// import litReusableSelectCss from '../reusableComponents/litReusableSelect/LitReusableSelect.css'
-// import litInputCss from '../reusableComponents/litInput/LitInput.css';
-// import litFooterCss from '../reusableComponents/LitFooter/LitFooter.css';
-// import cssFile2 from "../reusableComponents/litConfirmationModal/LitConfirmationModal.css";
-// import cssFile3 from "../reusableComponents/litTokenSelect/LitTokenSelect.css";
-// import cssFile4 from "../reusableComponents/litFooter/LitNextButton.css";
-// import cssFile5 from "../reusableComponents/litFooter/LitFooter.css";
-// import cssFile6 from "../reusableComponents/litFooter/LitBackButton.css";
-// import cssFile7 from "../reusableComponents/litSimpleDropdown/LitSimpleDropdown.css";
-// import cssFile8 from "../reusableComponents/litMultipeConditionOrganizer/LitMultipleConditionOrganizer.css";
-// import cssFile9 from "../reusableComponents/litDeleteModal/LitDeleteModal.css";
-// import cssFile10 from "../ethereumGeneralComponents/ethereumReviewConditions/EthereumReviewConditions.css";
-
 import LitJsSdk from "lit-js-sdk";
 import { TOP_LIST } from "./helpers/topList";
 import {
   humanizeNestedConditions,
-  cleanAccessControlConditions,
+  cleanUnifiedAccessControlConditions,
 } from "./helpers/multipleConditionHelpers";
 import LitHeader from "../reusableComponents/litHeader/LitHeader";
 import SingleConditionSelect from "./singleConditionSelect/SingleConditionSelect";
 import MultipleConditionSelect from "./multipleConditionSelect/MultipleConditionSelect";
 import { defaultAllowedChainsObj } from "./helpers/shareModalDefaults";
-import { checkPropTypes, getAllowedConditions, logDevError } from "./helpers/helperFunctions.js";
+import {
+  checkPropTypes,
+  getAllowedConditions,
+  logDevError, setDevModeIsAllowed,
+  stripNestedArray
+} from "./helpers/helperFunctions.js";
 import ReviewConditions from "./reviewConditions/ReviewConditions";
 import LitConfirmationModal from "../reusableComponents/litConfirmationModal/LitConfirmationModal";
 import DevModeHeader from "./devMode/DevModeHeader";
 import DevModeContent from "./devMode/DevModeContent";
-// import cssReference from "./cssReference";
 
 const ShareModal = (props) => {
   const [displayedPage, setDisplayedPage] = useState("single");
   const [error, setError] = useState(null);
-  const [accessControlConditions, setAccessControlConditions] = useState([]);
+  const [unifiedAccessControlConditions, setUnifiedAccessControlConditions] = useState([]);
   const [
-    humanizedAccessControlConditions,
-    setHumanizedAccessControlConditions,
+    humanizedUnifiedAccessControlConditions,
+    setHumanizedUnifiedAccessControlConditions,
   ] = useState([]);
   const [flow, setFlow] = useState("singleCondition");
   const [tokenList, setTokenList] = useState(null);
@@ -61,7 +46,7 @@ const ShareModal = (props) => {
   const {
     onClose = () => false,
     onBack = () => false,
-    onAccessControlConditionsSelected,
+    onUnifiedAccessControlConditionsSelected,
     defaultTokens = TOP_LIST,
     injectCSS = true,
     defaultChain = 'ethereum',
@@ -80,6 +65,8 @@ const ShareModal = (props) => {
   useEffect(() => {
     checkPropTypes(props);
 
+    setDevModeIsAllowed(allowDevMode);
+
     // check and set allowed conditions per chain
     const chainsWithAllowedConditions = getAllowedConditions(chainsAllowed, conditionsAllowed, defaultAllowedChainsObj);
     setChainList(chainsWithAllowedConditions);
@@ -88,10 +75,6 @@ const ShareModal = (props) => {
 
     getTokens();
   }, [defaultChain]);
-
-  useEffect(() => {
-    console.log('check chain update', chain)
-  }, [chain])
 
   const setInitialChain = async (chainsAllowed) => {
     // get default chain
@@ -151,7 +134,7 @@ const ShareModal = (props) => {
     localIndex,
     nestedIndex
   ) => {
-    const updatedAcc = accessControlConditions;
+    const updatedAcc =unifiedAccessControlConditions;
     // TODO: create nested delete
 
     if (nestedIndex === null) {
@@ -192,12 +175,12 @@ const ShareModal = (props) => {
     return updatedAcc;
   };
 
-  const handleUpdateAccessControlConditions = async (
+  const handleUpdateUnifiedAccessControlConditions = async (
     newAccessControlCondition,
     isNested = false,
     index = null
   ) => {
-    let updatedAcc = [...accessControlConditions];
+    let updatedAcc = [...unifiedAccessControlConditions];
     if (!newAccessControlCondition[0]) {
       return;
     }
@@ -225,7 +208,7 @@ const ShareModal = (props) => {
   };
 
   const updateLogicOperator = async (value, localIndex, nestedIndex = null) => {
-    let updatedAcc = [...accessControlConditions];
+    let updatedAcc = [...unifiedAccessControlConditions];
     if (nestedIndex) {
       updatedAcc[localIndex][nestedIndex].operator = value;
     } else {
@@ -236,22 +219,22 @@ const ShareModal = (props) => {
   };
 
   const updateState = async (acc) => {
-    const cleanedAcc = cleanAccessControlConditions(acc);
+    const cleanedAcc = cleanUnifiedAccessControlConditions(acc);
     const humanizedData = await humanizeNestedConditions([...cleanedAcc]);
-    setHumanizedAccessControlConditions([...humanizedData]);
-    setAccessControlConditions([...cleanedAcc]);
+    setHumanizedUnifiedAccessControlConditions([...humanizedData]);
+    setUnifiedAccessControlConditions([...cleanedAcc]);
   };
 
   // TODO: functions for keeping
 
 
   const clearAllAccessControlConditions = () => {
-    setAccessControlConditions([]);
-    setHumanizedAccessControlConditions([]);
+    setUnifiedAccessControlConditions([]);
+    setHumanizedUnifiedAccessControlConditions([]);
   };
 
   const handleClose = () => {
-    if (accessControlConditions.length) {
+    if (unifiedAccessControlConditions.length) {
       setShowConfirmationModal(true);
     } else {
       resetModal();
@@ -260,7 +243,6 @@ const ShareModal = (props) => {
   };
 
   const resetModal = () => {
-    console.log('defaultChain', defaultChain)
     setFlow("singleCondition");
     setDisplayedPage("single");
     clearAllAccessControlConditions();
@@ -278,13 +260,15 @@ const ShareModal = (props) => {
     }
   };
 
-  const sendAccessControlConditions = (conditionsArePermanent) => {
+  const sendUnifiedAccessControlConditions = (conditionsArePermanent) => {
+    const cleanedAccessControlConditions = stripNestedArray(unifiedAccessControlConditions);
     const keyParams = {
-      accessControlConditions,
+      unifiedAccessControlConditions: cleanedAccessControlConditions,
       permanent: !conditionsArePermanent,
       chain: 'ethereum'
     };
-    onAccessControlConditionsSelected(keyParams);
+    // TODO: comment back in to export conditions
+    // onAccessControlConditionsSelected(keyParams);
   };
 
   return (
@@ -293,12 +277,12 @@ const ShareModal = (props) => {
       {(!error && cssLoaded) && (
         <ShareModalContext.Provider
           value={{
-            handleUpdateAccessControlConditions,
+            handleUpdateUnifiedAccessControlConditions,
             handleDeleteAccessControlCondition,
             clearAllAccessControlConditions,
             updateLogicOperator,
             handleClose,
-            sendAccessControlConditions,
+            sendUnifiedAccessControlConditions,
             resetModal,
             showChainSelector,
             chain,
@@ -307,8 +291,8 @@ const ShareModal = (props) => {
             setError,
             setDisplayedPage,
             setFlow,
-            humanizedAccessControlConditions,
-            accessControlConditions,
+            humanizedUnifiedAccessControlConditions,
+            unifiedAccessControlConditions,
             displayedPage,
             tokenList,
             flow,
@@ -326,17 +310,17 @@ const ShareModal = (props) => {
             <LitHeader handleClose={handleClose} isModal={isModal} />
           )}
           {(allowDevMode && showDevMode) ? (
-            <DevModeContent accessControlConditions={accessControlConditions} />
+            <DevModeContent unifiedAccessControlConditions={unifiedAccessControlConditions} />
           ) : (
             <Fragment>
               {(flow === 'singleCondition' && displayedPage !== 'review') && (
-                <SingleConditionSelect stepAfterUpdate={'review'} humanizedAccessControlConditions={humanizedAccessControlConditions} accessControlConditions={accessControlConditions}/>
+                <SingleConditionSelect stepAfterUpdate={'review'} humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions} unifiedAccessControlConditions={unifiedAccessControlConditions}/>
               )}
               {(flow === 'multipleConditions' && displayedPage !== 'review') && (
-                <MultipleConditionSelect humanizedAccessControlConditions={humanizedAccessControlConditions} accessControlConditions={accessControlConditions}/>
+                <MultipleConditionSelect humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions} unifiedAccessControlConditions={unifiedAccessControlConditions}/>
               )}
               {displayedPage === 'review' && (
-                <ReviewConditions humanizedAccessControlConditions={humanizedAccessControlConditions} accessControlConditions={accessControlConditions} />
+                <ReviewConditions humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions} unifiedAccessControlConditions={unifiedAccessControlConditions} />
               )}
             </Fragment>
           )}

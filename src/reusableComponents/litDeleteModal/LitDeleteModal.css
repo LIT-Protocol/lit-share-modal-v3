@@ -26,6 +26,7 @@
 .lsm-delete-modal-prompt {
     font-family: var(--lsm-primary-font);
     font-weight: var(--lsm-primary-font-weight);
+    color: var(--lsm-primary-color);
     margin: 0 0 1em;
     font-size: 1em;
 }

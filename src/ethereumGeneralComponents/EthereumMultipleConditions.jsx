@@ -7,7 +7,7 @@ import LitMultipleConditionOrganizer
 import LitFooter from "../reusableComponents/litFooter/LitFooter";
 import LitHeader from "../reusableComponents/litHeader/LitHeader";
 
-const EthereumMultipleConditions = ({ humanizedAccessControlConditions, accessControlConditions }) => {
+const EthereumMultipleConditions = ({ humanizedUnifiedAccessControlConditions,unifiedAccessControlConditions }) => {
   const {
     setDisplayedPage,
     setFlow,
@@ -46,13 +46,13 @@ const EthereumMultipleConditions = ({ humanizedAccessControlConditions, accessCo
         <>
           <div className={'lsm-overflow-scroll lsm-pt-4 lsm-interior-scroll'}>
             <LitMultipleConditionOrganizer createCondition={createCondition}
-                                           humanizedAccessControlConditions={humanizedAccessControlConditions}
-                                           accessControlConditions={accessControlConditions}
+                                           humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions}
+                                          unifiedAccessControlConditions={unifiedAccessControlConditions}
             />
           </div>
           <LitFooter
             backAction={() => {
-              if (humanizedAccessControlConditions.length < 1) {
+              if (humanizedUnifiedAccessControlConditions.length < 1) {
                 setFlow('singleCondition');
                 setDisplayedPage('single');
               } else {
@@ -60,7 +60,7 @@ const EthereumMultipleConditions = ({ humanizedAccessControlConditions, accessCo
               }
             }}
             nextAction={() => setDisplayedPage('review')}
-            nextDisableConditions={!humanizedAccessControlConditions || !humanizedAccessControlConditions.length}
+            nextDisableConditions={!humanizedUnifiedAccessControlConditions || !humanizedUnifiedAccessControlConditions.length}
           />
           <LitConfirmationModal showConfirmationModal={showConfirmationModal}
                                 onClick={handleConfirmGoBack}/>

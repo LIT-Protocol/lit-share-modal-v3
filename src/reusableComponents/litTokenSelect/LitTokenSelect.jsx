@@ -58,7 +58,6 @@ const LitTokenSelect = ({ label, setSelectedToken, option, selectedToken }) => {
   const tokenSelectRows = useMemo(() => {
     let formattedDefaultTokens = [];
 
-    console.log('default tokens', defaultTokens)
     if (defaultTokens) {
       formattedDefaultTokens = defaultTokens.map((t) => {
         return {

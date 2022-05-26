@@ -9,14 +9,14 @@ import { ShareModalContext } from "../shareModal/createShareContext.js";
 import LitFooter from "../reusableComponents/litFooter/LitFooter";
 
 const EthereumMultipleCreateCondition = ({ endOfCreateCondition, isNested, nestedIndex }) => {
-  const { handleUpdateAccessControlConditions } = useContext(ShareModalContext);
+  const { handleUpdateUnifiedAccessControlConditions } = useContext(ShareModalContext);
   const [selectPage, setSelectPage] = useState('chooseAccess');
 
   const coordinateUpdateAccessControl = (acc) => {
     if (isNested) {
-      handleUpdateAccessControlConditions(acc, true, nestedIndex)
+      handleUpdateUnifiedAccessControlConditions(acc, true, nestedIndex)
     } else {
-      handleUpdateAccessControlConditions(acc);
+      handleUpdateUnifiedAccessControlConditions(acc);
     }
     setSelectPage('chooseAccess');
     endOfCreateCondition();
@@ -39,19 +39,19 @@ const EthereumMultipleCreateCondition = ({ endOfCreateCondition, isNested, neste
         switch (selectPage) {
           case 'wallet':
             return <EthereumSelectWallet setSelectPage={setSelectPage}
-                                         handleUpdateAccessControlConditions={coordinateUpdateAccessControl}/>
+                                         handleUpdateUnifiedAccessControlConditions={coordinateUpdateAccessControl}/>
           case 'nft':
             return <EthereumSelectNFT setSelectPage={setSelectPage}
-                                      handleUpdateAccessControlConditions={coordinateUpdateAccessControl}/>
+                                      handleUpdateUnifiedAccessControlConditions={coordinateUpdateAccessControl}/>
           case 'group':
             return <EthereumSelectGroup setSelectPage={setSelectPage}
-                                        handleUpdateAccessControlConditions={coordinateUpdateAccessControl}/>
+                                        handleUpdateUnifiedAccessControlConditions={coordinateUpdateAccessControl}/>
           case 'dao':
             return <EthereumSelectDAO setSelectPage={setSelectPage}
-                                      handleUpdateAccessControlConditions={coordinateUpdateAccessControl}/>
+                                      handleUpdateUnifiedAccessControlConditions={coordinateUpdateAccessControl}/>
           case 'poap':
             return <EthereumSelectPOAP setSelectPage={setSelectPage}
-                                       handleUpdateAccessControlConditions={coordinateUpdateAccessControl}/>
+                                       handleUpdateUnifiedAccessControlConditions={coordinateUpdateAccessControl}/>
         }
       })()
       }

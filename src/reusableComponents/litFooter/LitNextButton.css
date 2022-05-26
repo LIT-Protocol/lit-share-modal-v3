@@ -5,14 +5,19 @@
     align-items: center;
     border-radius: 0.25rem;
     border: none;
-    color: var(--lsm-contrast-color);
+    color: var(--lsm-accent-text);
     background-color: var(--lsm-accent-color);
     cursor: pointer;
     transition-duration: 0.3s;
 }
 
+.lsm-next-label {
+    color: var(--lsm-accent-text);
+}
+
 .lsm-next-button:disabled {
     background-color: var(--lsm-disabled-color);
+    color: var(--lsm-secondary-color);
 }
 
 .lsm-next-button:hover {

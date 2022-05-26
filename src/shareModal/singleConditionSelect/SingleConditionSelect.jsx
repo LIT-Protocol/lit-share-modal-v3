@@ -2,28 +2,28 @@ import React, { useContext, useState, Fragment } from 'react';
 import { ShareModalContext } from "../createShareContext.js";
 import LitChainSelector from "../../reusableComponents/litChainSelector/LitChainSelector";
 import LitChooseAccessButton from "../../reusableComponents/litChooseAccessButton/LitChooseAccessButton";
-import { conditionTypeData } from "../helpers/shareModalDefaults";
 import venn from "../../assets/venn.svg";
 
 const SingleConditionSelect = () => {
   const {
-    handleUpdateAccessControlConditions,
+    handleUpdateUnifiedAccessControlConditions,
     setDisplayedPage,
     chain,
-    flow,
     setFlow,
     allowMultipleConditions,
     showChainSelector,
   } = useContext(ShareModalContext);
   const [selectPage, setSelectPage] = useState('chooseAccess');
 
-  const coordinateUpdateAccessControl = (accessControlConditions) => {
-    handleUpdateAccessControlConditions(accessControlConditions);
+  const coordinateUpdateAccessControl = (unifiedAccessControlConditions) => {
+    handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
     setSelectPage('chooseAccess');
     setDisplayedPage('review');
   }
 
   const getRenderedConditionOption = () => {
+    const conditionTypeData = chain.conditionTypeData;
+
     if (selectPage === 'chooseAccess') {
       return <div className={'lsm-single-condition-rendering-options-container'}>
         <h3 className={'lsm-single-condition-select-prompt'}>Choose who can
@@ -35,9 +35,13 @@ const SingleConditionSelect = () => {
         }
       </div>
     } else {
-      const ConditionHolder = chain.conditionTypes[selectPage];
-      return <ConditionHolder setSelectPage={setSelectPage}
-                              handleUpdateAccessControlConditions={coordinateUpdateAccessControl}/>
+      if (chain.conditionTypes[selectPage]) {
+        const ConditionHolder = chain.conditionTypes[selectPage];
+        return <ConditionHolder setSelectPage={setSelectPage}
+                                handleUpdateUnifiedAccessControlConditions={coordinateUpdateAccessControl}/>
+      } else {
+        setSelectPage('chooseAccess');
+      }
     }
   }
 

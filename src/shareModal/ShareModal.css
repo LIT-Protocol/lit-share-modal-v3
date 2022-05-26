@@ -2,6 +2,8 @@
     box-sizing: border-box;
     padding: 0 0.5em;
     background-color: var(--lsm-background-color);
+    height: 100%;
+    width: 100%;
 }
 
 .lsm-condition-container {
@@ -9,13 +11,20 @@
     flex-direction: column;
     font-family: var(--lsm-primary-font);
     box-sizing: border-box;
-    padding: 0.75em 0.5rem 0;
+    padding: 0 0.5rem 0.5em;
+    overflow-y: scroll;
+    height: calc(100vh - 12em);
 }
 
 .lsm-condition-prompt-text {
     font-weight: var(--lsm-primary-font-weight);
+    color: var(--lsm-primary-color);
     font-size: 1em;
     margin: 1em 0 0.5em;
+}
+
+.lsm-condition-prompt-text:first-child {
+    margin-top: 0.5em;
 }
 
 .lsm-condition-prompt-text-no-margin {
@@ -34,9 +43,12 @@
 .lsm-radio-label {
     font-weight: var(--lsm-primary-font-weight);
     margin-left: 0.25em;
+    color: var(--lsm-primary-color);
 }
 
 /*for desktop*/
-@media (min-width: 768px) {
-
+/*@media (min-width: 768px) {*/
+/*    .lsm-share-modal-container {*/
+/*        max-width: 40em;*/
+/*    }*/
 }

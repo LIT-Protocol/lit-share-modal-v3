@@ -3,27 +3,27 @@ import SingleConditionOptions from "../shareModal/singleConditionSelect/SingleCo
 import EthereumMultipleConditions from "./EthereumMultipleConditions";
 import EthereumReviewConditions from "./ethereumReviewConditions/EthereumReviewConditions";
 
-const EthereumHub = ({ displayedPage, humanizedAccessControlConditions, accessControlConditions }) => {
+const EthereumHub = ({ displayedPage, humanizedUnifiedAccessControlConditions,unifiedAccessControlConditions }) => {
   return (
     <div>
       {displayedPage === "single" && <SingleConditionOptions/>}
       {displayedPage === "multiple" && (
         <EthereumMultipleConditions
-          humanizedAccessControlConditions={
-            humanizedAccessControlConditions
+          humanizedUnifiedAccessControlConditions={
+            humanizedUnifiedAccessControlConditions
           }
-          accessControlConditions={
-            accessControlConditions
+         unifiedAccessControlConditions={
+           unifiedAccessControlConditions
           }
         />
       )}
       {displayedPage === "review" && (
         <EthereumReviewConditions
-          humanizedAccessControlConditions={
-            humanizedAccessControlConditions
+          humanizedUnifiedAccessControlConditions={
+            humanizedUnifiedAccessControlConditions
           }
-          accessControlConditions={
-            accessControlConditions
+         unifiedAccessControlConditions={
+           unifiedAccessControlConditions
           }
         />
       )}

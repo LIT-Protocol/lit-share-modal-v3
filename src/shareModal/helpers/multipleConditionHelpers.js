@@ -8,7 +8,7 @@ const checkAndCleanNested = (entry) => {
   }
 }
 
-const cleanAccessControlConditions = (acc) => {
+const cleanUnifiedAccessControlConditions = (acc) => {
   const cleanedAcc = [];
   for (let i = 0; i < acc.length; i++) {
     if (!acc[i]['operator'] && !!acc[i][0]) {
@@ -22,9 +22,9 @@ const cleanAccessControlConditions = (acc) => {
   return cleanedAcc;
 }
 
-const humanizeAccessControlConditions = async (accessControlConditions) => {
-  return await LitJsSdk.humanizeAccessControlConditions({
-    accessControlConditions,
+const humanizeUnifiedAccessControlConditions = async (unifiedAccessControlConditions) => {
+  return LitJsSdk.humanizeAccessControlConditions({
+    unifiedAccessControlConditions,
   });
 };
 
@@ -40,11 +40,12 @@ const humanizeNestedConditions = async (acc) => {
         index: i,
       })
     } else {
-      const humanizedAcc = await humanizeAccessControlConditions(
+      const humanizedAcc = await humanizeUnifiedAccessControlConditions(
         [acc[i]]
       );
       newHumanizedAcc.push({
         humanizedAcc: humanizedAcc,
+        conditionType: acc[i].conditionType,
         index: i,
       })
     }
@@ -52,10 +53,10 @@ const humanizeNestedConditions = async (acc) => {
   return newHumanizedAcc;
 }
 
-const handleUpdateAccessControlConditions = (acc, index, depth, currentDepth = 0) => {
+const handleUpdateUnifiedAccessControlConditions = (acc, index, depth, currentDepth = 0) => {
   if (currentDepth < depth) {
     let newCurrentDepth = currentDepth + 1;
-    handleUpdateAccessControlConditions(acc, index, depth, newCurrentDepth);
+    handleUpdateUnifiedAccessControlConditions(acc, index, depth, newCurrentDepth);
   } else {
     return acc;
   }
@@ -71,8 +72,8 @@ const handleDeleteAccessControlCondition = (acc, index, depth, currentDepth = 0)
 }
 
 export {
-  cleanAccessControlConditions,
+  cleanUnifiedAccessControlConditions,
   humanizeNestedConditions,
   handleDeleteAccessControlCondition,
-  handleUpdateAccessControlConditions
+  handleUpdateUnifiedAccessControlConditions
 }

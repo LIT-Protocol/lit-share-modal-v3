@@ -1,16 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import LitReusableSelect from "../../../reusableComponents/litReusableSelect/LitReusableSelect";
 import { ShareModalContext } from "../../../shareModal/createShareContext.js";
-import LitTokenSelect from "../../../reusableComponents/litTokenSelect/LitTokenSelect";
 import LitFooter from "../../../reusableComponents/litFooter/LitFooter";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
 import { utils } from "ethers";
 
-const SolanaSelectNFT = ({ setSelectPage, handleUpdateAccessControlConditions }) => {
-  const { setDisplayedPage, chainOptions, flow } = useContext(ShareModalContext);
+const SolanaSelectNFT = ({ setSelectPage, handleUpdateUnifiedAccessControlConditions }) => {
+  const { setDisplayedPage, flow } = useContext(ShareModalContext);
+  const [contractAddress, setContractAddress] = useState("");
   const [tokenId, setTokenId] = useState("");
-  const [chain, setChain] = useState(null);
-  const [selectedToken, setSelectedToken] = useState(null);
   const [addressIsValid, setAddressIsValid] = useState(false);
 
   useEffect(() => {
@@ -19,22 +16,31 @@ const SolanaSelectNFT = ({ setSelectPage, handleUpdateAccessControlConditions })
   }, [tokenId])
 
   const handleSubmit = () => {
-    const accessControlConditions = [
+    const unifiedAccessControlConditions = [
       {
-        contractAddress: selectedToken.value,
-        standardContractType: "ERC721",
-        chain: chain.value,
-        method: "ownerOf",
-        parameters: [tokenId],
+        conditionType: 'solRpc',
+        method: "GetTokenAccountsByOwner",
+        params: [
+          ":userAddress",
+          {
+            programId: "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          },
+          {
+            encoding: "jsonParsed",
+          },
+        ],
+        chain: 'solana',
         returnValueTest: {
-          comparator: "=",
-          value: ":userAddress",
+          key: `$[?(@.account.data.parsed.info.mint == "${contractAddress}")].account.data.parsed.info.tokenAmount.amount`,
+          comparator: ">",
+          value: "0",
         },
       },
     ];
 
-    handleUpdateAccessControlConditions(accessControlConditions);
+    handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
     setSelectPage('chooseAccess');
+
     if (flow === 'singleCondition') {
       setDisplayedPage('review');
     } else if (flow === 'multipleConditions') {
@@ -43,45 +49,23 @@ const SolanaSelectNFT = ({ setSelectPage, handleUpdateAccessControlConditions })
   };
 
   return (
-    <div className={'lsm-select-container lsm-bg-white'}>
-      <h3 className={'lsm-select-prompt lsm-text-title-gray lsm-font-segoe lsm-text-base lsm-font-light'}>Which wallet
+    <div className={'lsm-condition-container'}>
+      <h3 className={'lsm-condition-prompt-text'}>Which wallet
         should be able to access this asset?</h3>
-      {/*<h3 className={'lsm-select-label lsm-text-title-gray lsm-font-segoe lsm-text-base lsm-font-light'}>Select*/}
-      {/*  blockchain:</h3>*/}
-      {/*<LitReusableSelect options={chainOptions}*/}
-      {/*                   label={'Select blockchain'}*/}
-      {/*                   option={chain}*/}
-      {/*                   setOption={setChain}*/}
-      {/*                   turnOffSearch={true}*/}
-      {/*/>*/}
-      <div className={'lsm-w-full'}>
-        <h3 className={'lsm-select-label lsm-text-title-gray lsm-font-segoe lsm-text-base lsm-font-light'}>Select
+        <h3 className={'lsm-condition-prompt-text'}>Select
           token or
           enter contract address</h3>
-        {/*<LitTokenSelect option={selectedToken}*/}
-        {/*                label={(!selectedToken || !selectedToken['label']) ? 'Search for a token/NFT' : selectedToken.label}*/}
-        {/*                selectedToken={selectedToken}*/}
-        {/*                setSelectedToken={setSelectedToken}*/}
-        {/*/>*/}
-        <LitInput value={selectedToken}
-                  setValue={setSelectedToken}
+        <LitInput value={contractAddress}
+                  setValue={setContractAddress}
         />
-      </div>
-      <div className={'lsm-w-full'}>
-        <h3 className={'lsm-select-label lsm-text-title-gray lsm-font-segoe lsm-text-base lsm-font-light'}>
+        <h3 className={'lsm-condition-prompt-text'}>
           Add Token ID</h3>
         <LitInput value={tokenId}
                   setValue={setTokenId}
         />
-      </div>
-      <p
-        className={'lsm-text-sm md:lsm-text-base lsm-w-full lsm-mt-8 lsm-cursor-pointer lsm-mb-4 lsm-text-brand-4 lsm-text-left lsm-font-segoe lsm-font-light'}
-        onClick={() => setSelectPage('wallet')}>
-        Grant Access to Wallet or
-        Blockchain Domain</p>
       <LitFooter backAction={() => setSelectPage('chooseAccess')}
                  nextAction={handleSubmit}
-                 nextDisableConditions={(!chain || !tokenId.length || !selectedToken)}/>
+                 nextDisableConditions={(!tokenId.length || !contractAddress.length)}/>
     </div>
   );
 };

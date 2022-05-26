@@ -4,10 +4,15 @@
     justify-content: space-between;
     bottom: 0;
     left: 50%;
-    padding-top: 1rem;
-    height: 5rem;
-    width: 90%;
+    padding: 0.5em 1rem 1em;
+    width: 100%;
     box-sizing: border-box;
     transform: translate(-50%, 0);
     background-color: var(--lsm-background-color);
+}
+
+@media (min-width: 768px) {
+    /*.lsm-lit-footer {*/
+    /*    max-width: 40em;*/
+    /*}*/
 }

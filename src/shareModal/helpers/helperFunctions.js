@@ -1,5 +1,13 @@
+let devModeIsAllowed = false;
+
+const setDevModeIsAllowed = (allow) => {
+  devModeIsAllowed = allow;
+}
+
 const logDevError = (message) => {
-  console.log(`Error in Lit Share Modal - ${message}`)
+  if (devModeIsAllowed) {
+    console.log(`Error in Lit Share Modal - ${message}`)
+  }
 }
 
 const checkPropTypes = (props) => {
@@ -26,7 +34,9 @@ const checkPropTypes = (props) => {
     logDevError("'isModal' prop must be a boolean.")
   }
   if (props['allowDevMode'] && typeof props['allowDevMode'] !== 'boolean') {
+    setDevModeIsAllowed(true);
     logDevError("'allowDevMode' prop must be a boolean.")
+    setDevModeIsAllowed(false);
   }
 }
 
@@ -62,8 +72,18 @@ const getAllowedConditions = (chainsAllowed, conditionsAllowed, defaultAllowedCh
   return currentlyAllowedChains;
 }
 
+const stripNestedArray = (unifiedAccessControlConditions) => {
+  if (unifiedAccessControlConditions.length === 1 && Array.isArray(unifiedAccessControlConditions[0]) ) {
+    return stripNestedArray(unifiedAccessControlConditions[0]);
+  } else {
+    return unifiedAccessControlConditions;
+  }
+}
+
 export {
   logDevError,
   checkPropTypes,
-  getAllowedConditions
+  getAllowedConditions,
+  stripNestedArray,
+  setDevModeIsAllowed
 }

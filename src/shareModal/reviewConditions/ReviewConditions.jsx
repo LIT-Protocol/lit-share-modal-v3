@@ -4,10 +4,11 @@ import { ShareModalContext } from "../createShareContext";
 import LitConfirmationModal from "../../reusableComponents/litConfirmationModal/LitConfirmationModal";
 import { colorArray } from "../helpers/colorArray";
 import link from "../../assets/link.svg";
+import LitCheckbox from "../../reusableComponents/litCheckbox/LitCheckbox";
 
-const ReviewConditions = ({ humanizedAccessControlConditions, accessControlConditions}) => {
+const ReviewConditions = ({ humanizedUnifiedAccessControlConditions, unifiedAccessControlConditions}) => {
   const {
-    sendAccessControlConditions,
+    sendUnifiedAccessControlConditions,
     flow,
     handleClose,
     resetModal,
@@ -35,90 +36,67 @@ const ReviewConditions = ({ humanizedAccessControlConditions, accessControlCondi
     setShowConfirmationModal(false);
   }
 
+  const getOperatorAndCondition = (humanAccEntry, key) => {
+    if (!humanAccEntry['operator']) {
+        return (
+          <span
+            className={'lsm-review-condition-humanized-text'}
+            key={`${humanAccEntry[0]}-${humanAccEntry.conditionType[0]}-${key}`}>
+              [{humanAccEntry.conditionType}] {humanAccEntry.humanizedAcc}
+          </span>
+        )
+      } else if (humanAccEntry['operator']) {
+        return (
+          <span
+            className={'lsm-review-condition-operator-text'}
+            key={`n-${key}`}>
+            {humanAccEntry.operator === 'and' ? 'AND' : 'OR'}
+          </span>
+        )
+      }
+  }
+
+  const recursiveRenderConditionsGroups = (humanAcc, depth = 0) => {
+    return (
+      <div className={'lsm-review-conditions-group '}
+           key={depth}
+           style={{ 'backgroundColor': colorArray[Math.ceil((depth) / 2)] }}>
+        { Array.isArray(humanAcc) ? (humanAcc.map((h, i) => {
+          if (Array.isArray(h)) {
+            return recursiveRenderConditionsGroups(h, depth)
+          } else {
+            return getOperatorAndCondition(h, depth + i)
+          }
+          })
+        ) : (
+          getOperatorAndCondition(humanAcc, depth)
+        )}
+      </div>
+    )
+  }
+
   return (
     <div className={'lsm-review-conditions-container'}>
       <div className={'lsm-review-conditions-group-container'}>
         <h3
-          className={'lsm-review-conditions-prompt'}>Review your conditions and confirm at bottom</h3>
-        <div className={''}>
-          <div
-            className={''}
-          >
-            {!!humanizedAccessControlConditions && humanizedAccessControlConditions.map((h, i) => {
-              if (Array.isArray(h)
-                && h.length === 3
-                && h[0].humanizedAcc.includes('POAP')
-                && h[2].humanizedAcc.includes('POAP')) {
-                return (
-                  <div className={'lsm-review-conditions-group'}
-                       key={i}
-                       style={{ 'backgroundColor': colorArray[i / 2] }}>
-                    <span
-                      className={''}
-                      key={i}
-                    > {h[2].humanizedAcc}
-                    </span>
-                  </div>
-                )
-              } else if (Array.isArray(h)) {
-                return (
-                  <div className={'lsm-review-conditions-group '}
-                       key={i}
-                       style={{ 'backgroundColor': colorArray[i / 2] }}>
-                    {h.map((n, ni) => {
-                      if (!n['operator']) {
-                        return (
-                          <span
-                            className={'lsm-review-condition-humanized-text'}
-                            key={`n-${ni}`}>
-                            {n.humanizedAcc}
-                          </span>
-                        )
-                      } else {
-                        return (
-                          <span
-                          className={'lsm-review-condition-operator-text'}
-                          key={`n-${ni}`}
-                        >{n.operator === 'and' ? 'AND' : 'OR'}
-                        </span>
-                        )
-                      }
-                    })}
-                  </div>
-                )
-              } else if (h['operator']) {
-                return (
-                  <span
-                    className={'lsm-review-condition-operator-text'}
-                    key={i}
-                  >{h.operator === 'and' ? 'AND' : 'OR'}
-                  </span>
-                )
-              } else {
-                return (
-                  <div className={'lsm-review-conditions-group'}
-                       key={i}
-                       style={{ 'backgroundColor': colorArray[i / 2] }}>
-                    <span
-                      className={'lsm-review-condition-humanized-text'}
-                      key={i}
-                    > {h.humanizedAcc}
-                    </span>
-                  </div>
-                )
-              }
-            })}
-          </div>
-        </div>
+          className={'lsm-review-conditions-prompt'}>Review your conditions and confirm at bottom
+        </h3>
+        {!!humanizedUnifiedAccessControlConditions && (
+          recursiveRenderConditionsGroups(humanizedUnifiedAccessControlConditions)
+        )}
       </div>
       <footer className={'lsm-review-conditions-footer'}>
-        <div
-          className={'lsm-review-conditions-permanent'}>
-          <input className={'lsm-review-conditions-permanent-checkbox'} type="checkbox" id="edit" name="edit"
-                 checked={conditionsArePermanent} value={conditionsArePermanent} onChange={(e) => setConditionsArePermanent(e.target.checked)}/>
-          <label className={'lsm-review-conditions-permanent-text'} htmlFor="edit">Make condition(s) permanent; if
-            selected, you cannot update them later</label>
-        </div>
+        <LitCheckbox value={conditionsArePermanent}
+                     checked={conditionsArePermanent}
+                     setValue={setConditionsArePermanent}
+                     label={'Make condition(s) permanent; if selected, you cannot update them later'} />
+        {/*<div*/}
+        {/*  className={'lsm-review-conditions-permanent'}>*/}
+        {/*  <input className={'lsm-conditions-checkbox'} type="checkbox" id="edit" name="edit"*/}
+        {/*         checked={conditionsArePermanent} value={conditionsArePermanent} onChange={(e) => setConditionsArePermanent(e.target.checked)}/>*/}
+        {/*  <label className={'lsm-review-conditions-permanent-text'} htmlFor="edit">Make condition(s) permanent; if*/}
+        {/*    selected, you cannot update them later</label>*/}
+        {/*</div>*/}
         <div className={'lsm-review-conditions-link'}>
           <a href={'https://developer.litprotocol.com/docs/AccessControlConditions/evmBasicExamples'} target={'_blank'}
              rel="noreferrer">More information about
@@ -129,7 +107,7 @@ const ReviewConditions = ({ humanizedAccessControlConditions, accessControlCondi
       <LitFooter backAction={() => navigateBack()}
                  nextAction={() => {
                    setConditionsSent(true);
-                   sendAccessControlConditions(conditionsArePermanent);
+                   sendUnifiedAccessControlConditions(conditionsArePermanent);
                  }}
                  nextDisableConditions={false}
                  nextButtonLabel={'DONE'}/>

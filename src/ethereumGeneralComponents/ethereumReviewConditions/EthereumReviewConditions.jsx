@@ -7,9 +7,9 @@ import LitFooter from "../../reusableComponents/litFooter/LitFooter";
 import { colorArray } from "../../shareModal/helpers/colorArray";
 // import './EthereumReviewConditions.css';
 
-const EthereumReviewConditions = ({ humanizedAccessControlConditions, accessControlConditions }) => {
+const EthereumReviewConditions = ({ humanizedUnifiedAccessControlConditions,unifiedAccessControlConditions }) => {
   const {
-    sendAccessControlConditions,
+    sendUnifiedAccessControlConditions,
     flow,
     handleClose,
     resetModal,
@@ -48,7 +48,7 @@ const EthereumReviewConditions = ({ humanizedAccessControlConditions, accessCont
           <div
             className={'lsm-w-full lsm-h-auto lsm-mx-auto lsm-rounded lsm-flex lsm-flex-col items-align lsm-overflow-scroll'}
           >
-            {!!humanizedAccessControlConditions && humanizedAccessControlConditions.map((h, i) => {
+            {!!humanizedUnifiedAccessControlConditions && humanizedUnifiedAccessControlConditions.map((h, i) => {
               if (Array.isArray(h)
                 && h.length === 3
                 && h[0].humanizedAcc.includes('POAP')
@@ -133,7 +133,7 @@ const EthereumReviewConditions = ({ humanizedAccessControlConditions, accessCont
           <LitFooter backAction={() => navigateBack()}
                      nextAction={() => {
                        setConditionsSent(true);
-                       sendAccessControlConditions(conditionsAreUpdatable);
+                       sendUnifiedAccessControlConditions(conditionsAreUpdatable);
                      }}
                      nextDisableConditions={false}
                      nextButtonLabel={'DONE'}/>

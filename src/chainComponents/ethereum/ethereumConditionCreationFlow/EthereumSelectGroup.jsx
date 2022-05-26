@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState, Fragment } from 'react';
 import { ethers, utils } from "ethers";
 import { ShareModalContext } from "../../../shareModal/createShareContext.js";
 import LitJsSdk from "lit-js-sdk";
@@ -7,13 +7,13 @@ import LitTokenSelect from "../../../reusableComponents/litTokenSelect/LitTokenS
 import LitFooter from "../../../reusableComponents/litFooter/LitFooter";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
 
-const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlConditions }) => {
+const EthereumSelectGroup = ({ setSelectPage, handleUpdateUnifiedAccessControlConditions }) => {
   const context = useContext(ShareModalContext);
   const [amount, setAmount] = useState("");
   const [selectedToken, setSelectedToken] = useState({});
   const [contractAddress, setContractAddress] = useState("");
   const [subChain, setSubChain] = useState(null);
-  const [contractType, setContractType] = useState("ERC721");
+  const [contractType, setContractType] = useState("");
   const [erc1155TokenId, setErc1155TokenId] = useState("");
   const [erc1155TokenIdIsValid, setErc1155TokenIdIsValid] = useState(false);
   const [addressIsValid, setAddressIsValid] = useState(false);
@@ -41,6 +41,30 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
   );
 
   useEffect(() => {
+    if (selectedToken === null) {
+      setContractAddress('');
+      setContractType('');
+    }
+    if (selectedToken?.['value'] === 'ethereum') {
+      setContractAddress('');
+    }
+    if (selectedToken?.['value'] && utils.isAddress(selectedToken?.['value'])) {
+      setContractAddress(selectedToken['value']);
+    }
+    if (selectedToken?.['standard']) {
+      setContractType(selectedToken['standard'].toUpperCase());
+    }
+  }, [selectedToken]);
+
+  useEffect(() => {
+    if (contractAddress.length && !!selectedToken && (contractAddress !== selectedToken['value'])) {
+      setSelectedToken({});
+    }
+  }, [contractAddress]);
+
+
+
+  useEffect(() => {
     const isValid = utils.isAddress(contractAddress);
     setAddressIsValid(isValid);
   }, [contractAddress])
@@ -53,7 +77,7 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
   const handleSubmit = async () => {
 
     if (contractAddress && contractAddress.length) {
-      let accessControlConditions;
+      let unifiedAccessControlConditions;
       if (contractType === "ERC20") {
         let decimals = 0;
         try {
@@ -66,8 +90,9 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
           console.log(e);
         }
         const amountInBaseUnit = ethers.utils.parseUnits(amount, decimals);
-        accessControlConditions = [
+       unifiedAccessControlConditions = [
           {
+            conditionType: 'evmBasic',
             contractAddress: contractAddress,
             standardContractType: contractType,
             chain: subChain.value,
@@ -80,8 +105,9 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
           },
         ];
       } else if (contractType === "ERC721") {
-        accessControlConditions = [
+       unifiedAccessControlConditions = [
           {
+            conditionType: 'evmBasic',
             contractAddress: contractAddress,
             standardContractType: contractType,
             chain: subChain.value,
@@ -94,8 +120,9 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
           },
         ];
       } else if (contractType === "ERC1155") {
-        accessControlConditions = [
+       unifiedAccessControlConditions = [
           {
+            conditionType: 'evmBasic',
             contractAddress: contractAddress,
             standardContractType: contractType,
             chain: subChain.value,
@@ -108,12 +135,13 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
           },
         ];
       }
-      handleUpdateAccessControlConditions(accessControlConditions);
+      handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
     } else if (selectedToken && selectedToken.value === "ethereum") {
       // ethereum
       const amountInWei = ethers.utils.parseEther(amount);
-      const accessControlConditions = [
+      const unifiedAccessControlConditions = [
         {
+          conditionType: 'evmBasic',
           contractAddress: "",
           standardContractType: "",
           chain: subChain.value,
@@ -125,7 +153,7 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
           },
         },
       ];
-      handleUpdateAccessControlConditions(accessControlConditions);
+      handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
     } else {
 
       let tokenType;
@@ -138,6 +166,7 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
         let decimals = 0;
         try {
           decimals = await LitJsSdk.decimalPlaces({
+            conditionType: 'evmBasic',
             contractAddress: selectedToken.value,
           });
         } catch (e) {
@@ -153,8 +182,9 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
 
       if (tokenType == "erc721") {
         // erc721
-        const accessControlConditions = [
+        const unifiedAccessControlConditions = [
           {
+            conditionType: 'evmBasic',
             contractAddress: selectedToken.value,
             standardContractType: "ERC721",
             chain: subChain.value,
@@ -166,7 +196,7 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
             },
           },
         ];
-        handleUpdateAccessControlConditions(accessControlConditions);
+        handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
       } else {
         // erc20 token
         let amountInBaseUnit;
@@ -189,8 +219,9 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
           }
           amountInBaseUnit = ethers.utils.parseUnits(amount, decimals);
         }
-        const accessControlConditions = [
+        const unifiedAccessControlConditions = [
           {
+            conditionType: 'evmBasic',
             contractAddress: selectedToken.value,
             standardContractType: "ERC20",
             chain: subChain.value,
@@ -202,7 +233,7 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
             },
           },
         ];
-        handleUpdateAccessControlConditions(accessControlConditions);
+        handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
       }
     }
 
@@ -236,6 +267,17 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
   //   }
   // }
 
+  const isValid = () => {
+    if (selectedToken?.['value'] === 'ethereum') {
+      return !amount || !subChain['label'];
+    }
+    return !amount ||
+      !addressIsValid ||
+      !contractAddress ||
+      !subChain.label ||
+      (contractType === 'ERC1155' && !erc1155TokenId.length)
+  }
+
   return (
     <div className={'lsm-condition-container'}>
       <h3 className={'lsm-condition-prompt-text'}>Which group
@@ -249,69 +291,67 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateAccessControlCondition
       />
       <h3 className={'lsm-condition-prompt-text'}>Select
         token/NFT or enter contract address:</h3>
-      {(!contractAddress.length) && (
         <LitTokenSelect option={selectedToken}
                         label={(!selectedToken || !selectedToken['label']) ? 'Search for a token/NFT' : selectedToken.label}
                         selectedToken={selectedToken}
                         setSelectedToken={setSelectedToken}
         />
-      )}
-      {((!selectedToken || !selectedToken['label']) && !contractAddress.length) && (
-        <p
-          className={'lsm-condition-prompt-text'}>OR</p>
-      )}
-      {(!selectedToken || !selectedToken['label']) && (
-        <LitInput value={contractAddress}
-                  setValue={setContractAddress}
-                  errorMessage={addressIsValid ? null : 'Address is invalid'}
-                  placeholder={'ERC20 or ERC721 or ERC1155 address'}
-        />
-      )}
-      {(!!contractAddress.length) && (
-        <div className={''}>
-          <h3
-            className={'lsm-condition-prompt-text'}>Token
-            Contract Type:</h3>
-          <span onChange={(e) => handleChangeContractType(e.target.value)}
-                className={'lsm-radio-container'}>
-            <div>
-              <input readOnly checked={contractType === 'ERC20'} type="radio" id="erc20"
-                     name="addressType"
-                     value="ERC20"/>
-              <label className={'lsm-radio-label'} htmlFor="erc20">ERC20</label>
-            </div>
+      {selectedToken?.['value'] !== 'ethereum' && (
+        <Fragment>
+          <p
+            className={'lsm-condition-prompt-text'}>Contract Address</p>
+          <LitInput value={contractAddress}
+                    setValue={setContractAddress}
+                    errorMessage={addressIsValid ? null : 'Address is invalid'}
+                    placeholder={'ERC20 or ERC721 or ERC1155 address'}
+          />
+          {(!!contractAddress.length) && (
+            <div className={''}>
+              <h3
+                className={'lsm-condition-prompt-text'}>Token
+                Contract Type:</h3>
+              <span onChange={(e) => handleChangeContractType(e.target.value)}
+                    className={'lsm-radio-container'}>
+                <div>
+                  <input readOnly checked={contractType === 'ERC20'} type="radio" id="erc20"
+                         name="addressType"
+                         value="ERC20"/>
+                  <label className={'lsm-radio-label'} htmlFor="erc20">ERC20</label>
+                </div>
 
-            <div>
-              <input readOnly checked={contractType === 'ERC721'} type="radio" id="erc721" name="addressType"
-                     value="ERC721"/>
-              <label className={'lsm-radio-label'}
-                     htmlFor="erc721">ERC721</label>
-            </div>
+                <div>
+                  <input readOnly checked={contractType === 'ERC721'} type="radio" id="erc721" name="addressType"
+                         value="ERC721"/>
+                  <label className={'lsm-radio-label'}
+                         htmlFor="erc721">ERC721</label>
+                </div>
 
-            <div>
-              <input readOnly checked={contractType === 'ERC1155'} type="radio" id="erc1155" name="addressType"
-                     value="ERC1155"/>
-              <label className={'lsm-radio-label'}
-                     htmlFor="erc1155">ERC1155</label>
+                <div>
+                  <input readOnly checked={contractType === 'ERC1155'} type="radio" id="erc1155" name="addressType"
+                         value="ERC1155"/>
+                  <label className={'lsm-radio-label'}
+                         htmlFor="erc1155">ERC1155</label>
+                </div>
+              </span>
             </div>
-          </span>
-        </div>
-      )}
-      {(!!contractAddress.length && contractType === 'ERC1155') && (
-        <LitInput value={erc1155TokenId} setValue={setErc1155TokenId}
-                  errorMessage={erc1155TokenIdIsValid ? null : 'ERC1155 token id is invalid'}
-                  placeholder={'ERC1155 Token Id'}
-        />
+          )}
+          {(!!contractAddress.length && contractType === 'ERC1155') && (
+            <LitInput value={erc1155TokenId} setValue={setErc1155TokenId}
+                      errorMessage={erc1155TokenIdIsValid ? null : 'ERC1155 token id is invalid'}
+                      placeholder={'ERC1155 Token Id'}
+            />
+          )}
+        </Fragment>
       )}
       <h3 className={'lsm-condition-prompt-text'}>How many tokens
         does the wallet need to own?</h3>
-      <input value={amount} onChange={(e) => setAmount(e.target.value)} placeholder={'##'}
-             className={'lsm-input'}/>
+      <LitInput value={amount} setValue={setAmount}
+                errorMessage={isNaN(parseFloat(amount)) ? 'Must be a number' : null}
+                placeholder={'##'}
+      />
       <LitFooter backAction={() => setSelectPage('chooseAccess')}
                  nextAction={handleSubmit}
-                 nextDisableConditions={!amount ||
-                 (!selectedToken && !addressIsValid) ||
-                 !subChain.label || (contractType === 'ERC1155' && !erc1155TokenId.length)}/>
+                 nextDisableConditions={isValid()}/>
     </div>
   );
 };

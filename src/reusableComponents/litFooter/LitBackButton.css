@@ -4,7 +4,7 @@
     border-radius: 0.25rem;
     display: flex;
     align-items: center;
-    border: none;
+    border: var(--lsm-secondary-color) 1px solid;
     background-color: var(--lsm-background-color);
     color: var(--lsm-primary-color);
     cursor: pointer;

@@ -1,10 +1,14 @@
 body {
     --lsm-primary-color: #333;
+    --lsm-contrast-color: #fff;
     --lsm-secondary-color: #c4c4c4;
     --lsm-background-color: #fff;
+    --lsm-modal-overlay-color: rgba(0, 0, 0, 0.4);
     --lsm-secondary-background-color: #fcfcfc;
     --lsm-accent-color: rgb(36,78,112);
-    --lsm-disabled-color: #777;
+    --lsm-accent-text: #fff;
+    --lsm-error-color: rgba(168,0,0,0.7);
+    --lsm-disabled-color: #aaa;
 
     --lsm-title-font: Segoe UI, sans-serif;
     --lsm-title-font-weight: 300;
@@ -19,24 +23,28 @@ body {
 /*this is how dark mode works in vanilla css*/
 @media (prefers-color-scheme: dark) {
     body {
-        /*--lsm-primary-color: #777;*/
-        /*--lsm-secondary-color: #333;*/
-        /*--lsm-primary-color: #111;*/
-        /*--lsm-primary-text-color: #333;*/
-        /*--lsm-secondary-color: #333;*/
-        /*--lsm-background-color: #fff;*/
-        /*--lsm-accent-color: rgb(36,78,112);*/
-    }
-
-    .lsm-light-theme {
-        --lsm-primary-color: #333;
-        --lsm-contrast-color: #fff;
-        --lsm-secondary-color: #c4c4c4;
-        --lsm-background-color: #fff;
-        --lsm-modal-overlay-color: rgba(0, 0, 0, 0.4);
-        --lsm-secondary-background-color: #fcfcfc;
+        --lsm-primary-color: #efefef;
+        --lsm-contrast-color: #333;
+        --lsm-secondary-color: #777;
+        --lsm-background-color: #222;
+        --lsm-modal-overlay-color: rgba(0, 0, 0, 0.7);
+        --lsm-secondary-background-color: #333;
         --lsm-accent-color: rgb(36,78,112);
-        --lsm-error-color: rgba(168,0,0,0.7);
+        --lsm-accent-text: #fff;
+        --lsm-error-color: rgba(255, 60, 60, 0.7);
+        --lsm-disabled-color: #aaa;
     }
-}
 
+    /*.lsm-light-theme {*/
+    /*    --lsm-primary-color: #333;*/
+    /*    --lsm-contrast-color: #fff;*/
+    /*    --lsm-secondary-color: #c4c4c4;*/
+    /*    --lsm-background-color: #fff;*/
+    /*    --lsm-modal-overlay-color: rgba(0, 0, 0, 0.4);*/
+    /*    --lsm-secondary-background-color: #fcfcfc;*/
+    /*    --lsm-accent-color: rgb(36,78,112);*/
+    /*    --lsm-accent-text: #fff;*/
+    /*    --lsm-error-color: rgba(168,0,0,0.7);*/
+    /*    --lsm-disabled-color: #aaa;*/
+    /*}*/
+}

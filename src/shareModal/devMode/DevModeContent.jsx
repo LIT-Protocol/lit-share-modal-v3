@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './DevModeContent.css';
 
-const DevModeContent = ({accessControlConditions}) => {
+const DevModeContent = ({unifiedAccessControlConditions}) => {
   const [accTextArea, setAccTextArea] = useState('');
 
   useEffect(() => {
-    console.log('accessControlConditions', accessControlConditions)
-    if (accessControlConditions) {
-      const prettify = JSON.stringify(accessControlConditions, undefined, 4);
-      console.log('prettify', prettify)
+    if (unifiedAccessControlConditions) {
+      const prettify = JSON.stringify(unifiedAccessControlConditions, undefined, 4);
       setAccTextArea(prettify);
     }
-  }, [accessControlConditions])
+  }, [unifiedAccessControlConditions])
 
   return (
     <div className={'lsm-dev-mode-container'}>
-      <label>Raw Access Control Conditions</label>
+      <label className={'lsm-dev-mode-container-label'}>Raw Access Control Conditions</label>
       <textarea className={'lsm-dev-mode-textarea'} rows={35} value={accTextArea} onChange={(e) => setAccTextArea(e.target.value)} />
     </div>
   )

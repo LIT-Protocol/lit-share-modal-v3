@@ -3,27 +3,27 @@ import SolanaSingleCondition from "../chainComponents/solana/SolanaSingleConditi
 import SolanaMultipleConditions from "./SolanaMultipleConditions";
 import SolanaReviewConditions from "./solanaReviewConditions/SolanaReviewConditions";
 
-const SolanaHub = ({ displayPage, humanizedAccessControlConditions, accessControlConditions }) => {
+const SolanaHub = ({ displayPage, humanizedUnifiedAccessControlConditions,unifiedAccessControlConditions }) => {
   return (
     <div>
       {displayPage === "single" && <SolanaSingleCondition/>}
       {displayPage === "multiple" && (
         <SolanaMultipleConditions
-          humanizedAccessControlConditions={
-            humanizedAccessControlConditions
+          humanizedUnifiedAccessControlConditions={
+            humanizedUnifiedAccessControlConditions
           }
-          accessControlConditions={
-            accessControlConditions
+          unifiedAccessControlConditions={
+            unifiedAccessControlConditions
           }
         />
       )}
       {displayPage === "review" && (
         <SolanaReviewConditions
-          humanizedAccessControlConditions={
-            humanizedAccessControlConditions
+          humanizedUnifiedAccessControlConditions={
+            humanizedUnifiedAccessControlConditions
           }
-          accessControlConditions={
-            accessControlConditions
+          unifiedAccessControlConditions={
+            unifiedAccessControlConditions
           }
         />
       )}

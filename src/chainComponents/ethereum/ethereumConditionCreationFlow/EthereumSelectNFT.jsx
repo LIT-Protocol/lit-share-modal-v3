@@ -7,7 +7,7 @@ import LitInput from "../../../reusableComponents/litInput/LitInput";
 import { utils } from "ethers";
 import LitJsSdk from "lit-js-sdk";
 
-const EthereumSelectNFT = ({ setSelectPage, handleUpdateAccessControlConditions }) => {
+const EthereumSelectNFT = ({ setSelectPage, handleUpdateUnifiedAccessControlConditions }) => {
   const { setDisplayedPage, chainOptions, flow } = useContext(ShareModalContext);
   const [tokenId, setTokenId] = useState("");
   const [subChain, setSubChain] = useState({});
@@ -32,11 +32,12 @@ const EthereumSelectNFT = ({ setSelectPage, handleUpdateAccessControlConditions 
   );
 
   const handleSubmit = () => {
-    const accessControlConditions = [
+    const unifiedAccessControlConditions = [
       {
+        conditionType: 'evmBasic',
         contractAddress: selectedToken.value,
         standardContractType: "ERC721",
-        subChain: chain.value,
+        chain: subChain.value,
         method: "ownerOf",
         parameters: [tokenId],
         returnValueTest: {
@@ -46,7 +47,7 @@ const EthereumSelectNFT = ({ setSelectPage, handleUpdateAccessControlConditions 
       },
     ];
 
-    handleUpdateAccessControlConditions(accessControlConditions);
+    handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
     setSelectPage('chooseAccess');
     if (flow === 'singleCondition') {
       setDisplayedPage('review');

@@ -6,7 +6,7 @@ const LitNextButton = ({ disableConditions, onClick, label}) => {
     <button className={'lsm-next-button'}
             disabled={!!disableConditions ? disableConditions : false}
             onClick={onClick}>
-        {!label ? 'NEXT' : label}
+      <span className={'lsm-next-label'}>{!label ? 'NEXT' : label}</span>
       <span className={'lsm-next-arrow'}>→</span>
     </button>
   );

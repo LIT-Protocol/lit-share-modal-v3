@@ -5,13 +5,13 @@ import MultipleConditionsEditor from "./MultipleConditionsEditor";
 import MultipleAddCondition from "./MultipleAddCondition";
 import LitConfirmationModal from "../../reusableComponents/litConfirmationModal/LitConfirmationModal";
 
-const MultipleConditionSelect = ({ humanizedAccessControlConditions, accessControlConditions }) => {
+const MultipleConditionSelect = ({ humanizedUnifiedAccessControlConditions, unifiedAccessControlConditions }) => {
   const {
     setDisplayedPage,
     setFlow,
     displayedPage,
     resetModal,
-    handleUpdateAccessControlConditions
+    handleUpdateUnifiedAccessControlConditions
   } = useContext(ShareModalContext);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showAddCondition, setShowAddCondition] = useState(false);
@@ -28,8 +28,8 @@ const MultipleConditionSelect = ({ humanizedAccessControlConditions, accessContr
     setShowConfirmationModal(false);
   }
 
-  const coordinateUpdateAccessControl = (accessControlConditions) => {
-    handleUpdateAccessControlConditions(accessControlConditions, isNested, nestedIndex);
+  const coordinateUpdateAccessControl = (unifiedAccessControlConditions) => {
+    handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions, isNested, nestedIndex);
     setSelectPage('chooseAccess');
     setDisplayedPage('multiple');
   }
@@ -40,8 +40,8 @@ const MultipleConditionSelect = ({ humanizedAccessControlConditions, accessContr
     setShowAddCondition(true);
   }
 
-  const endOfCreateCondition = (accessControlConditions) => {
-    coordinateUpdateAccessControl(accessControlConditions)
+  const endOfCreateCondition = (unifiedAccessControlConditions) => {
+    coordinateUpdateAccessControl(unifiedAccessControlConditions)
     setIsNested(false);
     setNestedIndex(null);
     setShowAddCondition(false);
@@ -51,12 +51,12 @@ const MultipleConditionSelect = ({ humanizedAccessControlConditions, accessContr
     <div>
       {displayedPage === 'multiple' && (
         <Fragment>
-          <MultipleConditionsEditor humanizedAccessControlConditions={humanizedAccessControlConditions}
+          <MultipleConditionsEditor humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions}
                                     createCondition={createCondition}
           />
           <LitFooter
             backAction={() => {
-              if (humanizedAccessControlConditions.length < 1) {
+              if (humanizedUnifiedAccessControlConditions.length < 1) {
                 setFlow('singleCondition');
                 setDisplayedPage('single');
               } else {
@@ -64,7 +64,7 @@ const MultipleConditionSelect = ({ humanizedAccessControlConditions, accessContr
               }
             }}
             nextAction={() => setDisplayedPage('review')}
-            nextDisableConditions={!humanizedAccessControlConditions || !humanizedAccessControlConditions.length}
+            nextDisableConditions={!humanizedUnifiedAccessControlConditions || !humanizedUnifiedAccessControlConditions.length}
           />
         </Fragment>
       )}

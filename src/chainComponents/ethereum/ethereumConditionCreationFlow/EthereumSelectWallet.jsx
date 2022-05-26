@@ -7,25 +7,11 @@ import { utils } from 'ethers';
 import LitInput from "../../../reusableComponents/litInput/LitInput";
 
 
-const EthereumSelectWallet = ({ setSelectPage, handleUpdateAccessControlConditions }) => {
+const EthereumSelectWallet = ({ setSelectPage, handleUpdateUnifiedAccessControlConditions }) => {
   const { setDisplayedPage, flow } = useContext(ShareModalContext);
   const [walletAddress, setWalletAddress] = useState("");
   const [subChain, setSubChain] = useState({});
   const [addressIsValid, setAddressIsValid] = useState(false);
-
-  // useEffect(
-  //   () =>
-  //     setSubChain({
-  //       name: "Ethereum",
-  //       id: "ethereum",
-  //       value: "ethereum",
-  //     }),
-  //   []
-  // );
-
-  useEffect(() => {
-    console.log('subChain', subChain)
-  }, [subChain])
 
   useEffect(() => {
     const isValid = utils.isAddress(walletAddress);
@@ -51,7 +37,7 @@ const EthereumSelectWallet = ({ setSelectPage, handleUpdateAccessControlConditio
       // do domain name lookup
       try {
         resolvedAddress = await LitJsSdk.lookupNameServiceAddress({
-          subChain: subChain.value,
+          chain: subChain.value,
           name: walletAddress,
         });
       } catch (err) {
@@ -64,11 +50,13 @@ const EthereumSelectWallet = ({ setSelectPage, handleUpdateAccessControlConditio
         return;
       }
     }
-    const accessControlConditions = [
+
+    const unifiedAccessControlConditions = [
       {
+        conditionType: 'evmBasic',
         contractAddress: "",
         standardContractType: "",
-        subChain: subChain.value,
+        chain: subChain.value,
         method: "",
         parameters: [":userAddress"],
         returnValueTest: {
@@ -78,7 +66,7 @@ const EthereumSelectWallet = ({ setSelectPage, handleUpdateAccessControlConditio
       },
     ];
 
-    handleUpdateAccessControlConditions(accessControlConditions);
+    handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
 
     if (flow === 'singleCondition') {
       setDisplayedPage('review');

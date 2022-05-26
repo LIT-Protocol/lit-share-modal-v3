@@ -11,7 +11,7 @@ const poapKeys = {
   "contains": "containing"
 }
 
-const LitMultipleConditionOrganizer = ({ createCondition, humanizedAccessControlConditions, accessControlConditions }) => {
+const LitMultipleConditionOrganizer = ({ createCondition, humanizedUnifiedAccessControlConditions,unifiedAccessControlConditions }) => {
   const {
     handleDeleteAccessControlCondition,
     updateLogicOperator,
@@ -47,7 +47,7 @@ const LitMultipleConditionOrganizer = ({ createCondition, humanizedAccessControl
 
   return (
     <div className={'lsm-mb-20 lsm-width lsm-interior-scroll'}>
-      {humanizedAccessControlConditions.length > 0 && humanizedAccessControlConditions.map((a, i) => {
+      {humanizedUnifiedAccessControlConditions.length > 0 && humanizedUnifiedAccessControlConditions.map((a, i) => {
         if (Array.isArray(a)
           && a.length === 3
           && a[0].humanizedAcc.includes('POAP')
@@ -129,7 +129,7 @@ const LitMultipleConditionOrganizer = ({ createCondition, humanizedAccessControl
               style={{ 'backgroundColor': colorArray[i / 2] }}>
               <span className={'lsm-humanized-condition-text-container'}>
                 <span className={'lsm-overflow-auto lsm-humanized-condition-text lsm-text-title-gray lsm-font-segoe lsm-text-base lsm-font-light'}>
-                  {humanizedAccessControlConditions[i].humanizedAcc}
+                  {humanizedUnifiedAccessControlConditions[i].humanizedAcc}
                 </span>
                 <span>
                   <button className={'lsm-mr-1 lsm-border-none lsm-bg-transparent lsm-cursor-pointer'}>
@@ -165,7 +165,7 @@ const LitMultipleConditionOrganizer = ({ createCondition, humanizedAccessControl
           )
         }
       })}
-        {humanizedAccessControlConditions.length ? (
+        {humanizedUnifiedAccessControlConditions.length ? (
           <span className={'lsm-flex lsm-flex-row lsm-width lsm-justify-center lsm-mx-auto lsm-mt-4 lsm-rounded'}>
             <button className={'lsm-bg-white lsm-border-brand-4 lsm-text-brand-4 lsm-define-condition-button'} onClick={() => createCondition()}>
               Define Another Condition
