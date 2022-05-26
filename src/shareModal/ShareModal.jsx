@@ -104,34 +104,34 @@ const ShareModal = (props) => {
     await setChain(initialChain);
   }
 
-  useEffect(() => {
-    if (injectCSS) {
-      // concat the CSS
-      let cssInjectString = '';
-      // const cssReference = import('./cssReference.js');
-      Object.keys(cssReference).forEach((s, i) => {
-        // if it's the last css file don't concat a + to the string
-        // also check for the object existing in the cssSubstitution object in case the user wants to overwrite a specific part
-        if (i === Object.keys(cssReference).length && cssSubstitution[s]) {
-          cssInjectString.push(cssSubstitution[s])
-        } else if (i === Object.keys(cssReference).length) {
-          cssInjectString.push(cssReference[s]);
-        } else if (cssSubstitution[s]) {
-          cssInjectString.push(cssSubstitution[s] + "\n");
-        } else {
-          cssInjectString.push(cssReference[s] + "\n");
-        }
-      })
-      // inject the CSS
-      var style = document.createElement("style");
-      style.innerHTML = cssInjectString;
-      document.head.appendChild(style);
-    }
-    // wait for style tag to be placed before rendering page
-    setTimeout(() => {
-      setCssLoaded(true);
-    }, 100)
-  }, [injectCSS]);
+  // useEffect(() => {
+  //   if (injectCSS) {
+  //     // concat the CSS
+  //     let cssInjectString = '';
+  //     // const cssReference = import('./cssReference.js');
+  //     Object.keys(cssReference).forEach((s, i) => {
+  //       // if it's the last css file don't concat a + to the string
+  //       // also check for the object existing in the cssSubstitution object in case the user wants to overwrite a specific part
+  //       if (i === Object.keys(cssReference).length && cssSubstitution[s]) {
+  //         cssInjectString.push(cssSubstitution[s])
+  //       } else if (i === Object.keys(cssReference).length) {
+  //         cssInjectString.push(cssReference[s]);
+  //       } else if (cssSubstitution[s]) {
+  //         cssInjectString.push(cssSubstitution[s] + "\n");
+  //       } else {
+  //         cssInjectString.push(cssReference[s] + "\n");
+  //       }
+  //     })
+  //     // inject the CSS
+  //     var style = document.createElement("style");
+  //     style.innerHTML = cssInjectString;
+  //     document.head.appendChild(style);
+  //   }
+  //   // wait for style tag to be placed before rendering page
+  //   setTimeout(() => {
+  //     setCssLoaded(true);
+  //   }, 100)
+  // }, [injectCSS]);
 
   document.addEventListener("lit-ready", function (e) {
   }, false);

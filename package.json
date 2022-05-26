@@ -1,6 +1,6 @@
 {
   "name": "lit-share-modal-v3",
-  "version": "0.0.7",
+  "version": "0.0.19",
   "main": "./dist/lit-share-modal-v3.umd.js",
   "module": "./dist/lit-share-modal-v3.es.js",
   "files": ["dist/*.js", "dist/**/*.js"],
@@ -20,18 +20,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@originjs/vite-plugin-commonjs": "^1.0.3",
     "ethers": "^5.5.4",
-    "events": "^3.3.0",
     "lit-js-sdk": "^1.1.180",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-select": "^5.3.2",
-    "react-windowed-select": "^5.0.0",
-    "util": "^0.12.4"
+    "react-windowed-select": "^5.0.0"
   },
   "devDependencies": {
-    "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^1.3.0",
