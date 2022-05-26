@@ -27,6 +27,24 @@ import LitConfirmationModal from "../reusableComponents/litConfirmationModal/Lit
 import DevModeHeader from "./devMode/DevModeHeader";
 import DevModeContent from "./devMode/DevModeContent";
 
+import "../index.css";
+import "./ShareModal.css";
+import "../shareModal/singleConditionSelect/SingleConditionSelect.css";
+import "../shareModal/multipleConditionSelect/MultipleConditionSelect.css";
+import './reviewConditions/ReviewConditions.css';
+import "../reusableComponents/litChainSelector/LitChainSelector.css";
+import "../reusableComponents/litHeader/LitHeader.css";
+import "../reusableComponents/litChooseAccessButton/LitChooseAccessButton.css";
+import '../reusableComponents/litReusableSelect/LitReusableSelect.css'
+import '../reusableComponents/litInput/LitInput.css';
+import '../reusableComponents/litFooter/LitFooter.css';
+import '../reusableComponents/litFooter/LitBackButton.css';
+import '../reusableComponents/litFooter/litNextButton.css';
+import '../reusableComponents/litConfirmationModal/LitConfirmationModal.css';
+import '../reusableComponents/litDeleteModal/LitDeleteModal.css';
+import './multipleConditionSelect/MultipleAddCondition.css';
+import '../reusableComponents/litCheckbox/LitCheckbox.css';
+
 const ShareModal = (props) => {
   const [displayedPage, setDisplayedPage] = useState("single");
   const [error, setError] = useState(null);
@@ -90,7 +108,7 @@ const ShareModal = (props) => {
     if (injectCSS) {
       // concat the CSS
       let cssInjectString = '';
-      const cssReference = import('./cssReference.js');
+      // const cssReference = import('./cssReference.js');
       Object.keys(cssReference).forEach((s, i) => {
         // if it's the last css file don't concat a + to the string
         // also check for the object existing in the cssSubstitution object in case the user wants to overwrite a specific part

@@ -47,8 +47,10 @@
 }
 
 /*for desktop*/
-/*@media (min-width: 768px) {*/
-/*    .lsm-share-modal-container {*/
-/*        max-width: 40em;*/
-/*    }*/
+@media (min-width: 768px) {
+    .lsm-share-modal-container {
+        max-width: inherit;
+        height: inherit;
+        position: relative;
+    }
 }

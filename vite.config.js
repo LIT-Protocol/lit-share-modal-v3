@@ -7,12 +7,13 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/shareModal/ShareModal.jsx"),
-      name: "lit-share-modal",
-      fileName: (format) => `lit-share-modal.${format}.js`,
+      name: "lit-share-modal-v3",
+      fileName: (format) => `lit-share-modal-v3.${format}.js`,
     },
     cssCodeSplit: false,
     rollupOptions: {
       external: ["lit-js-sdk", "react", "react-dom"],
+      inlineDynamicImports: true,
       output: {
         globals: {
           React: "react",

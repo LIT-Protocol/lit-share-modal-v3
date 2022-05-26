@@ -46,16 +46,6 @@
     font-weight: 500;
 }
 
-/*.lsm-review-conditions-permanent {*/
-/*    font-weight: var(--lsm-primary-font-weight);*/
-/*    margin: 1.5em auto;*/
-/*    text-align: center;*/
-/*}*/
-
-/*.lsm-review-conditions-permanent-checkbox {*/
-/*    margin-right: 0.25em;*/
-/*}*/
-
 .lsm-review-conditions-link {
     font-weight: var(--lsm-primary-font-weight);
     margin: 0.75em auto;

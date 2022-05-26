@@ -12,7 +12,7 @@
 }
 
 @media (min-width: 768px) {
-    /*.lsm-lit-footer {*/
-    /*    max-width: 40em;*/
-    /*}*/
+    .lsm-footer-container {
+        position: relative;
+    }
 }
