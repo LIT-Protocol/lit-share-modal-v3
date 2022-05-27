@@ -11,7 +11,7 @@
 
 .lsm-conditions-scroll {
     overflow-y: scroll;
-    max-height: calc(100% - 15em);
+    max-height: 100%;
 }
 
 .lsm-condition-container {
