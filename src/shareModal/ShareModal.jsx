@@ -27,23 +27,43 @@ import LitConfirmationModal from "../reusableComponents/litConfirmationModal/Lit
 import DevModeHeader from "./devMode/DevModeHeader";
 import DevModeContent from "./devMode/DevModeContent";
 
-import "../index.css";
-import "./ShareModal.css";
-import "../shareModal/singleConditionSelect/SingleConditionSelect.css";
-import "../shareModal/multipleConditionSelect/MultipleConditionSelect.css";
-import './reviewConditions/ReviewConditions.css';
-import "../reusableComponents/litChainSelector/LitChainSelector.css";
-import "../reusableComponents/litHeader/LitHeader.css";
-import "../reusableComponents/litChooseAccessButton/LitChooseAccessButton.css";
-import '../reusableComponents/litReusableSelect/LitReusableSelect.css'
-import '../reusableComponents/litInput/LitInput.css';
-import '../reusableComponents/litFooter/LitFooter.css';
-import '../reusableComponents/litFooter/LitBackButton.css';
-import '../reusableComponents/litFooter/litNextButton.css';
-import '../reusableComponents/litConfirmationModal/LitConfirmationModal.css';
-import '../reusableComponents/litDeleteModal/LitDeleteModal.css';
-import './multipleConditionSelect/MultipleAddCondition.css';
-import '../reusableComponents/litCheckbox/LitCheckbox.css';
+import baseCss from "../index.css";
+import shareModalCss from "./ShareModal.css";
+import litSingleConditionSelectCss from "../shareModal/singleConditionSelect/SingleConditionSelect.css";
+import litMultipleConditionSelectCss from "../shareModal/multipleConditionSelect/MultipleConditionSelect.css";
+import litReviewConditionsCss from './reviewConditions/ReviewConditions.css';
+import litChainSelectorCss from "../reusableComponents/litChainSelector/LitChainSelector.css";
+import litHeaderCss from "../reusableComponents/litHeader/LitHeader.css";
+import litChooseAccessButtonCss from "../reusableComponents/litChooseAccessButton/LitChooseAccessButton.css";
+import litReusableSelectCss from '../reusableComponents/litReusableSelect/LitReusableSelect.css'
+import litInputCss from '../reusableComponents/litInput/LitInput.css';
+import litFooterCss from '../reusableComponents/litFooter/LitFooter.css';
+import litBackButtonCss from '../reusableComponents/litFooter/LitBackButton.css';
+import litNextButtonCss from '../reusableComponents/litFooter/litNextButton.css';
+import litConfirmationModalCss from '../reusableComponents/litConfirmationModal/LitConfirmationModal.css';
+import litDeleteModalCss from '../reusableComponents/litDeleteModal/LitDeleteModal.css';
+import litMultipleAddConditionCss from './multipleConditionSelect/MultipleAddCondition.css';
+import litCheckboxCss from '../reusableComponents/litCheckbox/LitCheckbox.css';
+
+const cssReference = {
+  baseCss,
+  shareModalCss,
+  litSingleConditionSelectCss,
+  litMultipleConditionSelectCss,
+  litMultipleAddConditionCss,
+  litReviewConditionsCss,
+  litChainSelectorCss,
+  litHeaderCss,
+  litChooseAccessButtonCss,
+  litReusableSelectCss,
+  litInputCss,
+  litFooterCss,
+  litNextButtonCss,
+  litBackButtonCss,
+  litConfirmationModalCss,
+  litDeleteModalCss,
+  litCheckboxCss,
+}
 
 const ShareModal = (props) => {
   const [displayedPage, setDisplayedPage] = useState("single");
@@ -71,8 +91,9 @@ const ShareModal = (props) => {
     chainsAllowed = Object.keys(defaultAllowedChainsObj),
     conditionsAllowed = {},
     isModal = true,
-    // TODO: unused props for v3
+    injectCSS = true,
     allowDevMode = false,
+    cssSubstitution = {}
   } = props;
 
   // TODO: prop setup
@@ -89,6 +110,35 @@ const ShareModal = (props) => {
 
     getTokens();
   }, [defaultChain]);
+
+  useEffect(() => {
+    if (injectCSS) {
+      // concat the CSS
+      let cssInjectString = '';
+      // const cssReference = import('./cssReference.js');
+      Object.keys(cssReference).forEach((s, i) => {
+        // if it's the last css file don't concat a + to the string
+        // also check for the object existing in the cssSubstitution object in case the user wants to overwrite a specific part
+        if (i === Object.keys(cssReference).length && cssSubstitution[s]) {
+          cssInjectString.push(cssSubstitution[s])
+        } else if (i === Object.keys(cssReference).length) {
+          cssInjectString.push(cssReference[s]);
+        } else if (cssSubstitution[s]) {
+          cssInjectString.push(cssSubstitution[s] + "\n");
+        } else {
+          cssInjectString.push(cssReference[s] + "\n");
+        }
+      })
+      // inject the CSS
+      var style = document.createElement("style");
+      style.innerHTML = cssInjectString;
+      document.head.appendChild(style);
+    }
+    // wait for style tag to be placed before rendering page
+    setTimeout(() => {
+      setCssLoaded(true);
+    }, 100)
+  }, [injectCSS]);
 
   const setInitialChain = async (chainsAllowed) => {
     // get default chain
