@@ -6,6 +6,7 @@
     left: 0;
     z-index: 10;
     background-color: var(--lsm-modal-overlay-color);
+    border-radius: var(--lsm-border-radius);
 }
 
 .lsm-confirmation-modal {
