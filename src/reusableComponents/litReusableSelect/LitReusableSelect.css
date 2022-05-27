@@ -36,6 +36,7 @@
 
 .lsm__option {
     padding: 0.75em 0.75em !important;
+    background-color: var(--lsm-background-color) !important;
 }
 
 .lsm__option--is-focused {
