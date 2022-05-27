@@ -4,7 +4,7 @@
     padding: 0 0.5em 1em;
     margin-top: 3.5em;
     overflow-y: scroll;
-    height: calc(100vh - 7.5em);
+    height: calc(100% - 7.5em);
 }
 
 .lsm-review-conditions-group-container {

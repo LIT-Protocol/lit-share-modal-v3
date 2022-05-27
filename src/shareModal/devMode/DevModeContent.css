@@ -1,7 +1,7 @@
 .lsm-dev-mode-container {
     margin-top: 3.5em;
     overflow-y: scroll;
-    height: calc(100vh - 5em);
+    height: calc(100% - 5em);
     font-family: var(--lsm-primary-font);
     text-align: center;
     display: flex;

@@ -6,11 +6,12 @@
     width: 100%;
     font-size: 16px;
     overflow: hidden;
+    border-radius: var(--lsm-border-radius);
 }
 
 .lsm-conditions-scroll {
     overflow-y: scroll;
-    max-height: calc(100vh - 15em);
+    max-height: calc(100% - 15em);
 }
 
 .lsm-condition-container {
@@ -20,7 +21,7 @@
     box-sizing: border-box;
     padding: 0 0.5rem 0.5em;
     overflow-y: scroll;
-    max-height: calc(100vh - 12em);
+    max-height: calc(100% - 12em);
 }
 
 .lsm-condition-prompt-text {
