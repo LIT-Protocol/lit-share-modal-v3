@@ -249,24 +249,6 @@ const EthereumSelectGroup = ({ setSelectPage, handleUpdateUnifiedAccessControlCo
     setContractType(value);
   };
 
-  // const createTokenSelectLabel = () => {
-  //   if (selectedToken && selectedToken.label) {
-  //     return (
-  //       <span>
-  //         {selectedToken.label}
-  //         <button className={'lsm-border-none lsm-cursor-pointer'}>
-  //           <img alt={'close'}
-  //                className={'lsm-h-4'}
-  //                src={union}
-  //                onClick={() => setSelectedToken(null)}/>
-  //         </button>
-  //       </span>
-  //     )
-  //   } else {
-  //     return 'Search for a token/NFT';
-  //   }
-  // }
-
   const isValid = () => {
     if (selectedToken?.['value'] === 'ethereum') {
       return !amount || !subChain['label'];
