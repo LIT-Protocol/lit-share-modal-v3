@@ -302,7 +302,7 @@ const ShareModal = (props) => {
     const cleanedAccessControlConditions = stripNestedArray(unifiedAccessControlConditions);
     const keyParams = {
       unifiedAccessControlConditions: cleanedAccessControlConditions,
-      permanent: !conditionsArePermanent,
+      permanent: conditionsArePermanent,
       chain: 'ethereum'
     };
     // TODO: comment back in to export conditions
