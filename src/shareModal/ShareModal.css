@@ -12,7 +12,7 @@
 
 .lsm-conditions-scroll {
     overflow-y: scroll;
-    max-height: 100%;
+    height: 100%;
 }
 
 .lsm-condition-container {
@@ -22,7 +22,7 @@
     box-sizing: border-box;
     padding: 0 0.5rem 0.5em;
     overflow-y: scroll;
-    max-height: calc(100% - 12em);
+    height: calc(100% - 12em);
 }
 
 .lsm-condition-prompt-text {

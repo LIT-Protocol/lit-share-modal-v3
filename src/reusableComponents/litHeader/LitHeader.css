@@ -14,6 +14,7 @@
     border: 1px solid var(--lsm-secondary-color);
     border-bottom: none;
     background-color: var(--lsm-background-color);
+    border-radius: var(--lsm-border-radius) var(--lsm-border-radius) 0 0;
 }
 
 .lsm-header-text {
