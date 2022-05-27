@@ -11,6 +11,8 @@
     height: 3.5em;
     box-sizing: border-box;
     z-index: 1;
+    border: 1px solid var(--lsm-secondary-color);
+    border-bottom: none;
     background-color: var(--lsm-background-color);
 }
 

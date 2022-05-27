@@ -10,6 +10,8 @@
     transform: translate(-50%, 0);
     background-color: var(--lsm-background-color);
     z-index: 1;
+    border: 1px solid var(--lsm-secondary-color);
+    border-top: none;
 }
 
 @media (min-width: 768px) {
