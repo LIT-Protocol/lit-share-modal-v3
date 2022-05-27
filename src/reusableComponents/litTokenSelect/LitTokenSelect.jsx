@@ -19,11 +19,7 @@ const LitTokenSelect = ({ label, setSelectedToken, option, selectedToken }) => {
     const newProps = Object.assign(props, { innerProps: rest });
 
     return (
-      <components.Option {...newProps}>
-        {/*<div*/}
-        {/*  className={'lsm-h-8 lsm-w-8 radius-full lsm-ml-1 lsm-mr-4 lsm-bg-no-repeat lsm-bg-contain lsm-bg-center'}*/}
-        {/*  style={{ backgroundImage: logo ? `url(${logo})` : undefined }}*/}
-        {/*/>*/}
+      <components.Option {...newProps} className={'lsm-option-select'}>
         {!!logo && (
           <img
             src={logo}
@@ -39,21 +35,6 @@ const LitTokenSelect = ({ label, setSelectedToken, option, selectedToken }) => {
       </components.Option>
     );
   };
-
-  // const { Option } = components;
-  // const IconOption = (props) => {
-  //   return (
-  //     <Option {...props}>
-  //       <img
-  //         src={props.data.logo}
-  //         style={{ height: '1em', marginRight: '0.5em'}}
-  //         className={'lsm-chain-selector-options-icons'}
-  //         alt={props.data.label}
-  //       />
-  //       {props.data.label}
-  //     </Option>
-  //   );
-  // }
 
   const tokenSelectRows = useMemo(() => {
     let formattedDefaultTokens = [];

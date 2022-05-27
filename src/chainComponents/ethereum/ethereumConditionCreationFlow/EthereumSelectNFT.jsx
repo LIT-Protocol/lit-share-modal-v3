@@ -12,6 +12,7 @@ const EthereumSelectNFT = ({ setSelectPage, handleUpdateUnifiedAccessControlCond
   const [tokenId, setTokenId] = useState("");
   const [subChain, setSubChain] = useState({});
   const [selectedToken, setSelectedToken] = useState({});
+  const [contractAddress, setContractAddress] = useState("");
   const [addressIsValid, setAddressIsValid] = useState(false);
 
   useEffect(() => {

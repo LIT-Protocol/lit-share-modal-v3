@@ -2,6 +2,7 @@
     display: flex;
     align-items: center;
     margin: 0.5em 0 0.5em;
+    cursor: pointer;
 }
 
 .lsm-checkbox-input {
@@ -11,6 +12,7 @@
 }
 
 .lsm-checkbox-label {
+    cursor: pointer;
     color: var(--lsm-primary-color);
     max-width: calc(100% - 2em);
 }

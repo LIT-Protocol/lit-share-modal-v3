@@ -57,6 +57,7 @@
 .lsm-multiple-condition-humanized-delete {
     background-color: transparent;
     border: none;
+    cursor: pointer;
 }
 
 .lsm-multiple-condition-operator-container {
@@ -74,6 +75,7 @@
     border-radius: var(--lsm-border-radius);
     background-color: var(--lsm-secondary-background-color);
     transition-duration: 0.25s;
+    cursor: pointer;
 }
 
 .lsm-multiple-condition-group-operator-poap {
@@ -114,6 +116,7 @@
     padding: 1em;
     font-size: 0.9em;
     border: var(--lsm-secondary-color) 1px solid;
+    cursor: pointer;
 }
 
 .lsm-multiple-condition-define-first-button {
@@ -124,6 +127,7 @@
     padding: 1em;
     font-size: 0.9em;
     border: var(--lsm-secondary-color) 1px solid;
+    cursor: pointer;
 }
 
 .lsm-multiple-condition-define-first-text {

@@ -30,7 +30,7 @@
 .lsm-header-close-button {
     background-color: transparent;
     border: none;
-    /*color: var(--lsm-primary-color);*/
+    cursor: pointer;
 }
 
 .lsm-header-close-button-icon path {

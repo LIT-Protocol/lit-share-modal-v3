@@ -10,11 +10,13 @@
 .lsm-chain-selector {
     width: 100%;
     font-family: var(--lsm-primary-font);
+    cursor: pointer;
 }
 
 .lsm__control {
     border-radius: var(--lsm-border-radius) !important;
     padding: 0.25em 0;
+    cursor: pointer !important;
 }
 
 .lsm__menu {
@@ -26,7 +28,16 @@
 }
 
 .lsm__option {
+    cursor: pointer !important;
     padding: 0.75em 0.75em !important;
+    background-color: var(--lsm-background-color) !important;
+    color: var(--lsm-primary-color) !important;
+}
+
+/*.lsm__option--is-focused {*/
+.lsm__option--is-focused {
+    background-color: var(--lsm-menu-focused-color) !important;
+    color: var(--lsm-contrast-color) !important;
 }
 
 .lsm-chain-selector-control-icon {

@@ -48,6 +48,7 @@
     color: var(--lsm-primary-color);
     border: var(--lsm-secondary-color) 1px solid;
     border-radius: var(--lsm-border-radius);
+    cursor: pointer;
 }
 
 .lsm-delete-modal-button-yes {
@@ -58,4 +59,5 @@
     background-color: var(--lsm-accent-color);
     border: var(--lsm-accent-color) 1px solid;
     border-radius: var(--lsm-border-radius);
+    cursor: pointer;
 }
