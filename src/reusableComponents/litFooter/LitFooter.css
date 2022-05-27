@@ -9,6 +9,7 @@
     box-sizing: border-box;
     transform: translate(-50%, 0);
     background-color: var(--lsm-background-color);
+    z-index: 1;
 }
 
 @media (min-width: 768px) {
