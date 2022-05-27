@@ -22,7 +22,8 @@
     padding: 0.75em 0.75em !important;
     display: flex !important;
     align-items: center !important;
-    font-family: var(--lsm-primary-font);
+    font-family: var(--lsm-primary-font) !important;
+    background-color: var(--lsm-background-color) !important;
 }
 
 .lsm-chain-selector-options-icons {
