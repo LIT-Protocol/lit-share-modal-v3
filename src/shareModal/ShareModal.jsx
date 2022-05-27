@@ -77,6 +77,7 @@ const ShareModal = (props) => {
   const [tokenList, setTokenList] = useState(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [chain, setChain] = useState(null);
+  const [cssLoaded, setCssLoaded] = useState(false);
   const [chainList, setChainList] = useState([]);
   const [showDevMode, setShowDevMode] = useState(false);
 
@@ -114,23 +115,24 @@ const ShareModal = (props) => {
   useEffect(() => {
     if (injectCSS) {
       // concat the CSS
-      let cssInjectString = '';
+      let cssInjectArray = [];
       // const cssReference = import('./cssReference.js');
       Object.keys(cssReference).forEach((s, i) => {
         // if it's the last css file don't concat a + to the string
         // also check for the object existing in the cssSubstitution object in case the user wants to overwrite a specific part
         if (i === Object.keys(cssReference).length && cssSubstitution[s]) {
-          cssInjectString.push(cssSubstitution[s])
+          cssInjectArray.push(cssSubstitution[s]);
         } else if (i === Object.keys(cssReference).length) {
-          cssInjectString.push(cssReference[s]);
+          cssInjectArray.push(cssReference[s]);
         } else if (cssSubstitution[s]) {
-          cssInjectString.push(cssSubstitution[s] + "\n");
+          cssInjectArray.push(cssSubstitution[s]);
         } else {
-          cssInjectString.push(cssReference[s] + "\n");
+          cssInjectArray.push(cssReference[s]);
         }
       })
+      const cssInjectString = cssInjectArray.join('\n');
       // inject the CSS
-      var style = document.createElement("style");
+      const style = document.createElement("style");
       style.innerHTML = cssInjectString;
       document.head.appendChild(style);
     }
@@ -309,7 +311,7 @@ const ShareModal = (props) => {
   return (
     <div className={"lsm-light-theme lsm-share-modal-container"}>
       check
-      {!error && (
+      {(!error && cssLoaded) && (
         <ShareModalContext.Provider
           value={{
             handleUpdateUnifiedAccessControlConditions,
@@ -366,7 +368,7 @@ const ShareModal = (props) => {
           />
         </ShareModalContext.Provider>
       )}
-      {error && (
+      {(error && cssLoaded) && (
         <span className={'lsm-error-display'}>
           <p className={'lsm-font-segoe lsm-text-brand-5'}>An error occurred with an external API:</p>
           <p className={'lsm-font-segoe'}>{error}</p>

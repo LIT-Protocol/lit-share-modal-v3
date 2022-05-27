@@ -1,9 +1,12 @@
 {
   "name": "lit-share-modal-v3",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "main": "./dist/lit-share-modal-v3.umd.js",
   "module": "./dist/lit-share-modal-v3.es.js",
-  "files": ["dist/*.js", "dist/**/*.js"],
+  "files": [
+    "dist/*.js",
+    "dist/**/*.js"
+  ],
   "exports": {
     ".": {
       "import": "./dist/lit-share-modal-v3.es.js",
@@ -21,6 +24,7 @@
   },
   "dependencies": {
     "ethers": "^5.5.4",
+    "events": "^3.3.0",
     "lit-js-sdk": "^1.1.180",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
