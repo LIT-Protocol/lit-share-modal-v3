@@ -93,6 +93,7 @@ const ShareModal = (props) => {
     conditionsAllowed = {},
     isModal = true,
     injectCSS = true,
+    darkTheme = false,
     allowDevMode = false,
     cssSubstitution = {}
   } = props;
@@ -308,9 +309,16 @@ const ShareModal = (props) => {
     onUnifiedAccessControlConditionsSelected(keyParams);
   };
 
+  const getTheme = () => {
+    if (darkTheme) {
+      return 'lsm-dark-theme';
+    } else {
+      return 'lsm-light-theme';
+    }
+  }
+
   return (
-    <div className={"lsm-light-theme lsm-share-modal-container"}>
-      check
+    <div className={`lsm-share-modal-container ${getTheme()}`}>
       {(!error && cssLoaded) && (
         <ShareModalContext.Provider
           value={{
@@ -349,7 +357,7 @@ const ShareModal = (props) => {
           {(allowDevMode && showDevMode) ? (
             <DevModeContent unifiedAccessControlConditions={unifiedAccessControlConditions} />
           ) : (
-            <Fragment>
+            <div className={'lsm-conditions-scroll'}>
               {(flow === 'singleCondition' && displayedPage !== 'review') && (
                 <SingleConditionSelect stepAfterUpdate={'review'} humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions} unifiedAccessControlConditions={unifiedAccessControlConditions}/>
               )}
@@ -359,7 +367,7 @@ const ShareModal = (props) => {
               {displayedPage === 'review' && (
                 <ReviewConditions humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions} unifiedAccessControlConditions={unifiedAccessControlConditions} />
               )}
-            </Fragment>
+            </div>
           )}
           <LitConfirmationModal
             message={"Are you sure you want to close the modal?"}

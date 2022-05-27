@@ -4,6 +4,13 @@
     background-color: var(--lsm-background-color);
     height: 100%;
     width: 100%;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+.lsm-conditions-scroll {
+    overflow-y: scroll;
+    max-height: calc(100vh - 15em);
 }
 
 .lsm-condition-container {
@@ -13,7 +20,7 @@
     box-sizing: border-box;
     padding: 0 0.5rem 0.5em;
     overflow-y: scroll;
-    height: calc(100vh - 12em);
+    max-height: calc(100vh - 12em);
 }
 
 .lsm-condition-prompt-text {
