@@ -10,10 +10,12 @@
 
 .lsm__menu {
     border-radius: 0 !important;
+    background-color: var(--lsm-background-color) !important;
 }
 
 .lsm__menu-list {
     padding: 0 !important;
+    background-color: var(--lsm-background-color) !important;
 }
 
 .lsm__option {
