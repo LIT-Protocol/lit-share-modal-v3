@@ -59,14 +59,11 @@ const ShareModal = (props) => {
   const [chain, setChain] = useState(null);
   const [chainList, setChainList] = useState([]);
   const [showDevMode, setShowDevMode] = useState(false);
-  const [cssLoaded, setCssLoaded] = useState(false);
 
   const {
     onClose = () => false,
-    onBack = () => false,
     onUnifiedAccessControlConditionsSelected,
     defaultTokens = TOP_LIST,
-    injectCSS = true,
     defaultChain = 'ethereum',
     showChainSelector = true,
     allowMultipleConditions = true,
@@ -76,7 +73,6 @@ const ShareModal = (props) => {
     isModal = true,
     // TODO: unused props for v3
     allowDevMode = false,
-    cssSubstitution = {},
   } = props;
 
   // TODO: prop setup
@@ -103,35 +99,6 @@ const ShareModal = (props) => {
     }
     await setChain(initialChain);
   }
-
-  // useEffect(() => {
-  //   if (injectCSS) {
-  //     // concat the CSS
-  //     let cssInjectString = '';
-  //     // const cssReference = import('./cssReference.js');
-  //     Object.keys(cssReference).forEach((s, i) => {
-  //       // if it's the last css file don't concat a + to the string
-  //       // also check for the object existing in the cssSubstitution object in case the user wants to overwrite a specific part
-  //       if (i === Object.keys(cssReference).length && cssSubstitution[s]) {
-  //         cssInjectString.push(cssSubstitution[s])
-  //       } else if (i === Object.keys(cssReference).length) {
-  //         cssInjectString.push(cssReference[s]);
-  //       } else if (cssSubstitution[s]) {
-  //         cssInjectString.push(cssSubstitution[s] + "\n");
-  //       } else {
-  //         cssInjectString.push(cssReference[s] + "\n");
-  //       }
-  //     })
-  //     // inject the CSS
-  //     var style = document.createElement("style");
-  //     style.innerHTML = cssInjectString;
-  //     document.head.appendChild(style);
-  //   }
-  //   // wait for style tag to be placed before rendering page
-  //   setTimeout(() => {
-  //     setCssLoaded(true);
-  //   }, 100)
-  // }, [injectCSS]);
 
   document.addEventListener("lit-ready", function (e) {
   }, false);
@@ -286,13 +253,13 @@ const ShareModal = (props) => {
       chain: 'ethereum'
     };
     // TODO: comment back in to export conditions
-    // onAccessControlConditionsSelected(keyParams);
+    onUnifiedAccessControlConditionsSelected(keyParams);
   };
 
   return (
     <div className={"lsm-light-theme lsm-share-modal-container"}>
-
-      {(!error && cssLoaded) && (
+      check
+      {!error && (
         <ShareModalContext.Provider
           value={{
             handleUpdateUnifiedAccessControlConditions,
@@ -349,7 +316,7 @@ const ShareModal = (props) => {
           />
         </ShareModalContext.Provider>
       )}
-      {(error && cssLoaded) && (
+      {error && (
         <span className={'lsm-error-display'}>
           <p className={'lsm-font-segoe lsm-text-brand-5'}>An error occurred with an external API:</p>
           <p className={'lsm-font-segoe'}>{error}</p>
