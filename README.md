@@ -5,7 +5,7 @@ The Lit Share Modal v3 is a tool for creating access control conditions for secu
 - Create multiple paths for unlocking content by using AND/OR operators.
 - Set your most used tokens/NFTs as defaults for quick and easy access.
 
-![Lit Share Modal](./assets/sharemodal.jpg)
+![Lit Share Modal](src/assets/shareModalCover.png)
 
 A Vanilla JS wrapper for the Lit Share Modal is also available.
 

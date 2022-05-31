@@ -13,7 +13,7 @@
 }
 
 @media (min-width: 768px) {
-    .lsm-footer-container {
+    .lsm-lit-footer {
         position: relative;
         border: 1px solid var(--lsm-secondary-color);
         border-top: none;

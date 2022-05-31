@@ -86,7 +86,7 @@ const ShareModal = (props) => {
     onUnifiedAccessControlConditionsSelected,
     defaultTokens = TOP_LIST,
     defaultChain = 'ethereum',
-    disableChainSelector = true,
+    disableChainSelector = false,
     allowMultipleConditions = true,
     permanentDefault = false,
     chainsAllowed = Object.keys(defaultAllowedChainsObj),
