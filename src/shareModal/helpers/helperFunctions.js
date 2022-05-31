@@ -21,8 +21,8 @@ const checkPropTypes = (props) => {
   if (props['injectCSS'] && typeof props['injectCSS'] !== 'boolean') {
     logDevError("'injectCSS' prop must be a boolean.")
   }
-  if (props['disableChainSelector'] && typeof props['disableChainSelector'] !== 'boolean') {
-    logDevError("'disableChainSelector' prop must be a boolean.")
+  if (props['allowChainSelector'] && typeof props['allowChainSelector'] !== 'boolean') {
+    logDevError("'allowChainSelector' prop must be a boolean.")
   }
   if (props['allowMultipleConditions'] && typeof props['allowMultipleConditions'] !== 'boolean') {
     logDevError("'allowMultipleConditions' prop must be a boolean.")

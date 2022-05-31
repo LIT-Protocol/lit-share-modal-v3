@@ -80,20 +80,16 @@ the [LitJsSdk docs](https://lit-protocol.github.io/lit-js-sdk/api_docs_html/inde
 
 - `darkTheme` - `false` by default. Setting as `true` to enable dark mode.
 - `defaultChain` - `ethereum` by default.  Can be set to `solana` to make Solana the default chain on load.
-- `disableChainSelector` - `false` by default. Setting as `true` will prevent users from switching between different chain conditions types e.g. switching from Ethereum to Solana.
+- `allowChainSelector` - `true` by default. Setting as `false` will prevent users from switching between different chain conditions types e.g. switching from Ethereum to Solana.
 - `allowMultipleConditions` - `true` by default. Setting to `false` will disable the multiple conditions screen and only allow the creation of single control conditions.
 - `permanentDefault` - `false` by default. Setting to `true` will check by default the box that makes conditions uneditable.
 - `isModal` - `true` by default. Setting to `false` will hide the close icon in the header.
-- `allowDevMode` - `false` by default.  Setting to `true` will show logs if there are prop type errors and enable the ability to see the raw access control conditions in JSON format. 
+- `allowDevMode` - `false` by default.  Setting to `true` will show logs if there are prop type errors and enable the ability to see the raw access control conditions in JSON format.
 - `defaultTokens` - set quick access tokens that appear in the `Select a Token/NFT` menu.  More information below
 - `injectCSS` - a boolean that is set to true by default. When this is true, the CSS styles will be injected into
-  the <head> of the page when the page loads, so there is no need to import any css. You can set this to `false` if you
+  the `<head>` tag of the page when it loads, so there is no need to import any css. You can set this to `false` if you
   want to use your own CSS.  For small changes, it's recommended to use the `cssSubstitution` object instead.
-- `cssSubstitution` - empty object by default.  Allows pinpoint the customization of different components in the share modal.  More documentation will be available soon. 
-
-[comment]: <> (- `loadingState` - `false` initially, but reflects the loading state on the `Review Conditions` screen. Allows the loader status to be reset)
-
-[comment]: <> (  from outside the modal.)
+- `cssSubstitution` - empty object by default.  Allows pinpoint the customization of different components in the share modal.  More documentation will be available soon.
 
 ### `defaultTokens` prop
 
