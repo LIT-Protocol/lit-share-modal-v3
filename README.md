@@ -8,7 +8,7 @@ The Lit Share Modal v3 is a tool for creating access control conditions for secu
 ![Lit Share Modal](src/assets/shareModalCover.png)
 
 *Note for NextJS users:* If you are using NextJS, the CSS injection will not work.  Set the `injectCSS` prop to false, and
-import the CSS file directly from `node_modules/lit-share-modal/dist/style.css` in `_app.tsx` or `_app.jsx`.
+import the CSS file directly from `node_modules/lit-share-modal/dist/ShareModal.css` in `_app.tsx` or `_app.jsx`.
 
 # Installation
 

@@ -15,8 +15,8 @@
 @media (min-width: 768px) {
     .lsm-lit-footer {
         position: relative;
-        border: 1px solid var(--lsm-secondary-color);
-        border-top: none;
+        /*border: 1px solid var(--lsm-secondary-color);*/
+        border: none;
         border-radius: 0 0 var(--lsm-border-radius) var(--lsm-border-radius);
     }
 }
