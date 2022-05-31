@@ -6,7 +6,8 @@ const LitChainSelector = () => {
   const {
     chain,
     setChain,
-    chainList
+    chainList,
+    disableChainSelector
   } = useContext(ShareModalContext);
 
   const { Option } = components;
@@ -29,14 +30,20 @@ const LitChainSelector = () => {
       {!!chain && !!chainList && (
         <span className={'lsm-chain-selector-container'}>
           <img src={chain.logo} className={'lsm-chain-selector-control-icon'} />
-          <Select
-            className={'lsm-chain-selector'}
-            classNamePrefix={'lsm'}
-            defaultValue={chainList.find(c => c.value === chain.value)}
-            options={chainList}
-            onChange={(c) => setChain(c)}
-            components={{ Option: IconOption }}
-          />
+          {!disableChainSelector ? (
+            <Select
+              className={'lsm-chain-selector'}
+              classNamePrefix={'lsm'}
+              defaultValue={chainList.find(c => c.value === chain.value)}
+              options={chainList}
+              onChange={(c) => setChain(c)}
+              components={{ Option: IconOption }}
+            />
+          ) : (
+            <span className={'lsm-disabled-selector'}>
+              {chain.label}
+            </span>
+          )}
         </span>
       )}
     </div>

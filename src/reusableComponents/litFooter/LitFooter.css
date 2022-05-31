@@ -10,13 +10,13 @@
     transform: translate(-50%, 0);
     background-color: var(--lsm-background-color);
     z-index: 1;
-    border: 1px solid var(--lsm-secondary-color);
-    border-top: none;
-    border-radius: 0 0 var(--lsm-border-radius) var(--lsm-border-radius);
 }
 
 @media (min-width: 768px) {
     .lsm-footer-container {
         position: relative;
+        border: 1px solid var(--lsm-secondary-color);
+        border-top: none;
+        border-radius: 0 0 var(--lsm-border-radius) var(--lsm-border-radius);
     }
 }

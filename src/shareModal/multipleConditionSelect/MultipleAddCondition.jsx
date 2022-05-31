@@ -8,7 +8,6 @@ const MultipleAddCondition = ({selectPage, setSelectPage, isNested = false, coor
   const {
     setDisplayedPage,
     chain,
-    showChainSelector
   } = useContext(ShareModalContext);
 
   const getRenderedConditionOption = () => {
@@ -59,9 +58,7 @@ const MultipleAddCondition = ({selectPage, setSelectPage, isNested = false, coor
 
   return (
     <div className={'lsm-multiple-condition-select-container'}>
-      {showChainSelector && (
-        <LitChainSelector />
-      )}
+      <LitChainSelector />
       {!!chain && !!setSelectPage && (
         getRenderedConditionOption()
       )}

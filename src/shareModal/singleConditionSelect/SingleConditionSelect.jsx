@@ -11,7 +11,6 @@ const SingleConditionSelect = () => {
     chain,
     setFlow,
     allowMultipleConditions,
-    showChainSelector,
   } = useContext(ShareModalContext);
   const [selectPage, setSelectPage] = useState('chooseAccess');
 
@@ -47,9 +46,7 @@ const SingleConditionSelect = () => {
 
   return (
     <div className={'lsm-single-condition-select-container'}>
-      {showChainSelector && (
-        <LitChainSelector />
-      )}
+      <LitChainSelector />
       {!!chain && !!setSelectPage && (
         <Fragment>
           {getRenderedConditionOption()}

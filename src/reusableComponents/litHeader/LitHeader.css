@@ -11,10 +11,7 @@
     height: 3.5em;
     box-sizing: border-box;
     z-index: 1;
-    border: 1px solid var(--lsm-secondary-color);
-    border-bottom: none;
     background-color: var(--lsm-background-color);
-    border-radius: var(--lsm-border-radius) var(--lsm-border-radius) 0 0;
 }
 
 .lsm-header-text {
@@ -35,4 +32,12 @@
 
 .lsm-header-close-button-icon path {
     fill: var(--lsm-primary-color);
+}
+
+@media (min-width: 768px) {
+    .lsm-header-container {
+        border-radius: var(--lsm-border-radius) var(--lsm-border-radius) 0 0;
+        border: 1px solid var(--lsm-secondary-color);
+        border-bottom: none;
+    }
 }
