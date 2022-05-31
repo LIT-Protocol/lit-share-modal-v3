@@ -28,13 +28,16 @@ yarn add lit-share-modal-v3
 
 with React Hooks
 
+Despite being called a modal, modal functionality is not included in this package in order to give developers maximum flexibility over implementation.  **Lit Share Modal** can be used in modal form or embedded in a page. An example of both is provided below.
+
+as a modal
 ```
 import ShareModal from 'lit-share-modal-v3';
 import { useState } from 'react';
 import './App.css'
 
 const App = () => {
-  const [openShareModal, setOpenShareModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   const onUnifiedAccessControlConditionsSelected = (shareModalOutput) => {
     // do things with share modal output
@@ -42,8 +45,52 @@ const App = () => {
 
   return (
     <div className={'App'}>
-      <ShareModal onClose={() => setOpenShareModal(false)}
-                  showModal={openShareModal}
+      <button onClick={() => setShowShareModal(true)}>
+        Show Share Modal
+      </button>
+    
+      {showShareModal && (
+        <div className={'share-modal'}>
+          <ShareModal
+            onClose={() => {
+              setShowShareModal(false);
+            }}
+            onUnifiedAccessControlConditionsSelected={onUnifiedAccessControlConditionsSelected}
+          />
+        </div>
+      )}
+    </div>
+
+  );
+}
+
+export default App;
+
+// CSS in App.css
+
+.share-modal {
+  width: 500px;
+  height: 700px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+```
+
+as embedded content
+```
+import ShareModal from 'lit-share-modal-v3';
+
+const App = () => {
+  const onUnifiedAccessControlConditionsSelected = (shareModalOutput) => {
+    // do things with share modal output
+  }
+
+  return (
+    <div className={'App'}>
+      <ShareModal isModal={false}  // use isModal to hide or display the close modal icon
                   onUnifiedAccessControlConditionsSelected={onUnifiedAccessControlConditionsSelected} />
     </div>
 
@@ -58,7 +105,7 @@ export default App;
 
 ### Required
 
-- `onClose` - callback for actions to take on closing the modal
+- `onClose` - **only necessary for modal format**. Callback for actions to take on closing the modal
 - `onUnifiedAccessControlConditionsSelected` - callback for the share modal output
 
 `onUnifiedAccessControlConditionsSelected` provides an object with the following properties:
@@ -66,7 +113,6 @@ export default App;
 - `unifiedAccessControlConditions` - an array of objects and nested arrays reflecting the selected conditions
 - `permanent` - a boolean signaling whether conditions will be permanent (true) or editable by the author in the
   future (false)
-- `chain` - value of the current chain, `ethereum` or `solana`
 
 Documentation on how these properties are used with the `LitJsSdk`, can be found in
 the [LitJsSdk docs](https://lit-protocol.github.io/lit-js-sdk/api_docs_html/index.html#litnodeclientsavesigningcondition)
@@ -112,4 +158,4 @@ export const defaultTokens = [
 
 ### `cssSubstitution` prop
 
-More information coming soon
+**[More information can be found here](https://lit-services-docs.netlify.app/docs/share-modal/cssSubstitution)**
