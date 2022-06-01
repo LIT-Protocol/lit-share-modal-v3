@@ -3,6 +3,5 @@ import { createRoot } from "react-dom/client";
 import ShareModal from './shareModal/ShareModal'
 
 const container = document.getElementById('root');
-
 const root = createRoot(container);
-root.render(<ShareModal />)
+root.render(<ShareModal />);

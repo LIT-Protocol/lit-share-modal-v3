@@ -1,8 +1,8 @@
 {
-  "name": "lit-share-modal-v3",
+  "name": "lit-share-modal-v3-react-17",
   "version": "0.0.48",
-  "main": "./dist/lit-share-modal-v3.umd.js",
-  "module": "./dist/lit-share-modal-v3.es.js",
+  "main": "./dist/lit-share-modal-v3-react-17.umd.js",
+  "module": "./dist/lit-share-modal-v3-react-17.es.js",
   "files": [
     "dist/*.js",
     "dist/**/*.js",
@@ -10,8 +10,8 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/lit-share-modal-v3.es.js",
-      "require": "./dist/lit-share-modal-v3.umd.js"
+      "import": "./dist/lit-share-modal-v3-react-17.es.js",
+      "require": "./dist/lit-share-modal-v3-react-17.umd.js"
     },
     "./dist/style.css": {
       "import": "./dist/style.css",
@@ -27,14 +27,14 @@
     "ethers": "^5.5.4",
     "events": "^3.3.0",
     "lit-js-sdk": "^1.1.180",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-select": "^5.3.2",
     "react-windowed-select": "^5.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
     "@vitejs/plugin-react": "^1.3.0",
     "vite": "^2.9.7"
   },
