@@ -1,4 +1,4 @@
-This version of Lit Share Modal is for React 17. [(A React 18 version can be found here.](https://www.npmjs.com/package/lit-share-modal-v3)
+This version of Lit Share Modal is for React 17. [A React 18 version can be found here.](https://www.npmjs.com/package/lit-share-modal-v3)
 
 
 The Lit Share Modal v3 is a tool for creating access control conditions for securing content with Lit Protocol.

@@ -48,7 +48,7 @@ const MultipleConditionSelect = ({ humanizedUnifiedAccessControlConditions, unif
   }
 
   return (
-    <div>
+    <div class={'lsm-multiple-conditions-container'}>
       {displayedPage === 'multiple' && (
         <Fragment>
           <MultipleConditionsEditor humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions}

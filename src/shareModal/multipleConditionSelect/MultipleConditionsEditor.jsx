@@ -47,7 +47,7 @@ const MultipleConditionsEditor = ({ humanizedUnifiedAccessControlConditions, cre
   }
 
   return (
-    <div className={'lsm-multiple-condition-container'}>
+    <div className={'lsm-multiple-condition-editor-container'}>
       {humanizedUnifiedAccessControlConditions.length > 0 && humanizedUnifiedAccessControlConditions.map((a, i) => {
         // render POAP separately to prevent changing of OR operator
         if (Array.isArray(a)

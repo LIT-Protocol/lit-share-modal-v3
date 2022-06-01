@@ -2,7 +2,7 @@
     box-sizing: border-box;
     padding: 0 0.5em;
     background-color: var(--lsm-background-color);
-    height: 100vh;
+    height: calc(100vh - 1em);
     width: 100%;
     font-size: 16px;
     overflow: hidden;

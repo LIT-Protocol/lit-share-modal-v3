@@ -43,6 +43,7 @@ import litNextButtonCss from '../reusableComponents/litFooter/litNextButton.css'
 import litConfirmationModalCss from '../reusableComponents/litConfirmationModal/LitConfirmationModal.css';
 import litDeleteModalCss from '../reusableComponents/litDeleteModal/LitDeleteModal.css';
 import litMultipleAddConditionCss from './multipleConditionSelect/MultipleAddCondition.css';
+import litMultipleConditionEditorCss from './multipleConditionSelect/MultipleConditionEditor.css';
 import litCheckboxCss from '../reusableComponents/litCheckbox/LitCheckbox.css';
 
 const cssReference = {
@@ -51,6 +52,7 @@ const cssReference = {
   litSingleConditionSelectCss,
   litMultipleConditionSelectCss,
   litMultipleAddConditionCss,
+  litMultipleConditionEditorCss,
   litReviewConditionsCss,
   litChainSelectorCss,
   litHeaderCss,
