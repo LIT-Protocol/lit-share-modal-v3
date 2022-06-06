@@ -10,6 +10,19 @@ const MultipleAddCondition = ({selectPage, setSelectPage, isNested = false, coor
     chain,
   } = useContext(ShareModalContext);
 
+  const [unifiedAccessControlConditions, setUnifiedAccessControlConditions] = useState([]);
+  const [submitDisabled, setSubmitDisabled] = useState(true);
+
+  const backButtonAction = () => {
+    setSelectPage('chooseAccess');
+    setUnifiedAccessControlConditions([]);
+  }
+
+  const toggleCoordinateUpdateAccessControl = () => {
+    endOfCreateCondition(unifiedAccessControlConditions);
+    setUnifiedAccessControlConditions([]);
+  }
+
   const getRenderedConditionOption = () => {
     const conditionTypeData = chain.conditionTypeData;
 
@@ -47,8 +60,8 @@ const MultipleAddCondition = ({selectPage, setSelectPage, isNested = false, coor
       // check for existence of condition type before rendering it for user
       if (chain.conditionTypes[selectPage]) {
         const ConditionHolder = chain.conditionTypes[selectPage];
-        return <ConditionHolder setSelectPage={setSelectPage}
-                                handleUpdateUnifiedAccessControlConditions={endOfCreateCondition}/>
+        return <ConditionHolder updateUnifiedAccessControlConditions={setUnifiedAccessControlConditions}
+                                submitDisabled={setSubmitDisabled} />
       } else {
         // if page type doesn't exist on this chain, redirect to choose access page
         setSelectPage('chooseAccess');
@@ -57,10 +70,12 @@ const MultipleAddCondition = ({selectPage, setSelectPage, isNested = false, coor
   }
 
   return (
-    <div className={'lsm-multiple-condition-select-container'}>
+    <div className={'lsm-multiple-condition-add-container'}>
       <LitChainSelector />
       {!!chain && !!setSelectPage && (
-        getRenderedConditionOption()
+        <div className={'lsm-multiple-select-condition-display'}>
+          { getRenderedConditionOption() }
+        </div>
       )}
       {selectPage === 'chooseAccess' && (
         <LitFooter
@@ -68,6 +83,12 @@ const MultipleAddCondition = ({selectPage, setSelectPage, isNested = false, coor
             setDisplayedPage('multiple');
           }}
         />
+      )}
+      {selectPage !== 'chooseAccess' && (
+        <LitFooter className={'lsm-single-condition-footer'}
+                   backAction={backButtonAction}
+                   nextAction={toggleCoordinateUpdateAccessControl}
+                   disableNextButton={submitDisabled}/>
       )}
     </div>
   )

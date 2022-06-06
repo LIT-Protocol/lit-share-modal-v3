@@ -4,7 +4,7 @@
     padding-right: 0.5em;
     display: flex;
     justify-content: space-between;
-    position: fixed;
+    /*position: fixed;*/
     top: 0;
     left: 0;
     align-items: center;
@@ -38,5 +38,8 @@
     .lsm-header-container {
         border-radius: var(--lsm-border-radius) var(--lsm-border-radius) 0 0;
         border: none;
+        top: initial;
+        left: initial;
+        width: auto;
     }
 }

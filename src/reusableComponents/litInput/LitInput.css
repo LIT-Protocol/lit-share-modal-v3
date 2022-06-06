@@ -15,6 +15,10 @@
     font-size: 1em;
 }
 
+.lsm-input:disabled {
+    color: #999;
+}
+
 .lsm-input-error {
     margin: 0.25em 0 0;
     transition: 0.3s all;

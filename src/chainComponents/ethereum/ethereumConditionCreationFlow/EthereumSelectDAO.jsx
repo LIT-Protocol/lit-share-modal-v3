@@ -1,12 +1,9 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import LitReusableSelect from "../../../reusableComponents/litReusableSelect/LitReusableSelect";
-import { ShareModalContext } from "../../../shareModal/createShareContext.js";
-import LitFooter from "../../../reusableComponents/litFooter/LitFooter";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
 import LitJsSdk from "lit-js-sdk";
 
-const EthereumSelectDAO = ({ setSelectPage, handleUpdateUnifiedAccessControlConditions }) => {
-  const { setDisplayedPage, chainOptions, flow } = useContext(ShareModalContext);
+const EthereumSelectDAO = ({ updateUnifiedAccessControlConditions, submitDisabled }) => {
   const [DAOAddress, setDAOAddress] = useState("");
   const [subChain, setSubChain] = useState({});
 
@@ -19,6 +16,14 @@ const EthereumSelectDAO = ({ setSelectPage, handleUpdateUnifiedAccessControlCond
       }),
     []
   );
+
+  useEffect(() => {
+    if (DAOAddress.length && subChain.value) {
+      handleSubmit()
+    }
+    submitDisabled(!subChain['value'] || !DAOAddress.length)
+  }, [DAOAddress, subChain]);
+
 
   const ethereumChainOptions = useMemo(
     () =>
@@ -48,13 +53,7 @@ const EthereumSelectDAO = ({ setSelectPage, handleUpdateUnifiedAccessControlCond
       },
     ];
 
-    handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
-
-    if (flow === 'singleCondition') {
-      setDisplayedPage('review');
-    } else if (flow === 'multipleConditions') {
-      setDisplayedPage('multiple');
-    }
+    updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
   };
 
   return (
@@ -74,9 +73,6 @@ const EthereumSelectDAO = ({ setSelectPage, handleUpdateUnifiedAccessControlCond
       <p className={'lsm-condition-prompt-text'}>Lit
         Gateway currently supports DAOs using the MolochDAOv2.1 contract (includes
         DAOhaus)</p>
-      <LitFooter backAction={() => setSelectPage('chooseAccess')}
-                 nextAction={handleSubmit}
-                 nextDisableConditions={(!subChain['value'] || !DAOAddress.length)}/>
     </div>
   );
 };

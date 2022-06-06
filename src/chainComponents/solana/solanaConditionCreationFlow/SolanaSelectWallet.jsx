@@ -1,15 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { ShareModalContext } from "../../../shareModal/createShareContext.js";
-import LitReusableSelect from "../../../reusableComponents/litReusableSelect/LitReusableSelect";
-import LitJsSdk from "lit-js-sdk";
-import LitFooter from "../../../reusableComponents/litFooter/LitFooter";
-// import { utils } from 'ethers';
 import LitInput from "../../../reusableComponents/litInput/LitInput";
 
 
-const SolanaSelectWallet = ({ setSelectPage, handleUpdateUnifiedAccessControlConditions }) => {
+const SolanaSelectWallet = ({ updateUnifiedAccessControlConditions, submitDisabled }) => {
   const { setDisplayedPage, flow } = useContext(ShareModalContext);
   const [walletAddress, setWalletAddress] = useState("");
+
+  useEffect(() => {
+    handleSubmit();
+    submitDisabled(!walletAddress.length);
+  }, [walletAddress])
 
   const handleSubmit = async () => {
     let resolvedAddress = walletAddress;
@@ -28,13 +29,7 @@ const SolanaSelectWallet = ({ setSelectPage, handleUpdateUnifiedAccessControlCon
       },
     ];
 
-    handleUpdateUnifiedAccessControlConditions(solRpcConditions);
-
-    if (flow === 'singleCondition') {
-      setDisplayedPage('review');
-    } else if (flow === 'multipleConditions') {
-      setDisplayedPage('multiple');
-    }
+    updateUnifiedAccessControlConditions(solRpcConditions);
   };
 
   return (
@@ -46,9 +41,6 @@ const SolanaSelectWallet = ({ setSelectPage, handleUpdateUnifiedAccessControlCon
       <LitInput value={walletAddress}
                 setValue={setWalletAddress}
       />
-      <LitFooter backAction={() => setSelectPage('chooseAccess')}
-                 nextAction={() => handleSubmit()}
-                 nextDisableConditions={(!walletAddress.length)}/>
     </div>
   );
 }

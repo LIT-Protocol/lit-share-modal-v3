@@ -1,7 +1,22 @@
 .lsm-single-condition-select-container {
-    margin-top: 3.5em;
+    height: calc(100% - 4.5em);
+    box-sizing: border-box;
+    padding: 0 0.5em;
+    display: flex;
+    flex-direction: column;
     overflow-y: scroll;
-    height: calc(100% - 3.5em);
+    margin-bottom: 4.5em;
+}
+
+.lsm-single-select-condition-display {
+    flex: 1 1 auto;
+    min-height: calc(100% - 4.5em);
+    overflow-y: hidden;
+    box-sizing: border-box;
+}
+
+.lsm-single-condition-footer {
+    /*align-self: flex-end;*/
 }
 
 .lsm-single-condition-select-prompt {
@@ -17,10 +32,15 @@
 }
 
 .lsm-single-condition-multiple-button {
-    width: 80%;
+    /*width: calc(100% - 2em);*/
+    width: 100%;
     box-sizing: border-box;
     margin: 2em auto;
     height: 4em;
+    padding: 0 1em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
     text-decoration: underline;
     border: none;
     background-color: var(--lsm-background-color);
@@ -33,6 +53,12 @@
     font-weight: var(--lsm-primary-font-weight);
 }
 
-.lsm-single-condition-multiple-button img {
-    margin-right: 1em;
+.lsm-single-condition-multiple-button p {
+    margin-left: 0.25em;
+}
+
+@media (min-width: 768px) {
+    .lsm-single-condition-select-container {
+        /*height: 100%;*/
+    }
 }

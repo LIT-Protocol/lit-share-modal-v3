@@ -1,10 +1,10 @@
 import React from 'react';
 
-const LitNextButton = ({ disableConditions, onClick, label}) => {
+const LitNextButton = ({ disabled = false, onClick, label}) => {
 
   return (
     <button className={'lsm-next-button'}
-            disabled={!!disableConditions ? disableConditions : false}
+            disabled={disabled}
             onClick={onClick}>
       <span className={'lsm-next-label'}>{!label ? 'NEXT' : label}</span>
       <span className={'lsm-next-arrow'}>→</span>

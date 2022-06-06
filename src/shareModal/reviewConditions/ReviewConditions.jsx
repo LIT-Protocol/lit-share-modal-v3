@@ -84,26 +84,19 @@ const ReviewConditions = ({ humanizedUnifiedAccessControlConditions, unifiedAcce
         {!!humanizedUnifiedAccessControlConditions && (
           recursiveRenderConditionsGroups(humanizedUnifiedAccessControlConditions)
         )}
+        <footer className={'lsm-review-conditions-footer'}>
+          <LitCheckbox value={conditionsArePermanent}
+                       checked={conditionsArePermanent}
+                       setValue={setConditionsArePermanent}
+                       label={'Make condition(s) permanent; if selected, you cannot update them later'} />
+          <div className={'lsm-review-conditions-link'}>
+            <a href={'https://developer.litprotocol.com/docs/AccessControlConditions/evmBasicExamples'} target={'_blank'}
+               rel="noreferrer">More information about
+              conditions<img
+                alt={'clear input'} className={'lsm-review-conditions-link-icon'} src={link}/></a>
+          </div>
+        </footer>
       </div>
-      <footer className={'lsm-review-conditions-footer'}>
-        <LitCheckbox value={conditionsArePermanent}
-                     checked={conditionsArePermanent}
-                     setValue={setConditionsArePermanent}
-                     label={'Make condition(s) permanent; if selected, you cannot update them later'} />
-        {/*<div*/}
-        {/*  className={'lsm-review-conditions-permanent'}>*/}
-        {/*  <input className={'lsm-conditions-checkbox'} type="checkbox" id="edit" name="edit"*/}
-        {/*         checked={conditionsArePermanent} value={conditionsArePermanent} onChange={(e) => setConditionsArePermanent(e.target.checked)}/>*/}
-        {/*  <label className={'lsm-review-conditions-permanent-text'} htmlFor="edit">Make condition(s) permanent; if*/}
-        {/*    selected, you cannot update them later</label>*/}
-        {/*</div>*/}
-        <div className={'lsm-review-conditions-link'}>
-          <a href={'https://developer.litprotocol.com/docs/AccessControlConditions/evmBasicExamples'} target={'_blank'}
-             rel="noreferrer">More information about
-            conditions<img
-              alt={'clear input'} className={'lsm-review-conditions-link-icon'} src={link}/></a>
-        </div>
-      </footer>
       <LitFooter backAction={() => navigateBack()}
                  nextAction={() => {
                    setConditionsSent(true);

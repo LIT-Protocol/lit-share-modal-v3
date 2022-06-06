@@ -8,7 +8,7 @@ import POAP from "../../assets/POAP.svg";
 
 const ethereumConfig = {
   value: 'ethereum',
-  label: 'Ethereum',
+  label: 'EVM',
   logo: ethLogo,
   abbreviation: 'EVM',
   conditionTypes: {

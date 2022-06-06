@@ -5,7 +5,7 @@ import MultipleConditionsEditor from "./MultipleConditionsEditor";
 import MultipleAddCondition from "./MultipleAddCondition";
 import LitConfirmationModal from "../../reusableComponents/litConfirmationModal/LitConfirmationModal";
 
-const MultipleConditionSelect = ({ humanizedUnifiedAccessControlConditions, unifiedAccessControlConditions }) => {
+const MultipleConditionSelect = ({ humanizedUnifiedAccessControlConditions }) => {
   const {
     setDisplayedPage,
     setFlow,
@@ -37,18 +37,16 @@ const MultipleConditionSelect = ({ humanizedUnifiedAccessControlConditions, unif
   const createCondition = (isNested = false, nestedIndex = null) => {
     setIsNested(isNested);
     setNestedIndex(nestedIndex);
-    setShowAddCondition(true);
   }
 
   const endOfCreateCondition = (unifiedAccessControlConditions) => {
     coordinateUpdateAccessControl(unifiedAccessControlConditions)
     setIsNested(false);
     setNestedIndex(null);
-    setShowAddCondition(false);
   }
 
   return (
-    <div class={'lsm-multiple-conditions-container'}>
+    <div className={'lsm-multiple-conditions-container'}>
       {displayedPage === 'multiple' && (
         <Fragment>
           <MultipleConditionsEditor humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions}

@@ -4,7 +4,7 @@ import LitFooter from "../../../reusableComponents/litFooter/LitFooter";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
 import { utils } from "ethers";
 
-const SolanaSelectNFT = ({ setSelectPage, handleUpdateUnifiedAccessControlConditions }) => {
+const SolanaSelectNFT = ({ updateUnifiedAccessControlConditions, submitDisabled }) => {
   const { setDisplayedPage, flow } = useContext(ShareModalContext);
   const [contractAddress, setContractAddress] = useState("");
   const [tokenId, setTokenId] = useState("");
@@ -13,7 +13,10 @@ const SolanaSelectNFT = ({ setSelectPage, handleUpdateUnifiedAccessControlCondit
   useEffect(() => {
     const isValid = utils.isAddress(tokenId);
     setAddressIsValid(isValid);
-  }, [tokenId])
+
+    handleSubmit();
+    submitDisabled(!tokenId.length || !contractAddress.length);
+  }, [tokenId, contractAddress])
 
   const handleSubmit = () => {
     const unifiedAccessControlConditions = [
@@ -38,14 +41,7 @@ const SolanaSelectNFT = ({ setSelectPage, handleUpdateUnifiedAccessControlCondit
       },
     ];
 
-    handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
-    setSelectPage('chooseAccess');
-
-    if (flow === 'singleCondition') {
-      setDisplayedPage('review');
-    } else if (flow === 'multipleConditions') {
-      setDisplayedPage('multiple');
-    }
+    updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
   };
 
   return (
@@ -63,9 +59,6 @@ const SolanaSelectNFT = ({ setSelectPage, handleUpdateUnifiedAccessControlCondit
         <LitInput value={tokenId}
                   setValue={setTokenId}
         />
-      <LitFooter backAction={() => setSelectPage('chooseAccess')}
-                 nextAction={handleSubmit}
-                 nextDisableConditions={(!tokenId.length || !contractAddress.length)}/>
     </div>
   );
 };

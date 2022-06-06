@@ -37,6 +37,7 @@ import litHeaderCss from "../reusableComponents/litHeader/LitHeader.css";
 import litChooseAccessButtonCss from "../reusableComponents/litChooseAccessButton/LitChooseAccessButton.css";
 import litReusableSelectCss from '../reusableComponents/litReusableSelect/LitReusableSelect.css'
 import litInputCss from '../reusableComponents/litInput/LitInput.css';
+import litDevModeCss from '../shareModal/devMode/DevModeContent.css';
 import litFooterCss from '../reusableComponents/litFooter/LitFooter.css';
 import litBackButtonCss from '../reusableComponents/litFooter/LitBackButton.css';
 import litNextButtonCss from '../reusableComponents/litFooter/litNextButton.css';
@@ -56,6 +57,7 @@ const cssReference = {
   litReviewConditionsCss,
   litChainSelectorCss,
   litHeaderCss,
+  litDevModeCss,
   litChooseAccessButtonCss,
   litReusableSelectCss,
   litInputCss,
@@ -95,8 +97,8 @@ const ShareModal = (props) => {
     conditionsAllowed = {},
     isModal = true,
     injectCSS = true,
-    darkTheme = false,
-    allowDevMode = false,
+    darkMode = false,
+    allowDevMode = true,
     cssSubstitution = {}
   } = props;
 
@@ -309,10 +311,11 @@ const ShareModal = (props) => {
     };
     // TODO: comment back in to export conditions
     onUnifiedAccessControlConditionsSelected(keyParams);
+    resetModal();
   };
 
   const getTheme = () => {
-    if (darkTheme) {
+    if (darkMode) {
       return 'lsm-dark-theme';
     } else {
       return 'lsm-light-theme';
@@ -359,7 +362,7 @@ const ShareModal = (props) => {
           {(allowDevMode && showDevMode) ? (
             <DevModeContent unifiedAccessControlConditions={unifiedAccessControlConditions} />
           ) : (
-            <div className={'lsm-conditions-scroll'}>
+            <div className={'lsm-condition-display'}>
               {(flow === 'singleCondition' && displayedPage !== 'review') && (
                 <SingleConditionSelect stepAfterUpdate={'review'} humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions} unifiedAccessControlConditions={unifiedAccessControlConditions}/>
               )}

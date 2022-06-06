@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+}
+
+/*#root {*/
+/*    height: 700px;*/
+/*    width: 500px;*/
+/*    border: 1px solid #777;*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    transform: translate(-50%, -50%);*/
+/*}*/
+
+@media (min-width: 768px) {
+    #root {
+        height: 700px;
+        width: 500px;
+        border: 1px solid #777;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
