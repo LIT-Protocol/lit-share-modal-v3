@@ -6,17 +6,18 @@ import LitFooter from "../../../reusableComponents/litFooter/LitFooter";
 import { utils } from 'ethers';
 import LitInput from "../../../reusableComponents/litInput/LitInput";
 
-
-const EthereumSelectWallet = ({ setSelectPage, handleUpdateUnifiedAccessControlConditions }) => {
+const EthereumSelectWallet = ({ updateUnifiedAccessControlConditions, submitDisabled }) => {
   const { setDisplayedPage, flow } = useContext(ShareModalContext);
   const [walletAddress, setWalletAddress] = useState("");
   const [subChain, setSubChain] = useState({});
   const [addressIsValid, setAddressIsValid] = useState(false);
 
   useEffect(() => {
-    const isValid = utils.isAddress(walletAddress);
-    setAddressIsValid(isValid);
-  }, [walletAddress])
+    handleSubmit();
+    const checkIfAddressIsValid = utils.isAddress(walletAddress);
+    setAddressIsValid(checkIfAddressIsValid);
+    submitDisabled(!subChain['label'] || !walletAddress.length || !checkIfAddressIsValid)
+  }, [subChain, walletAddress]);
 
   const ethereumChainOptions = useMemo(
     () =>
@@ -66,13 +67,7 @@ const EthereumSelectWallet = ({ setSelectPage, handleUpdateUnifiedAccessControlC
       },
     ];
 
-    handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
-
-    if (flow === 'singleCondition') {
-      setDisplayedPage('review');
-    } else if (flow === 'multipleConditions') {
-      setDisplayedPage('multiple');
-    }
+    updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
   };
 
   return (
@@ -92,9 +87,9 @@ const EthereumSelectWallet = ({ setSelectPage, handleUpdateUnifiedAccessControlC
                 setValue={setWalletAddress}
                 errorMessage={addressIsValid ? null : 'Address is invalid'}
       />
-      <LitFooter backAction={() => setSelectPage('chooseAccess')}
-                 nextAction={() => handleSubmit()}
-                 nextDisableConditions={(!subChain['label'] || !walletAddress.length || !addressIsValid)}/>
+      {/*<LitFooter backAction={() => setSelectPage('chooseAccess')}*/}
+      {/*           nextAction={() => handleSubmit()}*/}
+      {/*           nextDisableConditions={(!subChain['label'] || !walletAddress.length || !addressIsValid)}/>*/}
     </div>
   );
 }

@@ -2,12 +2,11 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import LitReusableSelect from "../../../reusableComponents/litReusableSelect/LitReusableSelect";
 import { ShareModalContext } from "../../../shareModal/createShareContext.js";
 import LitTokenSelect from "../../../reusableComponents/litTokenSelect/LitTokenSelect";
-import LitFooter from "../../../reusableComponents/litFooter/LitFooter";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
 import { utils } from "ethers";
 import LitJsSdk from "lit-js-sdk";
 
-const EthereumSelectNFT = ({ setSelectPage, handleUpdateUnifiedAccessControlConditions }) => {
+const EthereumSelectNFT = ({ updateUnifiedAccessControlConditions, submitDisabled }) => {
   const { setDisplayedPage, chainOptions, flow } = useContext(ShareModalContext);
   const [tokenId, setTokenId] = useState("");
   const [subChain, setSubChain] = useState({});
@@ -16,9 +15,26 @@ const EthereumSelectNFT = ({ setSelectPage, handleUpdateUnifiedAccessControlCond
   const [addressIsValid, setAddressIsValid] = useState(false);
 
   useEffect(() => {
-    const isValid = utils.isAddress(tokenId);
+    const isValid = utils.isAddress(contractAddress);
     setAddressIsValid(isValid);
-  }, [tokenId])
+    if (!!contractAddress) {
+      handleSubmit();
+    }
+    submitDisabled(!subChain.label || !tokenId.length || !selectedToken)
+  }, [subChain, tokenId, contractAddress])
+
+  useEffect(() => {
+    if (selectedToken === null) {
+      setContractAddress('');
+    }
+    if (selectedToken?.['value'] === 'ethereum') {
+      setContractAddress('');
+    }
+    if (selectedToken?.['value'] && utils.isAddress(selectedToken?.['value'])) {
+      setContractAddress(selectedToken['value']);
+    }
+  }, [selectedToken]);
+
 
   const ethereumChainOptions = useMemo(
     () =>
@@ -36,9 +52,9 @@ const EthereumSelectNFT = ({ setSelectPage, handleUpdateUnifiedAccessControlCond
     const unifiedAccessControlConditions = [
       {
         conditionType: 'evmBasic',
-        contractAddress: selectedToken.value,
+        contractAddress: contractAddress,
         standardContractType: "ERC721",
-        chain: subChain.value,
+        chain: subChain?.['value'],
         method: "ownerOf",
         parameters: [tokenId],
         returnValueTest: {
@@ -48,13 +64,7 @@ const EthereumSelectNFT = ({ setSelectPage, handleUpdateUnifiedAccessControlCond
       },
     ];
 
-    handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
-    setSelectPage('chooseAccess');
-    if (flow === 'singleCondition') {
-      setDisplayedPage('review');
-    } else if (flow === 'multipleConditions') {
-      setDisplayedPage('multiple');
-    }
+    updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
   };
 
   return (
@@ -76,14 +86,18 @@ const EthereumSelectNFT = ({ setSelectPage, handleUpdateUnifiedAccessControlCond
                       selectedToken={selectedToken}
                       setSelectedToken={setSelectedToken}
       />
+      <h3
+        className={'lsm-condition-prompt-text'}>Contract Address</h3>
+      <LitInput value={contractAddress}
+                setValue={setContractAddress}
+                errorMessage={addressIsValid ? null : 'Address is invalid'}
+                placeholder={'ERC721 Address'}
+      />
       <h3 className={'lsm-condition-prompt-text'}>
         Add Token ID</h3>
       <LitInput value={tokenId}
                 setValue={setTokenId}
       />
-      <LitFooter backAction={() => setSelectPage('chooseAccess')}
-                 nextAction={handleSubmit}
-                 nextDisableConditions={(!subChain.label || !tokenId.length || !selectedToken)}/>
     </div>
   );
 };

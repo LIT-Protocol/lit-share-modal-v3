@@ -1,23 +1,29 @@
 .lsm-review-conditions-container {
     font-family: var(--lsm-primary-font);
     box-sizing: border-box;
-    padding: 0 0.5em 1em;
-    margin-top: 3.5em;
-    overflow-y: scroll;
-    height: calc(100% - 7.5em);
+    /*overflow-y: scroll;*/
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
 }
 
 .lsm-review-conditions-group-container {
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+    height: calc(100% - 4.5em);
     color: var(--lsm-primary-color);
+    box-sizing: border-box;
+    padding: 0.5em 0.5em;
 }
 
 .lsm-review-conditions-prompt {
     font-weight: var(--lsm-primary-font-weight);
     color: var(--lsm-primary-color);
     font-size: 1.1em;
-    margin: 1em 0 0.5em;
+    margin: 0;
 }
 
 .lsm-review-conditions-group {
@@ -34,6 +40,10 @@
 
 .lsm-review-conditions-group:first-child {
     margin: 0 0 0.75em;
+}
+
+.lsm-review-conditions-footer {
+    padding: 0 1em;
 }
 
 .lsm-review-condition-humanized-text {
@@ -54,4 +64,10 @@
 
 .lsm-review-conditions-link-icon {
     margin-left: 0.25em;
+}
+
+@media (min-width: 768px) {
+    .lsm-review-conditions-container {
+        /*padding: 0 0.5em 7.5em;*/
+    }
 }

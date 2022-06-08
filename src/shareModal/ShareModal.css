@@ -2,15 +2,25 @@
     box-sizing: border-box;
     padding: 0 0.5em;
     background-color: var(--lsm-background-color);
-    height: calc(100vh - 1em);
+    height: 100%;
     width: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
     font-size: 16px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
-.lsm-conditions-scroll {
+.lsm-condition-display {
+    flex: 1 1 auto;
+    position: absolute;
+    top: 3.5em;
+    bottom: 0;
+    left: 0;
+    right: 0;
     overflow-y: scroll;
-    height: 100%;
 }
 
 .lsm-condition-container {
@@ -18,9 +28,9 @@
     flex-direction: column;
     font-family: var(--lsm-primary-font);
     box-sizing: border-box;
-    padding: 0 0.5rem 0.5em;
+    height: 100%;
+    padding: 0 0.5em;
     overflow-y: scroll;
-    height: calc(100% - 9em);
 }
 
 .lsm-condition-prompt-text {
@@ -57,9 +67,9 @@
 @media (min-width: 768px) {
     .lsm-share-modal-container {
         max-width: inherit;
-        height: 100%;
         position: relative;
         border-radius: var(--lsm-border-radius);
         border: none;
+        height: inherit;
     }
 }

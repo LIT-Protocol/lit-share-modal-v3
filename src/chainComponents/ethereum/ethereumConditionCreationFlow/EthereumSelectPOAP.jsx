@@ -1,6 +1,4 @@
-import React, { Fragment, useContext, useState } from 'react';
-import { ShareModalContext } from "../../../shareModal/createShareContext.js";
-import LitFooter from "../../../reusableComponents/litFooter/LitFooter";
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import Select from "react-select";
 
 const typesOfPoapGate = [
@@ -30,12 +28,19 @@ const matchConditionOptions = [
   },
 ];
 
-const EthereumSelectPOAP = ({ setSelectPage, handleUpdateUnifiedAccessControlConditions }) => {
-  const { setDisplayedPage, flow } = useContext(ShareModalContext);
+const EthereumSelectPOAP = ({ updateUnifiedAccessControlConditions, submitDisabled }) => {
   const [poapGateType, setPoapGateType] = useState(typesOfPoapGate[0]);
   const [poapId, setPoapId] = useState("");
   const [poapName, setPoapName] = useState("");
-  const [nameMatchCondition, setNameMatchCondition] = useState(null);
+  const [nameMatchCondition, setNameMatchCondition] = useState(matchConditionOptions[0]);
+
+  useEffect(() => {
+    if (!poapId.length || (!poapName.length || !nameMatchCondition)) {
+      handleSubmit();
+    }
+    submitDisabled(poapGateType.id === 'eventId' ? !poapId.length : (!poapName.length || !nameMatchCondition));
+  }, [poapGateType, poapId, poapName, nameMatchCondition]);
+
 
   const getComparator = (type) => {
     if (type === 'eventId') {
@@ -74,14 +79,9 @@ const EthereumSelectPOAP = ({ setSelectPage, handleUpdateUnifiedAccessControlCon
       },
     ]];
 
-    handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
-    setSelectPage('chooseAccess');
+    console.log('unifiedAccessControlConditions', unifiedAccessControlConditions)
 
-    if (flow === 'singleCondition') {
-      setDisplayedPage('review');
-    } else if (flow === 'multipleConditions') {
-      setDisplayedPage('multiple');
-    }
+    updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
   };
 
   return (
@@ -117,14 +117,12 @@ const EthereumSelectPOAP = ({ setSelectPage, handleUpdateUnifiedAccessControlCon
             className={'lsm-reusable-select'}
             classNamePrefix={'lsm'}
             options={matchConditionOptions}
+            defaultValue={matchConditionOptions[0]}
             isSeachable={false}
             onChange={(c) => setNameMatchCondition(c)}
           />
         </Fragment>
       )}
-      <LitFooter backAction={() => setSelectPage('chooseAccess')}
-                 nextAction={handleSubmit}
-                 nextDisableConditions={poapGateType.id === 'eventId' ? !poapId.length : (!poapName.length || !nameMatchCondition)}/>
     </div>
   );
 };

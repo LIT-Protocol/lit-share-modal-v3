@@ -1,14 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState,useEffect } from 'react';
 import { ShareModalContext } from "../../../shareModal/createShareContext.js";
 import LitFooter from "../../../reusableComponents/litFooter/LitFooter";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
 import LitCheckbox from "../../../reusableComponents/litCheckbox/LitCheckbox";
 
-const SolanaSelectGroup = ({ setSelectPage, handleUpdateUnifiedAccessControlConditions }) => {
+const SolanaSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisabled }) => {
   const context = useContext(ShareModalContext);
   const [amount, setAmount] = useState("");
   const [contractAddress, setContractAddress] = useState("");
   const [isMetaplexCollection, setIsMetaplexCollection] = useState(false);
+
+  useEffect(() => {
+    submitDisabled(!amount || !contractAddress.length);
+    handleSubmit();
+
+  }, [amount, contractAddress])
 
   const handleSubmit = async () => {
     if (contractAddress && contractAddress.length) {
@@ -28,7 +34,7 @@ const SolanaSelectGroup = ({ setSelectPage, handleUpdateUnifiedAccessControlCond
           },
         ];
 
-        handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
+        updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
       } else {
         // const unifiedAccessControlConditions = [
         //   {
@@ -66,14 +72,7 @@ const SolanaSelectGroup = ({ setSelectPage, handleUpdateUnifiedAccessControlCond
           },
         ];
 
-        handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
-      }
-
-
-      if (context.flow === 'singleCondition') {
-        context.setDisplayedPage('review');
-      } else if (context.flow === 'multipleConditions') {
-        context.setDisplayedPage('multiple');
+        updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
       }
     }
   }
@@ -95,12 +94,6 @@ const SolanaSelectGroup = ({ setSelectPage, handleUpdateUnifiedAccessControlCond
         does the wallet need to own?</h3>
       <input value={amount} onChange={(e) => setAmount(e.target.value)} placeholder={'##'}
              className={'lsm-border-brand-4 lsm-input'}/>
-      <LitFooter backAction={() => setSelectPage('chooseAccess')}
-                 nextAction={handleSubmit}
-                 nextDisableConditions={!amount ||
-                 !contractAddress.length}/>
-                 {/*TODO: see if there's a way to verify a solana address*/}
-                 {/*(!selectedToken && !addressIsValid)}/>*/}
     </div>
   );
 };

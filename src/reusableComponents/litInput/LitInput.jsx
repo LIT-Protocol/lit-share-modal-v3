@@ -5,13 +5,15 @@ const LitInput = ({
                     setValue,
                     errorMessage = null,
                     placeholder = '',
-                    type = 'text'
+                    type = 'text',
+                    disabled = false
                   }) => {
   return (
     <div className={`lsm-input-container`}>
       <input placeholder={placeholder}
              value={value}
              type={type}
+             disabled={disabled}
              onChange={(e) => setValue(e.target.value)}
              className={'lsm-input'}/>
       <p className={'lsm-input-error'}>
