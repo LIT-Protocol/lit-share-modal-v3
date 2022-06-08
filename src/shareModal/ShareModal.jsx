@@ -46,6 +46,7 @@ import litDeleteModalCss from '../reusableComponents/litDeleteModal/LitDeleteMod
 import litMultipleAddConditionCss from './multipleConditionSelect/MultipleAddCondition.css';
 import litMultipleConditionEditorCss from './multipleConditionSelect/MultipleConditionEditor.css';
 import litCheckboxCss from '../reusableComponents/litCheckbox/LitCheckbox.css';
+import { ethers } from "ethers";
 
 const cssReference = {
   baseCss,
@@ -101,6 +102,10 @@ const ShareModal = (props) => {
     allowDevMode = true,
     cssSubstitution = {}
   } = props;
+
+  useEffect(() => {
+    console.log('displayedPage', displayedPage)
+  }, [displayedPage])
 
   // TODO: prop setup
   useEffect(() => {
@@ -222,6 +227,7 @@ const ShareModal = (props) => {
     isNested = false,
     index = null
   ) => {
+    console.log('handleUpdateUnifiedAccessControlConditions newAccessControlCondition', newAccessControlCondition)
     let updatedAcc = [...unifiedAccessControlConditions];
     if (!newAccessControlCondition[0]) {
       return;
@@ -246,6 +252,7 @@ const ShareModal = (props) => {
         newAccessControlCondition
       );
     }
+
     await updateState(updatedAcc);
   };
 
@@ -261,9 +268,19 @@ const ShareModal = (props) => {
   };
 
   const updateState = async (acc) => {
+
+    console.log('updateState in shareModal', acc)
     const cleanedAcc = cleanUnifiedAccessControlConditions(acc);
-    const humanizedData = await humanizeNestedConditions([...cleanedAcc]);
-    setHumanizedUnifiedAccessControlConditions([...humanizedData]);
+    console.log('cleanedAcc in shareModal', cleanedAcc)
+    let humanizedData;
+    try {
+      humanizedData = await humanizeNestedConditions([...cleanedAcc]);
+      console.log('setHumanizedUnifiedAccessControlConditions in shareModal', humanizedData)
+      setHumanizedUnifiedAccessControlConditions([...humanizedData]);
+    } catch (err) {
+      logDevError(err);
+    }
+    console.log('setUnifiedAccessControlConditions in shareModal', cleanedAcc)
     setUnifiedAccessControlConditions([...cleanedAcc]);
   };
 
@@ -384,7 +401,7 @@ const ShareModal = (props) => {
       {(error && cssLoaded) && (
         <span className={'lsm-error-display'}>
           <p className={'lsm-font-segoe lsm-text-brand-5'}>An error occurred with an external API:</p>
-          <p className={'lsm-font-segoe'}>{error}</p>
+          <p className={'lsm-font-segoe'}>{error.toString()}</p>
           <p className={'lsm-font-segoe lsm-text-brand-5'}>Please close and reopen the modal to reconnect.</p>
           <button className={'lsm-error-button lsm-bg-brand-4'} onClick={onClose}>Close</button>
         </span>

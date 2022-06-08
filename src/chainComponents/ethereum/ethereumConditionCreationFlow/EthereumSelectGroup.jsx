@@ -40,6 +40,8 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
     []
   );
 
+  console.log('LitJsSdk.LIT_CHAINS', LitJsSdk.LIT_CHAINS['ethereum'])
+
   useEffect(() => {
     console.log('check selectedToken', selectedToken)
     if (selectedToken === null) {
@@ -148,36 +150,53 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
   }
 
   const checkERC20 = async () => {
+    console.log('---> start of checkERC20')
+    console.log('---> before decimals - subChain', subChain)
+    console.log('---> before decimals - contractAddress', contractAddress)
+
     let decimals = 0;
+    let unifiedAccessControlConditions;
     try {
       decimals = await LitJsSdk.decimalPlaces({
         chain: subChain?.['value'],
         contractAddress: contractAddress,
       });
     } catch (e) {
-      context.setError(e);
+      // context.setError(e);
       logDevError(e)
     }
+    console.log('---> before amountInBaseUnit')
+
     let amountInBaseUnit;
     try {
       amountInBaseUnit = ethers.utils.parseUnits(amount, decimals);
     } catch (err) {
       logDevError(err)
     }
-    const unifiedAccessControlConditions = [
-      {
-        conditionType: 'evmBasic',
-        contractAddress: contractAddress,
-        standardContractType: contractType,
-        chain: subChain?.['value'],
-        method: "balanceOf",
-        parameters: [":userAddress"],
-        returnValueTest: {
-          comparator: ">=",
-          value: amountInBaseUnit.toString(),
+
+    console.log('---> before unifiedAccessControlConditions')
+
+
+    try {
+      unifiedAccessControlConditions = [
+        {
+          conditionType: 'evmBasic',
+          contractAddress: contractAddress,
+          standardContractType: contractType,
+          chain: subChain?.['value'],
+          method: "balanceOf",
+          parameters: [":userAddress"],
+          returnValueTest: {
+            comparator: ">=",
+            value: amountInBaseUnit.toString(),
+          },
         },
-      },
-    ];
+      ];
+    } catch(err) {
+      logDevError(err);
+      return;
+    }
+    console.log('-> end of ERC20', unifiedAccessControlConditions)
     saveCondition(unifiedAccessControlConditions);
   }
 
@@ -190,109 +209,120 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
   }
 
   const handleSubmit = async () => {
-    if (!contractType) {
+    if (!amount || !contractAddress || !subChain || !contractType) {
       return;
     }
 
-    if (contractAddress && contractAddress.length) {
-      let unifiedAccessControlConditions;
+    console.log('amount', amount)
+    console.log('contractAddress', contractAddress)
+    console.log('subChain', subChain)
+    console.log('contractType', contractType)
+    console.log('contractType === "ERC20"', contractType === "ERC20")
 
-      if (selectedToken && selectedToken.value === "ethereum") {
-        checkEthereum();
-      } else if (contractType === "ERC1155") {
-        checkERC1155();
-      } else if (contractType === "ERC721") {
-        checkERC721();
-      } else if (contractType === "ERC20") {
-        checkERC20();
-      } else {
-
-        let tokenType;
-
-        if (selectedToken && selectedToken.standard?.toLowerCase() === "erc721") {
-          tokenType = "erc721";
-        } else if (selectedToken && selectedToken.decimals) {
-          tokenType = "erc20";
-        } else if (!!selectedToken?.['value']) {
-          // if we don't already know the type, try and get decimal places.  if we get back 0 or the request fails then it's probably erc721.
-          let decimals = 0;
-          try {
-            decimals = await LitJsSdk.decimalPlaces({
-              conditionType: 'evmBasic',
-              contractAddress: selectedToken?.['value'],
-            });
-          } catch (e) {
-            context.setError(e);
-            console.log(e);
-          }
-          if (decimals == 0) {
-            tokenType = "erc721";
-          } else {
-            tokenType = "erc20";
-          }
-        }
-
-        if (tokenType == "erc721") {
-          // erc721
-          const unifiedAccessControlConditions = [
-            {
-              conditionType: 'evmBasic',
-              contractAddress: selectedToken.value,
-              standardContractType: "ERC721",
-              chain: subChain?.['value'],
-              method: "balanceOf",
-              parameters: [":userAddress"],
-              returnValueTest: {
-                comparator: ">=",
-                value: amount.toString(),
-              },
-            },
-          ];
-          updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
-        } else {
-          // erc20 token
-          let amountInBaseUnit;
-          if (selectedToken?.decimals) {
-            try {
-              amountInBaseUnit = ethers.utils.parseUnits(
-                amount,
-                selectedToken.decimals
-              );
-            } catch (err) {
-              logDevError(err);
-            }
-          } else if (selectedToken?.['value']) {
-            // need to check the contract for decimals
-            // this will auto switch the chain to the selected one in metamask
-            let decimals = 0;
-            try {
-              decimals = await LitJsSdk.decimalPlaces({
-                contractAddress: selectedToken?.['value'],
-              });
-            } catch (e) {
-              context.setError(e);
-              logDevError(e);
-            }
-            amountInBaseUnit = ethers.utils.parseUnits(amount, decimals);
-          }
-          const unifiedAccessControlConditions = [
-            {
-              conditionType: 'evmBasic',
-              contractAddress: selectedToken.value,
-              standardContractType: "ERC20",
-              chain: subChain?.['value'],
-              method: "balanceOf",
-              parameters: [":userAddress"],
-              returnValueTest: {
-                comparator: ">=",
-                value: amountInBaseUnit.toString(),
-              },
-            },
-          ];
-          updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
-        }
-      }
+    if (selectedToken && selectedToken.value === "ethereum") {
+      checkEthereum();
+    } else if (contractType === "ERC1155") {
+      checkERC1155();
+    } else if (contractType === "ERC721") {
+      checkERC721();
+    } else if (contractType === "ERC20") {
+      await checkERC20();
     }
+    // if (contractAddress && contractAddress.length) {
+    //   let unifiedAccessControlConditions;
+    //
+    //   let tokenType;
+    //
+    //   if (selectedToken && selectedToken.standard?.toLowerCase() === "erc721") {
+    //     tokenType = "erc721";
+    //   } else if (selectedToken && selectedToken.decimals) {
+    //     tokenType = "erc20";
+    //   } else {
+    //     // if we don't already know the type, try and get decimal places.  if we get back 0 or the request fails then it's probably erc721.
+    //
+    //     let decimals = 0;
+    //     try {
+    //       decimals = await LitJsSdk.decimalPlaces({
+    //         conditionType: 'ethereum',
+    //         // contractAddress: selectedToken?.['value'],
+    //         contractAddress: contractAddress,
+    //       });
+    //     } catch (e) {
+    //       context.setError(e);
+    //       console.log(e);
+    //     }
+    //
+    //     if (decimals == 0) {
+    //       tokenType = "erc721";
+    //     } else {
+    //       tokenType = "erc20";
+    //     }
+    //   }
+    //   let amountInBaseUnit;
+    //
+    //   if (tokenType == "erc721") {
+    //     // erc721
+    //     unifiedAccessControlConditions = [
+    //       {
+    //         conditionType: 'evmBasic',
+    //         contractAddress: selectedToken.value,
+    //         standardContractType: "ERC721",
+    //         chain: subChain?.['value'],
+    //         method: "balanceOf",
+    //         parameters: [":userAddress"],
+    //         returnValueTest: {
+    //           comparator: ">=",
+    //           value: amount.toString(),
+    //         },
+    //       },
+    //     ];
+    //     updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
+    //   } else {
+    //     // erc20 token
+    //     if (selectedToken?.decimals) {
+    //       try {
+    //         amountInBaseUnit = ethers.utils.parseUnits(
+    //           amount,
+    //           selectedToken.decimals
+    //         );
+    //       } catch (err) {
+    //         logDevError(err);
+    //       }
+    //     } else if (selectedToken?.['value']) {
+    //       // need to check the contract for decimals
+    //       // this will auto switch the chain to the selected one in metamask
+    //       let decimals = 0;
+    //       try {
+    //         decimals = await LitJsSdk.decimalPlaces({
+    //           chain: 'ethereum',
+    //           contractAddress: selectedToken?.['value'],
+    //         });
+    //       } catch (e) {
+    //         context.setError(e);
+    //         logDevError(e);
+    //       }
+    //       amountInBaseUnit = ethers.utils.parseUnits(amount, decimals);
+    //     }
+    //
+    //     console.log('---> amountInBaseUnit: ', amountInBaseUnit)
+    //
+    //     unifiedAccessControlConditions = [
+    //       {
+    //         conditionType: 'evmBasic',
+    //         contractAddress: selectedToken.value,
+    //         standardContractType: "ERC20",
+    //         chain: subChain?.['value'],
+    //         method: "balanceOf",
+    //         parameters: [":userAddress"],
+    //         returnValueTest: {
+    //           comparator: ">=",
+    //           value: amountInBaseUnit.toString(),
+    //         },
+    //       },
+    //     ];
+    //     updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
+    //   }
+    // }
   };
 
   const handleChangeContractType = (value) => {
