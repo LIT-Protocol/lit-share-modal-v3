@@ -94,6 +94,7 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
   }
 
   const checkEthereum = () => {
+    console.log('check ethereum', subChain)
     // ethereum
     const amountInWei = ethers.utils.parseEther(amount);
     const unifiedAccessControlConditions = [
@@ -200,24 +201,15 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
     saveCondition(unifiedAccessControlConditions);
   }
 
-  const setDecimals = () => {
-
-  }
-
   const saveCondition = (uacc) => {
     updateUnifiedAccessControlConditions(uacc);
   }
 
   const handleSubmit = async () => {
-    if (!amount || !contractAddress || !subChain || !contractType) {
+    if (isValid()) {
       return;
     }
 
-    console.log('amount', amount)
-    console.log('contractAddress', contractAddress)
-    console.log('subChain', subChain)
-    console.log('contractType', contractType)
-    console.log('contractType === "ERC20"', contractType === "ERC20")
 
     if (selectedToken && selectedToken.value === "ethereum") {
       checkEthereum();
