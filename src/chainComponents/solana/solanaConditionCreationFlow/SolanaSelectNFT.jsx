@@ -1,20 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ShareModalContext } from "../../../shareModal/createShareContext.js";
-import LitFooter from "../../../reusableComponents/litFooter/LitFooter";
+import React, { useEffect, useState } from "react";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
-import { utils } from "ethers";
 
 const SolanaSelectNFT = ({
-  setSelectPage,
-  handleUpdateUnifiedAccessControlConditions,
+  updateUnifiedAccessControlConditions, submitDisabled
 }) => {
-  const { setDisplayedPage, flow } = useContext(ShareModalContext);
   const [contractAddress, setContractAddress] = useState("");
-  const [addressIsValid, setAddressIsValid] = useState(false);
 
   useEffect(() => {
-    const isValid = utils.isAddress(contractAddress);
-    setAddressIsValid(isValid);
+    if (contractAddress.length) {
+      handleSubmit();
+    }
+    submitDisabled(!contractAddress.length)
   }, [contractAddress]);
 
   const handleSubmit = () => {
@@ -32,14 +28,7 @@ const SolanaSelectNFT = ({
       },
     ];
 
-    handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
-    setSelectPage("chooseAccess");
-
-    if (flow === "singleCondition") {
-      setDisplayedPage("review");
-    } else if (flow === "multipleConditions") {
-      setDisplayedPage("multiple");
-    }
+    updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
   };
 
   return (
@@ -49,11 +38,6 @@ const SolanaSelectNFT = ({
       </h3>
       <h3 className={"lsm-condition-prompt-text"}>Enter the token address</h3>
       <LitInput value={contractAddress} setValue={setContractAddress} />
-      <LitFooter
-        backAction={() => setSelectPage("chooseAccess")}
-        nextAction={handleSubmit}
-        nextDisableConditions={!contractAddress.length}
-      />
     </div>
   );
 };

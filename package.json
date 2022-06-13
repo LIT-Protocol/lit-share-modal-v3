@@ -1,6 +1,6 @@
 {
   "name": "lit-share-modal-v3",
-  "version": "0.0.63",
+  "version": "0.0.66",
   "main": "./dist/lit-share-modal-v3.umd.js",
   "module": "./dist/lit-share-modal-v3.es.js",
   "files": [

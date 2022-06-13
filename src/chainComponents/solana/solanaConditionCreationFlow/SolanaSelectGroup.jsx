@@ -18,62 +18,21 @@ const SolanaSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisable
 
   const handleSubmit = async () => {
     if (contractAddress && contractAddress.length) {
-
-      if (isMetaplexCollection) {
-        const unifiedAccessControlConditions = [
-          {
-            conditionType: 'solRpc',
-            method: "balanceOfMetaplexCollection",
-            params: [contractAddress],
-            chain: 'solana',
-            returnValueTest: {
-              key: "",
-              comparator: ">=",
-              value: amount,
-            },
+      const unifiedAccessControlConditions = [
+        {
+          conditionType: 'solRpc',
+          method: "balanceOfMetaplexCollection",
+          params: [contractAddress],
+          chain: 'solana',
+          returnValueTest: {
+            key: "",
+            comparator: ">=",
+            value: amount,
           },
-        ];
+        },
+      ];
 
-        updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
-      } else {
-        // const unifiedAccessControlConditions = [
-        //   {
-        //     conditionType: 'solRpc',
-        //     method: "GetTokenAccountsByOwner",
-        //     params: [
-        //       ":userAddress",
-        //       {
-        //         programId: "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
-        //       },
-        //       {
-        //         encoding: "jsonParsed",
-        //       },
-        //     ],
-        //     chain: 'solana',
-        //     returnValueTest: {
-        //       key: `$[?(@.account.data.parsed.info.mint == "${contractAddress}")].account.data.parsed.info.tokenAmount.amount`,
-        //       comparator: ">",
-        //       value: "0",
-        //     },
-        //   },
-        // ];
-
-        const unifiedAccessControlConditions = [
-          {
-            conditionType: 'solRpc',
-            method: "balanceOfMetaplexCollection",
-            params: ["FfyafED6kiJUFwEhogyTRQHiL6NguqNg9xcdeoyyJs33"],
-            chain: 'solana',
-            returnValueTest: {
-              key: "",
-              comparator: ">=",
-              value: amount,
-            },
-          },
-        ];
-
-        updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
-      }
+      updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
     }
   }
 
@@ -81,10 +40,10 @@ const SolanaSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisable
     <div className={'lsm-condition-container'}>
       <h3 className={'lsm-condition-prompt-text'}>Which group
         should be able to access this asset?</h3>
-      <LitCheckbox value={isMetaplexCollection}
-                   setValue={setIsMetaplexCollection}
-                   label={'This is an NFT collection on Metaplex'}
-      />
+      {/*<LitCheckbox value={isMetaplexCollection}*/}
+      {/*             setValue={setIsMetaplexCollection}*/}
+      {/*             label={'This is an NFT collection on Metaplex'}*/}
+      {/*/>*/}
       <h3 className={'lsm-condition-prompt-text'}>Enter token/NFT contract address:</h3>
       <LitInput value={contractAddress}
                 setValue={setContractAddress}
