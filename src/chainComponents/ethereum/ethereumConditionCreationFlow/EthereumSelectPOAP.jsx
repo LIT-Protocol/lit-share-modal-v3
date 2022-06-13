@@ -79,7 +79,6 @@ const EthereumSelectPOAP = ({ updateUnifiedAccessControlConditions, submitDisabl
       },
     ]];
 
-    console.log('unifiedAccessControlConditions', unifiedAccessControlConditions)
 
     updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
   };

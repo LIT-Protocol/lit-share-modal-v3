@@ -103,10 +103,6 @@ const ShareModal = (props) => {
     cssSubstitution = {}
   } = props;
 
-  useEffect(() => {
-    console.log('displayedPage', displayedPage)
-  }, [displayedPage])
-
   // TODO: prop setup
   useEffect(() => {
     checkPropTypes(props);
@@ -227,7 +223,6 @@ const ShareModal = (props) => {
     isNested = false,
     index = null
   ) => {
-    console.log('handleUpdateUnifiedAccessControlConditions newAccessControlCondition', newAccessControlCondition)
     let updatedAcc = [...unifiedAccessControlConditions];
     if (!newAccessControlCondition[0]) {
       return;
@@ -269,18 +264,14 @@ const ShareModal = (props) => {
 
   const updateState = async (acc) => {
 
-    console.log('updateState in shareModal', acc)
     const cleanedAcc = cleanUnifiedAccessControlConditions(acc);
-    console.log('cleanedAcc in shareModal', cleanedAcc)
     let humanizedData;
     try {
       humanizedData = await humanizeNestedConditions([...cleanedAcc]);
-      console.log('setHumanizedUnifiedAccessControlConditions in shareModal', humanizedData)
       setHumanizedUnifiedAccessControlConditions([...humanizedData]);
     } catch (err) {
       logDevError(err);
     }
-    console.log('setUnifiedAccessControlConditions in shareModal', cleanedAcc)
     setUnifiedAccessControlConditions([...cleanedAcc]);
   };
 

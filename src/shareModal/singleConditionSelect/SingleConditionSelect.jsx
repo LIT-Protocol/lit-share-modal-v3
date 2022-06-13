@@ -18,7 +18,6 @@ const SingleConditionSelect = () => {
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const coordinateUpdateAccessControl = () => {
-    console.log('check unifiedAccessControlConditions: SingleConditionSelect', unifiedAccessControlConditions)
     handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
     setUnifiedAccessControlConditions([]);
     setSelectPage('chooseAccess');
