@@ -44,7 +44,7 @@ const SolanaSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisable
       {/*             setValue={setIsMetaplexCollection}*/}
       {/*             label={'This is an NFT collection on Metaplex'}*/}
       {/*/>*/}
-      <h3 className={'lsm-condition-prompt-text'}>Enter token/NFT contract address:</h3>
+      <h3 className={'lsm-condition-prompt-text'}>Enter token/NFT contract address. Note, this only works with Metaplex collections:</h3>
       <LitInput value={contractAddress}
                 setValue={setContractAddress}
                 placeholder={'NFT or group address'}

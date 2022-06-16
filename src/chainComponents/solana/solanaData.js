@@ -16,7 +16,7 @@ const solanaConfig = {
   conditionTypeData: {
     wallet: { label: 'An Individual Wallet', img: null, requiresMultipleConditions: false},
     nft: { label: 'An Individual NFT', img: null, requiresMultipleConditions: false},
-    group: { label: 'A Group of NFT Holders', img: null, requiresMultipleConditions: false},
+    group: { label: 'A Metaplex Collection', img: null, requiresMultipleConditions: false},
   },
   doNotAllowForNested: []
 }

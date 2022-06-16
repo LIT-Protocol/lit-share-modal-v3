@@ -1,11 +1,12 @@
 {
   "name": "lit-share-modal-v3",
-  "version": "0.0.67",
+  "version": "0.0.69",
   "main": "./dist/lit-share-modal-v3.umd.js",
   "module": "./dist/lit-share-modal-v3.es.js",
   "files": [
     "dist/*.js",
     "dist/**/*.js",
+    "dist/ShareModal.css",
     "./README.md"
   ],
   "exports": {
@@ -13,9 +14,9 @@
       "import": "./dist/lit-share-modal-v3.es.js",
       "require": "./dist/lit-share-modal-v3.umd.js"
     },
-    "./dist/style.css": {
-      "import": "./dist/style.css",
-      "require": "./dist/style.css"
+    "./dist/ShareModal.css": {
+      "import": "./dist/ShareModal.css",
+      "require": "./dist/ShareModal.css"
     }
   },
   "scripts": {
