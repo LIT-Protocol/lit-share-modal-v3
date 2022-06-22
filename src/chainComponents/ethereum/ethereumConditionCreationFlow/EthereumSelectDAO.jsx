@@ -1,41 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import LitReusableSelect from "../../../reusableComponents/litReusableSelect/LitReusableSelect";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
-import LitJsSdk from "lit-js-sdk";
 
-const EthereumSelectDAO = ({ updateUnifiedAccessControlConditions, submitDisabled }) => {
+const EthereumSelectDAO = ({ updateUnifiedAccessControlConditions, submitDisabled, chain }) => {
   const [DAOAddress, setDAOAddress] = useState("");
-  const [subChain, setSubChain] = useState({});
-
-  useEffect(
-    () =>
-      setSubChain({
-        name: "Ethereum",
-        id: "ethereum",
-        value: "ethereum",
-      }),
-    []
-  );
 
   useEffect(() => {
-    if (DAOAddress.length && subChain.value) {
+    if (DAOAddress.length) {
       handleSubmit()
     }
-    submitDisabled(!subChain['value'] || !DAOAddress.length)
-  }, [DAOAddress, subChain]);
-
-
-  const ethereumChainOptions = useMemo(
-    () =>
-      Object.keys(LitJsSdk.LIT_CHAINS).map((item) => {
-        return {
-          label: LitJsSdk.LIT_CHAINS[item].name,
-          id: item,
-          value: item,
-        };
-      }),
-    []
-  );
+    submitDisabled(!DAOAddress.length)
+  }, [DAOAddress, chain]);
 
   const handleSubmit = () => {
     const unifiedAccessControlConditions = [
@@ -43,7 +17,7 @@ const EthereumSelectDAO = ({ updateUnifiedAccessControlConditions, submitDisable
         conditionType: 'evmBasic',
         contractAddress: DAOAddress,
         standardContractType: "MolochDAOv2.1",
-        chain: subChain.value,
+        chain: chain.value,
         method: "members",
         parameters: [":userAddress"],
         returnValueTest: {
@@ -60,13 +34,6 @@ const EthereumSelectDAO = ({ updateUnifiedAccessControlConditions, submitDisable
     <div className={'lsm-condition-container'}>
       <h3 className={'lsm-condition-prompt-text'}>Which DAO's
         members should be able to access this asset?</h3>
-      <h3 className={'lsm-condition-prompt-text'}>Select
-        blockchain:</h3>
-      <LitReusableSelect options={ethereumChainOptions}
-                         label={'Select blockchain'}
-                         option={subChain}
-                         setOption={setSubChain}
-      />
       <h3 className={'lsm-condition-prompt-text'}>Add DAO
         contract address:</h3>
       <LitInput value={DAOAddress} setValue={setDAOAddress}/>

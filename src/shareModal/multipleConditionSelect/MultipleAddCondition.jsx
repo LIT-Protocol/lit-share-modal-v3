@@ -4,10 +4,9 @@ import LitChainSelector from "../../reusableComponents/litChainSelector/LitChain
 import LitChooseAccessButton from "../../reusableComponents/litChooseAccessButton/LitChooseAccessButton";
 import LitFooter from "../../reusableComponents/litFooter/LitFooter";
 
-const MultipleAddCondition = ({selectPage, setSelectPage, isNested = false, coordinateUpdateAccessControl, endOfCreateCondition}) => {
+const MultipleAddCondition = ({selectPage, setSelectPage, chain, isNested = false, coordinateUpdateAccessControl, endOfCreateCondition}) => {
   const {
     setDisplayedPage,
-    chain,
   } = useContext(ShareModalContext);
 
   const [unifiedAccessControlConditions, setUnifiedAccessControlConditions] = useState([]);
@@ -24,14 +23,14 @@ const MultipleAddCondition = ({selectPage, setSelectPage, isNested = false, coor
   }
 
   const getRenderedConditionOption = () => {
-    const conditionTypeData = chain.conditionTypeData;
+    const conditionTypeData = chain.types.conditionTypeData;
 
     if (selectPage === 'chooseAccess') {
       let allowedNestedConditions = [];
 
       if (isNested === true) {
         // conditions like POAP are already nested, so there is an option to prevent deeper nesting
-        Object.keys(chain.conditionTypes).forEach((c, i) => {
+        Object.keys(chain.types.conditionTypes).forEach((c, i) => {
           if (!chain['disallowNesting'] || !chain['disallowNesting'].find(n => n === c)) {
             allowedNestedConditions.push(<LitChooseAccessButton key={i} onClick={() => setSelectPage(c)}
                                                                 label={conditionTypeData[c].label}
@@ -39,7 +38,7 @@ const MultipleAddCondition = ({selectPage, setSelectPage, isNested = false, coor
           }
         })
       } else {
-        Object.keys(chain.conditionTypes).forEach((c, i) => {
+        Object.keys(chain.types.conditionTypes).forEach((c, i) => {
             allowedNestedConditions.push(<LitChooseAccessButton key={i} onClick={() => setSelectPage(c)}
                                                                 label={conditionTypeData[c].label}
                                                                 img={conditionTypeData[c].img}/>)
@@ -58,9 +57,10 @@ const MultipleAddCondition = ({selectPage, setSelectPage, isNested = false, coor
       )
     } else {
       // check for existence of condition type before rendering it for user
-      if (chain.conditionTypes[selectPage]) {
-        const ConditionHolder = chain.conditionTypes[selectPage];
+      if (chain.types.conditionTypes[selectPage]) {
+        const ConditionHolder = chain.types.conditionTypes[selectPage];
         return <ConditionHolder updateUnifiedAccessControlConditions={setUnifiedAccessControlConditions}
+                                chain={chain}
                                 submitDisabled={setSubmitDisabled} />
       } else {
         // if page type doesn't exist on this chain, redirect to choose access page

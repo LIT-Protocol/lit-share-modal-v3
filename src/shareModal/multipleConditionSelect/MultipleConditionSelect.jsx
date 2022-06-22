@@ -5,7 +5,7 @@ import MultipleConditionsEditor from "./MultipleConditionsEditor";
 import MultipleAddCondition from "./MultipleAddCondition";
 import LitConfirmationModal from "../../reusableComponents/litConfirmationModal/LitConfirmationModal";
 
-const MultipleConditionSelect = ({ humanizedUnifiedAccessControlConditions }) => {
+const MultipleConditionSelect = ({ humanizedUnifiedAccessControlConditions, chain }) => {
   const {
     setDisplayedPage,
     setFlow,
@@ -14,7 +14,6 @@ const MultipleConditionSelect = ({ humanizedUnifiedAccessControlConditions }) =>
     handleUpdateUnifiedAccessControlConditions
   } = useContext(ShareModalContext);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [showAddCondition, setShowAddCondition] = useState(false);
   const [isNested, setIsNested] = useState(false);
   const [nestedIndex, setNestedIndex] = useState(null);
 
@@ -69,6 +68,7 @@ const MultipleConditionSelect = ({ humanizedUnifiedAccessControlConditions }) =>
       {displayedPage === 'multiple-add' && (
         <MultipleAddCondition selectPage={selectPage}
                               setSelectPage={setSelectPage}
+                              chain={chain}
                               isNested={isNested}
                               endOfCreateCondition={endOfCreateCondition}/>
       )}

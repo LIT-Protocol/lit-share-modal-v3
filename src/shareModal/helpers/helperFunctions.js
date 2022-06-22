@@ -47,13 +47,13 @@ const getAllowedConditionTypes = (chainData, conditionsAllowed = null) => {
     const chainDataHolder = chainData;
     const chainConditionsAllowed = {};
     conditionsAllowed.forEach(c => {
-      if(!!chainData.conditionTypes[c]) {
-        chainConditionsAllowed[c] = chainData.conditionTypes[c];
+      if(!!chainData.types.conditionTypes[c]) {
+        chainConditionsAllowed[c] = chainData.types.conditionTypes[c];
       } else {
         logDevError(`condition '${c}' not found or not supported for this chain.`)
       }
     })
-    chainDataHolder.conditionTypes = chainConditionsAllowed;
+    chainDataHolder.types.conditionTypes = chainConditionsAllowed;
     return chainDataHolder;
   }
 }

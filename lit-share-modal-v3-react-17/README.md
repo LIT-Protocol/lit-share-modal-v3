@@ -2,6 +2,8 @@ This version of Lit Share Modal is for React 17. [A React 18 version can be foun
 
 [Click here to try out the share modal playground.](https://lit-share-modal-v3-playground.netlify.app/)
 
+[A migration guide on how to upgrade from the v2 share modal to v3 can be found here.](https://lit-services-docs.netlify.app/docs/share-modal/upgradingFromv2)
+
 The Lit Share Modal v3 is a tool for creating access control conditions for securing content with Lit Protocol.
 [Click here to visit the Lit Protocol developer docs.](https://developer.litprotocol.com/docs/intro/)
 

@@ -1,49 +1,20 @@
-import React, { useContext, useEffect, useMemo, useState, Fragment } from 'react';
-import { ethers, utils } from "ethers";
-import { ShareModalContext } from "../../../shareModal/createShareContext.js";
+import React, {useContext, useEffect, useMemo, useState, Fragment} from 'react';
+import {ethers, utils} from "ethers";
 import LitJsSdk from "lit-js-sdk";
-import LitReusableSelect from "../../../reusableComponents/litReusableSelect/LitReusableSelect";
 import LitTokenSelect from "../../../reusableComponents/litTokenSelect/LitTokenSelect";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
-import { logDevError } from "../../../shareModal/helpers/helperFunctions";
+import {logDevError} from "../../../shareModal/helpers/helperFunctions";
 
-const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisabled }) => {
-  const context = useContext(ShareModalContext);
+const EthereumSelectGroup = ({updateUnifiedAccessControlConditions, submitDisabled, chain}) => {
   const [amount, setAmount] = useState("");
   const [selectedToken, setSelectedToken] = useState({});
   const [contractAddress, setContractAddress] = useState("");
-  const [subChain, setSubChain] = useState(null);
   const [contractType, setContractType] = useState("");
   const [erc1155TokenId, setErc1155TokenId] = useState("");
   const [erc1155TokenIdIsValid, setErc1155TokenIdIsValid] = useState(false);
   const [addressIsValid, setAddressIsValid] = useState(false);
 
-  useEffect(
-    () =>
-      setSubChain({
-        name: "Ethereum",
-        id: "ethereum",
-        value: "ethereum",
-      }),
-    []
-  );
-
-  const ethereumChainOptions = useMemo(
-    () =>
-      Object.keys(LitJsSdk.LIT_CHAINS).map((item) => {
-        return {
-          label: LitJsSdk.LIT_CHAINS[item].name,
-          id: item,
-          value: item,
-        };
-      }),
-    []
-  );
-
-  console.log('LitJsSdk.LIT_CHAINS', LitJsSdk.LIT_CHAINS['ethereum'])
-
   useEffect(() => {
-    console.log('check selectedToken', selectedToken)
     if (selectedToken === null) {
       setContractAddress('');
       setContractType('');
@@ -64,7 +35,7 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
       setSelectedToken({});
     }
 
-    const contractIsValid = utils.isAddress(contractAddress);
+    const contractIsValid = chain.addressValidator(contractAddress);
     setAddressIsValid(contractIsValid);
   }, [contractAddress]);
 
@@ -78,23 +49,21 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
     handleSubmit();
 
     submitDisabled(itIsValid);
-  }, [amount, addressIsValid, contractAddress, selectedToken, subChain, contractType, erc1155TokenId]);
+  }, [amount, addressIsValid, contractAddress, chain, selectedToken, contractType, erc1155TokenId]);
 
 
   const isValid = () => {
     if (selectedToken?.['value'] === 'ethereum') {
-      return !amount || !subChain['label'];
+      return !amount;
     }
     return !amount ||
       !addressIsValid ||
       !contractAddress.length ||
-      !subChain.label ||
       !contractType.length ||
       (contractType === 'ERC1155' && !erc1155TokenId.length)
   }
 
   const checkEthereum = () => {
-    console.log('check ethereum', subChain)
     // ethereum
     const amountInWei = ethers.utils.parseEther(amount);
     const unifiedAccessControlConditions = [
@@ -102,7 +71,7 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
         conditionType: 'evmBasic',
         contractAddress: "",
         standardContractType: "",
-        chain: subChain?.['value'],
+        chain: chain['value'],
         method: "eth_getBalance",
         parameters: [":userAddress", "latest"],
         returnValueTest: {
@@ -120,7 +89,7 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
         conditionType: 'evmBasic',
         contractAddress: contractAddress,
         standardContractType: contractType,
-        chain: subChain?.['value'],
+        chain: chain['value'],
         method: "balanceOf",
         parameters: [":userAddress", erc1155TokenId],
         returnValueTest: {
@@ -138,7 +107,7 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
         conditionType: 'evmBasic',
         contractAddress: contractAddress,
         standardContractType: contractType,
-        chain: subChain?.['value'],
+        chain: chain['value'],
         method: "balanceOf",
         parameters: [":userAddress"],
         returnValueTest: {
@@ -151,22 +120,17 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
   }
 
   const checkERC20 = async () => {
-    console.log('---> start of checkERC20')
-    console.log('---> before decimals - subChain', subChain)
-    console.log('---> before decimals - contractAddress', contractAddress)
-
     let decimals = 0;
     let unifiedAccessControlConditions;
     try {
       decimals = await LitJsSdk.decimalPlaces({
-        chain: subChain?.['value'],
+        chain: chain['value'],
         contractAddress: contractAddress,
       });
     } catch (e) {
       // context.setError(e);
       logDevError(e)
     }
-    console.log('---> before amountInBaseUnit')
 
     let amountInBaseUnit;
     try {
@@ -175,8 +139,6 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
       logDevError(err)
     }
 
-    console.log('---> before unifiedAccessControlConditions')
-
 
     try {
       unifiedAccessControlConditions = [
@@ -184,7 +146,7 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
           conditionType: 'evmBasic',
           contractAddress: contractAddress,
           standardContractType: contractType,
-          chain: subChain?.['value'],
+          chain: chain['value'],
           method: "balanceOf",
           parameters: [":userAddress"],
           returnValueTest: {
@@ -193,11 +155,10 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
           },
         },
       ];
-    } catch(err) {
+    } catch (err) {
       logDevError(err);
       return;
     }
-    console.log('-> end of ERC20', unifiedAccessControlConditions)
     saveCondition(unifiedAccessControlConditions);
   }
 
@@ -326,19 +287,12 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
       <h3 className={'lsm-condition-prompt-text'}>Which group
         should be able to access this asset?</h3>
       <h3 className={'lsm-condition-prompt-text'}>Select
-        blockchain:</h3>
-      <LitReusableSelect options={ethereumChainOptions}
-                         label={'Select blockchain'}
-                         option={subChain}
-                         setOption={setSubChain}
-      />
-      <h3 className={'lsm-condition-prompt-text'}>Select
         token/NFT or enter contract address:</h3>
-        <LitTokenSelect option={selectedToken}
-                        label={(!selectedToken || !selectedToken['label']) ? 'Search for a token/NFT' : selectedToken.label}
-                        selectedToken={selectedToken}
-                        setSelectedToken={setSelectedToken}
-        />
+      <LitTokenSelect option={selectedToken}
+                      label={(!selectedToken || !selectedToken['label']) ? 'Search for a token/NFT' : selectedToken.label}
+                      selectedToken={selectedToken}
+                      setSelectedToken={setSelectedToken}
+      />
       {selectedToken?.['value'] !== 'ethereum' && (
         <Fragment>
           <h3
@@ -357,21 +311,24 @@ const EthereumSelectGroup = ({ updateUnifiedAccessControlConditions, submitDisab
               <span onChange={(e) => handleChangeContractType(e.target.value)}
                     className={'lsm-radio-container'}>
                 <div>
-                  <input disabled={selectedToken?.['standard'] && selectedToken?.standard === contractType} readOnly checked={contractType === 'ERC20'} type="radio" id="erc20"
+                  <input disabled={selectedToken?.['standard'] && selectedToken?.standard === contractType} readOnly
+                         checked={contractType === 'ERC20'} type="radio" id="erc20"
                          name="addressType"
                          value="ERC20"/>
                   <label className={'lsm-radio-label'} htmlFor="erc20">ERC20</label>
                 </div>
 
                 <div>
-                  <input disabled={selectedToken?.['standard'] && selectedToken?.standard === contractType} readOnly checked={contractType === 'ERC721'} type="radio" id="erc721" name="addressType"
+                  <input disabled={selectedToken?.['standard'] && selectedToken?.standard === contractType} readOnly
+                         checked={contractType === 'ERC721'} type="radio" id="erc721" name="addressType"
                          value="ERC721"/>
                   <label className={'lsm-radio-label'}
                          htmlFor="erc721">ERC721</label>
                 </div>
 
                 <div>
-                  <input disabled={selectedToken?.['standard'] && selectedToken?.standard === contractType} readOnly checked={contractType === 'ERC1155'} type="radio" id="erc1155" name="addressType"
+                  <input disabled={selectedToken?.['standard'] && selectedToken?.standard === contractType} readOnly
+                         checked={contractType === 'ERC1155'} type="radio" id="erc1155" name="addressType"
                          value="ERC1155"/>
                   <label className={'lsm-radio-label'}
                          htmlFor="erc1155">ERC1155</label>

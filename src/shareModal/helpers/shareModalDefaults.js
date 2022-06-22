@@ -1,9 +1,9 @@
-import { ethereumConfig } from '../../chainComponents/ethereum/ethereumData.js';
-import { solanaConfig } from '../../chainComponents/solana/solanaData.js';
+import { ethereumTypesConfig } from '../../chainComponents/ethereum/ethereumTypesConfig.js';
+import { solanaTypesConfig } from '../../chainComponents/solana/solanaTypesConfig.js';
 
 const defaultAllowedChainsObj = {
-  ethereum: ethereumConfig,
-  solana: solanaConfig
+  ethereum: ethereumTypesConfig,
+  solana: solanaTypesConfig
 }
 
 export {

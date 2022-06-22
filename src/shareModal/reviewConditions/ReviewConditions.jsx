@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useState} from 'react';
 import LitFooter from "../../reusableComponents/litFooter/LitFooter";
-import { ShareModalContext } from "../createShareContext";
+import {ShareModalContext} from "../createShareContext";
 import LitConfirmationModal from "../../reusableComponents/litConfirmationModal/LitConfirmationModal";
-import { colorArray } from "../helpers/colorArray";
+import {colorArray} from "../helpers/colorArray";
 import link from "../../assets/link.svg";
 import LitCheckbox from "../../reusableComponents/litCheckbox/LitCheckbox";
 
-const ReviewConditions = ({ humanizedUnifiedAccessControlConditions, unifiedAccessControlConditions}) => {
+const ReviewConditions = ({humanizedUnifiedAccessControlConditions, unifiedAccessControlConditions}) => {
   const {
     sendUnifiedAccessControlConditions,
     flow,
@@ -38,35 +38,36 @@ const ReviewConditions = ({ humanizedUnifiedAccessControlConditions, unifiedAcce
 
   const getOperatorAndCondition = (humanAccEntry, key) => {
     if (!humanAccEntry['operator']) {
-        return (
-          <span
-            className={'lsm-review-condition-humanized-text'}
-            key={`${humanAccEntry[0]}-${humanAccEntry.conditionType[0]}-${key}`}>
-              [{humanAccEntry.conditionType}] {humanAccEntry.humanizedAcc}
-          </span>
-        )
-      } else if (humanAccEntry['operator']) {
-        return (
-          <span
-            className={'lsm-review-condition-operator-text'}
-            key={`n-${key}`}>
+      return (
+        <div
+          className={'lsm-review-condition-humanized-text'}
+          key={`${humanAccEntry[0]}-${humanAccEntry.conditionType[0]}-${key}`}>
+          <span>{humanAccEntry.humanizedAcc}</span>
+          <span><i>chain - {humanAccEntry.chain} | condition type - {humanAccEntry.conditionType}</i></span>
+        </div>
+      )
+    } else if (humanAccEntry['operator']) {
+      return (
+        <span
+          className={'lsm-review-condition-operator-text'}
+          key={`n-${key}`}>
             {humanAccEntry.operator === 'and' ? 'AND' : 'OR'}
           </span>
-        )
-      }
+      )
+    }
   }
 
   const recursiveRenderConditionsGroups = (humanAcc, depth = 0) => {
     return (
       <div className={'lsm-review-conditions-group '}
            key={depth}
-           style={{ 'backgroundColor': colorArray[Math.ceil((depth) / 2)] }}>
-        { Array.isArray(humanAcc) ? (humanAcc.map((h, i) => {
-          if (Array.isArray(h)) {
-            return recursiveRenderConditionsGroups(h, depth)
-          } else {
-            return getOperatorAndCondition(h, depth + i)
-          }
+           style={{'backgroundColor': colorArray[Math.ceil((depth) / 2)]}}>
+        {Array.isArray(humanAcc) ? (humanAcc.map((h, i) => {
+            if (Array.isArray(h)) {
+              return recursiveRenderConditionsGroups(h, depth)
+            } else {
+              return getOperatorAndCondition(h, depth + i)
+            }
           })
         ) : (
           getOperatorAndCondition(humanAcc, depth)
@@ -88,9 +89,10 @@ const ReviewConditions = ({ humanizedUnifiedAccessControlConditions, unifiedAcce
           <LitCheckbox value={conditionsArePermanent}
                        checked={conditionsArePermanent}
                        setValue={setConditionsArePermanent}
-                       label={'Make condition(s) permanent; if selected, you cannot update them later'} />
+                       label={'Make condition(s) permanent; if selected, you cannot update them later'}/>
           <div className={'lsm-review-conditions-link'}>
-            <a href={'https://developer.litprotocol.com/docs/AccessControlConditions/evmBasicExamples'} target={'_blank'}
+            <a href={'https://developer.litprotocol.com/docs/AccessControlConditions/evmBasicExamples'}
+               target={'_blank'}
                rel="noreferrer">More information about
               conditions<img
                 alt={'clear input'} className={'lsm-review-conditions-link-icon'} src={link}/></a>

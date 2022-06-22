@@ -41,17 +41,14 @@
     align-items: center;
 }
 
-.lsm-multiple-conditions-poap {
-    display: flex;
-    flex-direction: column;
-}
-
 .lsm-multiple-condition-humanized-text {
     overflow-wrap: break-word;
     width: 80%;
     margin-right: 1em;
     font-size: 1em;
     color: var(--lsm-primary-color);
+    display: flex;
+    flex-direction: column;
 }
 
 .lsm-multiple-condition-humanized-delete {

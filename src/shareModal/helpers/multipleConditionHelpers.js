@@ -46,6 +46,7 @@ const humanizeNestedConditions = async (acc) => {
       newHumanizedAcc.push({
         humanizedAcc: humanizedAcc,
         conditionType: acc[i].conditionType,
+        chain: acc[i].chain,
         index: i,
       })
     }

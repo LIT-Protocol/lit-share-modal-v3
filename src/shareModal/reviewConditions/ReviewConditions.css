@@ -47,7 +47,8 @@
 }
 
 .lsm-review-condition-humanized-text {
-
+    display: flex;
+    flex-direction: column;
 }
 
 .lsm-review-condition-operator-text {

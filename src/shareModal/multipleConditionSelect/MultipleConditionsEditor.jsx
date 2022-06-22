@@ -1,11 +1,9 @@
-import React, { Fragment, useContext, useState } from 'react';
-import uparrow from "../../assets/uparrow.svg";
-import { colorArray } from "../helpers/colorArray";
-import trashcan from "../../assets/trashcan.svg";
-import { ShareModalContext } from "../createShareContext";
+import React, {Fragment, useContext, useState} from 'react';
+import {colorArray} from "../helpers/colorArray";
+import {ShareModalContext} from "../createShareContext";
 import LitDeleteModal from "../../reusableComponents/litDeleteModal/LitDeleteModal";
 
-const MultipleConditionsEditor = ({ humanizedUnifiedAccessControlConditions, createCondition }) => {
+const MultipleConditionsEditor = ({humanizedUnifiedAccessControlConditions, createCondition}) => {
 
   const {
     handleDeleteAccessControlCondition,
@@ -58,11 +56,12 @@ const MultipleConditionsEditor = ({ humanizedUnifiedAccessControlConditions, cre
             <div
               className={'lsm-multiple-condition-group'}
               key={i}
-              style={{ 'backgroundColor': colorArray[i / 2] }}>
+              style={{'backgroundColor': colorArray[i / 2]}}>
               <span className={'lsm-multiple-condition-humanized-container'}>
-                <span className={'lsm-multiple-condition-humanized-text lsm-multiple-conditions-poap'}>
+                <span className={'lsm-multiple-condition-humanized-text'}>
                   <span>[{a[0].conditionType}] {a[0].humanizedAcc}</span>
-                  <button className={`lsm-multiple-condition-group-operator-poap lsm-multiple-condition-operator-selected`}>
+                  <button
+                    className={`lsm-multiple-condition-group-operator-poap lsm-multiple-condition-operator-selected`}>
                     OR
                   </button>
                   <span>[{a[2].conditionType}] {a[2].humanizedAcc}</span>
@@ -73,7 +72,9 @@ const MultipleConditionsEditor = ({ humanizedUnifiedAccessControlConditions, cre
                     setShowDeleteModal(true);
                   }}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="#888" fillOpacity="1"/>
+                        <path
+                          d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
+                          fill="#888" fillOpacity="1"/>
                     </svg>
                   </button>
                 </span>
@@ -82,27 +83,31 @@ const MultipleConditionsEditor = ({ humanizedUnifiedAccessControlConditions, cre
           )
         } else
           // if condition is nested and not POAP
-          if (Array.isArray(a)) {
+        if (Array.isArray(a)) {
           return (
             <div
               className={'lsm-multiple-condition-group'}
               key={i}
-              style={{ 'backgroundColor': colorArray[i / 2] }}>
+              style={{'backgroundColor': colorArray[i / 2]}}>
               {a.map((n, ni) => {
                 if (!n['operator']) {
                   return (
                     <span className={'lsm-multiple-condition-humanized-container'}
                           key={`n-${ni}`}>
-                      <span className={'lsm-multiple-condition-humanized-text'}>
-                        [{n.conditionType}] {n.humanizedAcc}
-                      </span>
+                      <div className={'lsm-multiple-condition-humanized-text'}>
+                        <span>{n.humanizedAcc}</span>
+                        <span><i>chain - {n.chain} | condition type - {n.conditionType}</i></span>
+                      </div>
                       <span>
                         <button className={'lsm-multiple-condition-humanized-delete'} onClick={() => {
                           setCurrentAccIndex([i]);
                           setShowDeleteModal(true);
                         }}>
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="#888" fillOpacity="1"/>
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                               xmlns="http://www.w3.org/2000/svg">
+                              <path
+                                d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
+                                fill="#888" fillOpacity="1"/>
                           </svg>
                         </button>
                       </span>
@@ -136,18 +141,21 @@ const MultipleConditionsEditor = ({ humanizedUnifiedAccessControlConditions, cre
             <div
               className={'lsm-multiple-condition-group '}
               key={i}
-              style={{ 'backgroundColor': colorArray[i / 2] }}>
+              style={{'backgroundColor': colorArray[i / 2]}}>
               <span className={'lsm-multiple-condition-humanized-container'}>
-                <span className={'lsm-multiple-condition-humanized-text'}>
-                  [{humanizedUnifiedAccessControlConditions[i].conditionType}] {humanizedUnifiedAccessControlConditions[i].humanizedAcc}
-                </span>
+                <div className={'lsm-multiple-condition-humanized-text'}>
+                  <span>{humanizedUnifiedAccessControlConditions[i].humanizedAcc}</span>
+                  <span><i>chain - {humanizedUnifiedAccessControlConditions[i].chain} | condition type - {humanizedUnifiedAccessControlConditions[i].conditionType}</i></span>
+                </div>
                 <span>
                   <button className={'lsm-multiple-condition-humanized-delete'} onClick={() => {
                     setCurrentAccIndex([i]);
                     setShowDeleteModal(true);
                   }}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="#888" fillOpacity="1"/>
+                        <path
+                          d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
+                          fill="#888" fillOpacity="1"/>
                     </svg>
                   </button>
                 </span>
@@ -179,13 +187,16 @@ const MultipleConditionsEditor = ({ humanizedUnifiedAccessControlConditions, cre
       {!humanizedUnifiedAccessControlConditions.length ? (
         <div className={'lsm-multiple-condition-initial-container'}>
           <span className={'lsm-multiple-condition-define-first-group'}
-                style={{ 'backgroundColor': colorArray[0] }}>
+                style={{'backgroundColor': colorArray[0]}}>
             <button className={'lsm-multiple-condition-define-first-button'} onClick={() => callCreateCondition()}>
               Define First Condition
             </button>
           </span>
-          <svg className={"lsm-multiple-condition-define-first-arrow"} width="23" height="109" viewBox="0 0 23 109" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M22.5107 108.5C14.5107 96 5.4 68.1 5 54.5C4.6 40.9 8.51071 13 14.0107 1M14.0107 1L0.5 10M14.0107 1L20 15" stroke="#888" strokeOpacity="1"/>
+          <svg className={"lsm-multiple-condition-define-first-arrow"} width="23" height="109" viewBox="0 0 23 109"
+               fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M22.5107 108.5C14.5107 96 5.4 68.1 5 54.5C4.6 40.9 8.51071 13 14.0107 1M14.0107 1L0.5 10M14.0107 1L20 15"
+              stroke="#888" strokeOpacity="1"/>
           </svg>
 
           <h3 className={"lsm-multiple-condition-define-first-text"}>

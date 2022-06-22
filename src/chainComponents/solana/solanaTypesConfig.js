@@ -1,17 +1,13 @@
 import SolanaSelectWallet from "./solanaConditionCreationFlow/SolanaSelectWallet";
 import SolanaSelectNFT from "./solanaConditionCreationFlow/SolanaSelectNFT";
-import SolanaSelectGroup from "./solanaConditionCreationFlow/SolanaSelectGroup";
-import solanaLogo from "../../assets/solanaLogo.svg";
+import SolanaMetaplexCollection from "./solanaConditionCreationFlow/SolanaMetaplexCollection";
 
-const solanaConfig = {
-  value: 'solana',
-  label: 'Solana',
-  logo: solanaLogo,
-  abbreviation: 'Sol',
+const solanaTypesConfig = {
+  conditionTypeID: 'solRpc',
   conditionTypes: {
     'wallet': SolanaSelectWallet,
     'nft': SolanaSelectNFT,
-    'group': SolanaSelectGroup,
+    'group': SolanaMetaplexCollection,
   },
   conditionTypeData: {
     wallet: { label: 'An Individual Wallet', img: null, requiresMultipleConditions: false},
@@ -22,5 +18,5 @@ const solanaConfig = {
 }
 
 export {
-  solanaConfig
+  solanaTypesConfig
 }

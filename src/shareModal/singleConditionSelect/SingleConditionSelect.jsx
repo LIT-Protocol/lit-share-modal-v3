@@ -5,11 +5,10 @@ import LitChooseAccessButton from "../../reusableComponents/litChooseAccessButto
 import venn from "../../assets/venn.svg";
 import LitFooter from "../../reusableComponents/litFooter/LitFooter";
 
-const SingleConditionSelect = () => {
+const SingleConditionSelect = ({chain}) => {
   const {
     handleUpdateUnifiedAccessControlConditions,
     setDisplayedPage,
-    chain,
     setFlow,
     allowMultipleConditions,
   } = useContext(ShareModalContext);
@@ -30,22 +29,23 @@ const SingleConditionSelect = () => {
   }
 
   const getRenderedConditionOption = () => {
-    const conditionTypeData = chain.conditionTypeData;
+    const conditionTypeData = chain.types.conditionTypeData;
 
     if (selectPage === 'chooseAccess') {
       return <div className={'lsm-single-condition-rendering-options-container'}>
         <h3 className={'lsm-single-condition-select-prompt'}>Choose who can
           access this:</h3>
         {
-          Object.keys(chain.conditionTypes).map((c, i) => {
+          Object.keys(chain.types.conditionTypes).map((c, i) => {
             return <LitChooseAccessButton key={i} onClick={() => setSelectPage(c)} label={conditionTypeData[c].label} img={conditionTypeData[c].img} />
           })
         }
       </div>
     } else {
-      if (chain.conditionTypes[selectPage]) {
-        const ConditionHolder = chain.conditionTypes[selectPage];
+      if (chain.types.conditionTypes[selectPage]) {
+        const ConditionHolder = chain.types.conditionTypes[selectPage];
         return <ConditionHolder updateUnifiedAccessControlConditions={setUnifiedAccessControlConditions}
+                                chain={chain}
                                 submitDisabled={setSubmitDisabled} />
       } else {
         setSelectPage('chooseAccess');

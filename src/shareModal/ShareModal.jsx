@@ -1,13 +1,11 @@
 import React, {
   useEffect,
-  useMemo,
   useState,
-  Fragment
 } from "react";
-import { ShareModalContext } from "./createShareContext";
+import {ShareModalContext} from "./createShareContext";
 
 import LitJsSdk from "lit-js-sdk";
-import { TOP_LIST } from "./helpers/topList";
+import {TOP_LIST} from "./helpers/topList";
 import {
   humanizeNestedConditions,
   cleanUnifiedAccessControlConditions,
@@ -15,7 +13,7 @@ import {
 import LitHeader from "../reusableComponents/litHeader/LitHeader";
 import SingleConditionSelect from "./singleConditionSelect/SingleConditionSelect";
 import MultipleConditionSelect from "./multipleConditionSelect/MultipleConditionSelect";
-import { defaultAllowedChainsObj } from "./helpers/shareModalDefaults";
+import {chainConfig} from "../chainComponents/chainConfig.js";
 import {
   checkPropTypes,
   getAllowedConditions,
@@ -46,7 +44,6 @@ import litDeleteModalCss from '../reusableComponents/litDeleteModal/LitDeleteMod
 import litMultipleAddConditionCss from './multipleConditionSelect/MultipleAddCondition.css';
 import litMultipleConditionEditorCss from './multipleConditionSelect/MultipleConditionEditor.css';
 import litCheckboxCss from '../reusableComponents/litCheckbox/LitCheckbox.css';
-import { ethers } from "ethers";
 
 const cssReference = {
   baseCss,
@@ -94,7 +91,7 @@ const ShareModal = (props) => {
     allowChainSelector = true,
     allowMultipleConditions = true,
     permanentDefault = false,
-    chainsAllowed = Object.keys(defaultAllowedChainsObj),
+    chainsAllowed = Object.keys(chainConfig),
     conditionsAllowed = {},
     isModal = true,
     injectCSS = true,
@@ -110,7 +107,7 @@ const ShareModal = (props) => {
     setDevModeIsAllowed(allowDevMode);
 
     // check and set allowed conditions per chain
-    const chainsWithAllowedConditions = getAllowedConditions(chainsAllowed, conditionsAllowed, defaultAllowedChainsObj);
+    const chainsWithAllowedConditions = getAllowedConditions(chainsAllowed, conditionsAllowed, chainConfig);
     setChainList(chainsWithAllowedConditions);
 
     setInitialChain(chainsWithAllowedConditions)
@@ -177,7 +174,7 @@ const ShareModal = (props) => {
     localIndex,
     nestedIndex
   ) => {
-    const updatedAcc =unifiedAccessControlConditions;
+    const updatedAcc = unifiedAccessControlConditions;
     // TODO: create nested delete
 
     if (nestedIndex === null) {
@@ -212,7 +209,7 @@ const ShareModal = (props) => {
     if (!acc.length && newAccessControlCondition[0]) {
       updatedAcc.push(newAccessControlCondition[0]);
     } else {
-      updatedAcc.push({ operator: "and" });
+      updatedAcc.push({operator: "and"});
       updatedAcc.push(newAccessControlCondition[0]);
     }
     return updatedAcc;
@@ -297,7 +294,8 @@ const ShareModal = (props) => {
     setDisplayedPage("single");
     clearAllAccessControlConditions();
     setError(null);
-    setInitialChain(chainList).then(() => {});
+    setInitialChain(chainList).then(() => {
+    });
   };
 
   const handleConfirmModalClose = (modalResponse) => {
@@ -363,22 +361,29 @@ const ShareModal = (props) => {
             <DevModeHeader handleClose={handleClose}
                            isModal={isModal}
                            showDevMode={showDevMode}
-                           setShowDevMode={setShowDevMode} />
-            ) : (
-            <LitHeader handleClose={handleClose} isModal={isModal} />
+                           setShowDevMode={setShowDevMode}/>
+          ) : (
+            <LitHeader handleClose={handleClose} isModal={isModal}/>
           )}
           {(allowDevMode && showDevMode) ? (
-            <DevModeContent unifiedAccessControlConditions={unifiedAccessControlConditions} />
+            <DevModeContent unifiedAccessControlConditions={unifiedAccessControlConditions}/>
           ) : (
             <div className={'lsm-condition-display'}>
               {(flow === 'singleCondition' && displayedPage !== 'review') && (
-                <SingleConditionSelect stepAfterUpdate={'review'} humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions} unifiedAccessControlConditions={unifiedAccessControlConditions}/>
+                <SingleConditionSelect stepAfterUpdate={'review'}
+                                       chain={chain}
+                                       humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions}
+                                       unifiedAccessControlConditions={unifiedAccessControlConditions}/>
               )}
               {(flow === 'multipleConditions' && displayedPage !== 'review') && (
-                <MultipleConditionSelect humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions} unifiedAccessControlConditions={unifiedAccessControlConditions}/>
+                <MultipleConditionSelect chain={chain}
+                                         humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions}
+                                         unifiedAccessControlConditions={unifiedAccessControlConditions}/>
               )}
               {displayedPage === 'review' && (
-                <ReviewConditions humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions} unifiedAccessControlConditions={unifiedAccessControlConditions} />
+                <ReviewConditions chain={chain}
+                                  humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions}
+                                  unifiedAccessControlConditions={unifiedAccessControlConditions}/>
               )}
             </div>
           )}

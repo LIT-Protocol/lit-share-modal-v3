@@ -3,14 +3,10 @@ import EthereumSelectNFT from "./ethereumConditionCreationFlow/EthereumSelectNFT
 import EthereumSelectGroup from "./ethereumConditionCreationFlow/EthereumSelectGroup";
 import EthereumSelectDAO from "./ethereumConditionCreationFlow/EthereumSelectDAO";
 import EthereumSelectPOAP from "./ethereumConditionCreationFlow/EthereumSelectPOAP";
-import ethLogo from "../../assets/ethLogo.svg";
 import POAP from "../../assets/POAP.svg";
 
-const ethereumConfig = {
-  value: 'ethereum',
-  label: 'EVM',
-  logo: ethLogo,
-  abbreviation: 'EVM',
+const ethereumTypesConfig = {
+  conditionTypeID: 'evmBasic',
   conditionTypes: {
     'wallet': EthereumSelectWallet,
     'nft': EthereumSelectNFT,
@@ -28,6 +24,24 @@ const ethereumConfig = {
   disallowNesting: ['poap']
 }
 
+const ethereumNoPOAPTypesConfig = {
+  conditionTypeID: 'evmBasic',
+  conditionTypes: {
+    'wallet': EthereumSelectWallet,
+    'nft': EthereumSelectNFT,
+    'group': EthereumSelectGroup,
+    'dao': EthereumSelectDAO,
+  },
+  conditionTypeData: {
+    wallet: { label: 'An Individual Wallet', img: null, requiresMultipleConditions: false},
+    nft: { label: 'An Individual NFT', img: null, requiresMultipleConditions: false},
+    group: { label: 'A Group of Token or NFT Holders', img: null, requiresMultipleConditions: false},
+    dao: { label: 'DAO Members', img: null, requiresMultipleConditions: false},
+  },
+  disallowNesting: []
+}
+
 export {
-  ethereumConfig
+  ethereumTypesConfig,
+  ethereumNoPOAPTypesConfig
 }

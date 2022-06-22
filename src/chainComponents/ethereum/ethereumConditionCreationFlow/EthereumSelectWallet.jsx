@@ -1,35 +1,17 @@
-import React, { useContext, useState, useEffect, useMemo } from 'react';
-import { ShareModalContext } from "../../../shareModal/createShareContext.js";
-import LitReusableSelect from "../../../reusableComponents/litReusableSelect/LitReusableSelect";
+import React, {useState, useEffect} from 'react';
 import LitJsSdk from "lit-js-sdk";
-import LitFooter from "../../../reusableComponents/litFooter/LitFooter";
-import { utils } from 'ethers';
 import LitInput from "../../../reusableComponents/litInput/LitInput";
 
-const EthereumSelectWallet = ({ updateUnifiedAccessControlConditions, submitDisabled }) => {
-  const { setDisplayedPage, flow } = useContext(ShareModalContext);
+const EthereumSelectWallet = ({updateUnifiedAccessControlConditions, submitDisabled, chain}) => {
   const [walletAddress, setWalletAddress] = useState("");
-  const [subChain, setSubChain] = useState({});
   const [addressIsValid, setAddressIsValid] = useState(false);
 
   useEffect(() => {
     handleSubmit();
-    const checkIfAddressIsValid = utils.isAddress(walletAddress);
+    const checkIfAddressIsValid = chain.addressValidator(walletAddress);
     setAddressIsValid(checkIfAddressIsValid);
-    submitDisabled(!subChain['label'] || !walletAddress.length || !checkIfAddressIsValid)
-  }, [subChain, walletAddress]);
-
-  const ethereumChainOptions = useMemo(
-    () =>
-      Object.keys(LitJsSdk.LIT_CHAINS).map((item) => {
-        return {
-          label: LitJsSdk.LIT_CHAINS[item].name,
-          id: item,
-          value: item,
-        };
-      }),
-    []
-  );
+    submitDisabled(!walletAddress.length || !checkIfAddressIsValid)
+  }, [chain, walletAddress]);
 
   const handleSubmit = async () => {
     let resolvedAddress = walletAddress;
@@ -38,7 +20,7 @@ const EthereumSelectWallet = ({ updateUnifiedAccessControlConditions, submitDisa
       // do domain name lookup
       try {
         resolvedAddress = await LitJsSdk.lookupNameServiceAddress({
-          chain: subChain.value,
+          chain: chain['value'],
           name: walletAddress,
         });
       } catch (err) {
@@ -57,7 +39,7 @@ const EthereumSelectWallet = ({ updateUnifiedAccessControlConditions, submitDisa
         conditionType: 'evmBasic',
         contractAddress: "",
         standardContractType: "",
-        chain: subChain.value,
+        chain: chain['value'],
         method: "",
         parameters: [":userAddress"],
         returnValueTest: {
@@ -74,22 +56,12 @@ const EthereumSelectWallet = ({ updateUnifiedAccessControlConditions, submitDisa
     <div className={'lsm-condition-container'}>
       <h3 className={'lsm-condition-prompt-text'}>Which wallet
         should be able to access this asset?</h3>
-      <h3 className={'lsm-condition-prompt-text'}>Select
-        blockchain:</h3>
-      <LitReusableSelect options={ethereumChainOptions}
-                         label={'Select blockchain'}
-                         option={subChain}
-                         setOption={setSubChain}
-      />
       <h3 className={'lsm-condition-prompt-text'}>Add Wallet
         Address or Blockchain Domain (e.g. ENS, UNS) here:</h3>
       <LitInput value={walletAddress}
                 setValue={setWalletAddress}
                 errorMessage={addressIsValid ? null : 'Address is invalid'}
       />
-      {/*<LitFooter backAction={() => setSelectPage('chooseAccess')}*/}
-      {/*           nextAction={() => handleSubmit()}*/}
-      {/*           nextDisableConditions={(!subChain['label'] || !walletAddress.length || !addressIsValid)}/>*/}
     </div>
   );
 }
