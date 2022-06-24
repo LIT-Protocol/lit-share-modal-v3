@@ -292,6 +292,7 @@ const EthereumSelectGroup = ({updateUnifiedAccessControlConditions, submitDisabl
                       label={(!selectedToken || !selectedToken['label']) ? 'Search for a token/NFT' : selectedToken.label}
                       selectedToken={selectedToken}
                       setSelectedToken={setSelectedToken}
+                      allowEthereum={true}
       />
       {selectedToken?.['value'] !== 'ethereum' && (
         <Fragment>

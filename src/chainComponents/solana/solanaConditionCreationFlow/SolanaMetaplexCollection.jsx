@@ -36,8 +36,7 @@ const SolanaMetaplexCollection = ({updateUnifiedAccessControlConditions, submitD
     <div className={'lsm-condition-container'}>
       <h3 className={'lsm-condition-prompt-text'}>Which group
         should be able to access this asset?</h3>
-      <h3 className={'lsm-condition-prompt-text'}>Enter token/NFT contract address. Note, this only works with Metaplex
-        collections:</h3>
+      <h3 className={'lsm-condition-prompt-text'}>Enter Metaplex collection address:</h3>
       <LitInput value={contractAddress}
                 setValue={setContractAddress}
                 placeholder={'NFT or group address'}
