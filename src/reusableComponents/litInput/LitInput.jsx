@@ -6,7 +6,8 @@ const LitInput = ({
                     errorMessage = null,
                     placeholder = '',
                     type = 'text',
-                    disabled = false
+                    disabled = false,
+                    loading = false,
                   }) => {
   return (
     <div className={`lsm-input-container`}>
@@ -16,8 +17,13 @@ const LitInput = ({
              disabled={disabled}
              onChange={(e) => setValue(e.target.value)}
              className={'lsm-input'}/>
-      <p className={'lsm-input-error'}>
-        {(errorMessage && value.length) ? errorMessage : ''}</p>
+      {!loading ? (
+        <p className={'lsm-input-error'}>
+          {(errorMessage && value.length) ? errorMessage : ''}</p>
+      ) : (
+        <p className={'lsm-loading'}>
+          Loading...</p>
+      )}
     </div>
   );
 };

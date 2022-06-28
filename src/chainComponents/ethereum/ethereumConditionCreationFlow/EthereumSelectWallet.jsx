@@ -5,34 +5,52 @@ import LitInput from "../../../reusableComponents/litInput/LitInput";
 const EthereumSelectWallet = ({updateUnifiedAccessControlConditions, submitDisabled, chain}) => {
   const [walletAddress, setWalletAddress] = useState("");
   const [addressIsValid, setAddressIsValid] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    handleSubmit();
-    const checkIfAddressIsValid = chain.addressValidator(walletAddress);
-    setAddressIsValid(checkIfAddressIsValid);
-    submitDisabled(!walletAddress.length || !checkIfAddressIsValid)
+    handleSubmit(walletAddress);
   }, [chain, walletAddress]);
 
-  const handleSubmit = async () => {
-    let resolvedAddress = walletAddress;
+  const handleSubmit = async (address) => {
+    let resolvedAddress = address;
 
-    if (walletAddress.includes(".")) {
+    if (address.toLowerCase().includes(".eth")) {
+      setLoading(true);
       // do domain name lookup
       try {
         resolvedAddress = await LitJsSdk.lookupNameServiceAddress({
           chain: chain['value'],
-          name: walletAddress,
+          name: address,
         });
+        setAddressIsValid(true);
       } catch (err) {
-        alert('Error connecting.  If using mobile, use the Metamask Mobile Browser to connect.')
+        setLoading(false);
+        setErrorMessage("Failed to resolve ENS address");
+        alert("Failed to resolve ENS address");
         return;
       }
       if (!resolvedAddress) {
         // ADD_ERROR_HANDLING
-        console.log("failed to resolve ENS address");
+        setErrorMessage("Failed to resolve ENS address");
+        setLoading(false);
         return;
       }
     }
+
+    const checkIfAddressIsValid = chain.addressValidator(resolvedAddress);
+    setAddressIsValid(checkIfAddressIsValid);
+
+    if (!checkIfAddressIsValid) {
+      setErrorMessage('Address is invalid');
+    } else {
+      setErrorMessage('');
+    }
+
+    submitDisabled(!resolvedAddress.length || !checkIfAddressIsValid)
+
+    setLoading(false);
+
 
     const unifiedAccessControlConditions = [
       {
@@ -57,10 +75,12 @@ const EthereumSelectWallet = ({updateUnifiedAccessControlConditions, submitDisab
       <h3 className={'lsm-condition-prompt-text'}>Which wallet
         should be able to access this asset?</h3>
       <h3 className={'lsm-condition-prompt-text'}>Add Wallet
-        Address or Blockchain Domain (e.g. ENS, UNS) here:</h3>
+        Address or Blockchain Domain (e.g. ENS) here:</h3>
       <LitInput value={walletAddress}
                 setValue={setWalletAddress}
-                errorMessage={addressIsValid ? null : 'Address is invalid'}
+        // errorMessage={addressIsValid ? null : 'Address is invalid'}
+                errorMessage={errorMessage}
+                loading={loading}
       />
     </div>
   );

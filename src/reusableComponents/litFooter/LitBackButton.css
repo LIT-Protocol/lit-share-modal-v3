@@ -1,7 +1,7 @@
 .lsm-back-button {
-    height: 3rem;
-    padding: 0 1.5rem;
-    border-radius: 0.25rem;
+    height: 3em;
+    padding: 0 1.5em;
+    border-radius: 0.25em;
     display: flex;
     align-items: center;
     border: var(--lsm-secondary-color) 1px solid;
@@ -9,7 +9,6 @@
     color: var(--lsm-primary-color);
     cursor: pointer;
     transition-duration: 0.3s;
-    cursor: pointer;
 }
 
 .lsm-back-arrow {
@@ -17,8 +16,8 @@
 }
 
 /*.lsm-back-button {*/
-/*    height: 4rem;*/
-/*    padding: 0 1.5rem;*/
+/*    height: 4em;*/
+/*    padding: 0 1.5em;*/
 /*    width: 50%;*/
 /*    display: flex;*/
 /*    align-items: center;*/

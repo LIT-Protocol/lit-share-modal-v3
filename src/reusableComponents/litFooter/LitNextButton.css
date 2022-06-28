@@ -1,9 +1,9 @@
 .lsm-next-button {
-    height: 3rem;
-    padding: 0 1.5rem;
+    height: 3em;
+    padding: 0 1.5em;
     display: flex;
     align-items: center;
-    border-radius: 0.25rem;
+    border-radius: 0.25em;
     border: none;
     color: var(--lsm-accent-text);
     background-color: var(--lsm-accent-color);
@@ -25,5 +25,5 @@
 }
 
 .lsm-next-arrow {
-    margin-left: 0.5rem;
+    margin-left: 0.5em;
 }
