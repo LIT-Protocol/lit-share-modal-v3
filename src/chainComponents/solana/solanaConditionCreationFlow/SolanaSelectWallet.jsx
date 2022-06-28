@@ -1,16 +1,27 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { ShareModalContext } from "../../../shareModal/createShareContext.js";
+import React, { useState, useEffect, useContext } from 'react';
 import LitInput from "../../../reusableComponents/litInput/LitInput";
+import { ShareModalContext } from "../../../shareModal/createShareContext";
 
+const SolanaSelectWallet = ({updateUnifiedAccessControlConditions, submitDisabled, initialState = null}) => {
+  const [ walletAddress, setWalletAddress ] = useState("");
 
-const SolanaSelectWallet = ({ updateUnifiedAccessControlConditions, submitDisabled }) => {
-  const { setDisplayedPage, flow } = useContext(ShareModalContext);
-  const [walletAddress, setWalletAddress] = useState("");
+  const {
+    wipeInitialProps,
+  } = useContext(ShareModalContext);
+
+  useEffect(() => {
+    if (initialState) {
+      if (initialState['address']) {
+        setWalletAddress(initialState['address']);
+      }
+    }
+    wipeInitialProps();
+  }, []);
 
   useEffect(() => {
     handleSubmit();
     submitDisabled(!walletAddress.length);
-  }, [walletAddress])
+  }, [ walletAddress ])
 
   const handleSubmit = async () => {
     let resolvedAddress = walletAddress;
@@ -19,7 +30,7 @@ const SolanaSelectWallet = ({ updateUnifiedAccessControlConditions, submitDisabl
       {
         conditionType: 'solRpc',
         method: "",
-        params: [":userAddress"],
+        params: [ ":userAddress" ],
         chain: 'solana',
         returnValueTest: {
           key: "",

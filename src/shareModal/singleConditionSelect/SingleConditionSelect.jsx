@@ -1,20 +1,26 @@
-import React, { useContext, useState, Fragment } from 'react';
+import React, { useContext, useState, useEffect, Fragment } from 'react';
 import { ShareModalContext } from "../createShareContext.js";
 import LitChainSelector from "../../reusableComponents/litChainSelector/LitChainSelector";
 import LitChooseAccessButton from "../../reusableComponents/litChooseAccessButton/LitChooseAccessButton";
 import venn from "../../assets/venn.svg";
 import LitFooter from "../../reusableComponents/litFooter/LitFooter";
 
-const SingleConditionSelect = ({chain}) => {
+const SingleConditionSelect = ({chain, initialState = null, initialCondition = null}) => {
   const {
     handleUpdateUnifiedAccessControlConditions,
     setDisplayedPage,
     setFlow,
     allowMultipleConditions,
   } = useContext(ShareModalContext);
-  const [selectPage, setSelectPage] = useState('chooseAccess');
-  const [unifiedAccessControlConditions, setUnifiedAccessControlConditions] = useState([]);
-  const [submitDisabled, setSubmitDisabled] = useState(true);
+  const [ selectPage, setSelectPage ] = useState('chooseAccess');
+  const [ unifiedAccessControlConditions, setUnifiedAccessControlConditions ] = useState([]);
+  const [ submitDisabled, setSubmitDisabled ] = useState(true);
+
+  useEffect(() => {
+    if (initialCondition) {
+      setSelectPage(initialCondition);
+    }
+  }, []);
 
   const coordinateUpdateAccessControl = () => {
     handleUpdateUnifiedAccessControlConditions(unifiedAccessControlConditions);
@@ -37,7 +43,8 @@ const SingleConditionSelect = ({chain}) => {
           access this:</h3>
         {
           Object.keys(chain.types.conditionTypes).map((c, i) => {
-            return <LitChooseAccessButton key={i} onClick={() => setSelectPage(c)} label={conditionTypeData[c].label} img={conditionTypeData[c].img} />
+            return <LitChooseAccessButton key={i} onClick={() => setSelectPage(c)} label={conditionTypeData[c].label}
+                                          img={conditionTypeData[c].img}/>
           })
         }
       </div>
@@ -46,7 +53,8 @@ const SingleConditionSelect = ({chain}) => {
         const ConditionHolder = chain.types.conditionTypes[selectPage];
         return <ConditionHolder updateUnifiedAccessControlConditions={setUnifiedAccessControlConditions}
                                 chain={chain}
-                                submitDisabled={setSubmitDisabled} />
+                                initialState={initialState}
+                                submitDisabled={setSubmitDisabled}/>
       } else {
         setSelectPage('chooseAccess');
       }
@@ -55,7 +63,7 @@ const SingleConditionSelect = ({chain}) => {
 
   return (
     <div className={'lsm-single-condition-select-container'}>
-      <LitChainSelector />
+      <LitChainSelector/>
       {!!chain && !!setSelectPage && (
         <div className={'lsm-single-select-condition-display'}>
           {getRenderedConditionOption()}
@@ -63,15 +71,15 @@ const SingleConditionSelect = ({chain}) => {
       )}
       {selectPage === 'chooseAccess' && allowMultipleConditions && (
         <button className={'lsm-single-condition-multiple-button'}
-          onClick={() => {
-          setFlow('multipleConditions');
-          setDisplayedPage('multiple');
-        }}>
+                onClick={() => {
+                  setFlow('multipleConditions');
+                  setDisplayedPage('multiple');
+                }}>
           <img src={venn}/>
           <p
-          className={''}>
-          Gate with multiple conditions using AND/OR operators
-          {/*Gate with multiple conditions*/}
+            className={''}>
+            Gate with multiple conditions using AND/OR operators
+            {/*Gate with multiple conditions*/}
           </p>
         </button>
       )}

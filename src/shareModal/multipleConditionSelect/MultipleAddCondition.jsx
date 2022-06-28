@@ -4,13 +4,20 @@ import LitChainSelector from "../../reusableComponents/litChainSelector/LitChain
 import LitChooseAccessButton from "../../reusableComponents/litChooseAccessButton/LitChooseAccessButton";
 import LitFooter from "../../reusableComponents/litFooter/LitFooter";
 
-const MultipleAddCondition = ({selectPage, setSelectPage, chain, isNested = false, coordinateUpdateAccessControl, endOfCreateCondition}) => {
+const MultipleAddCondition = ({
+                                selectPage,
+                                setSelectPage,
+                                chain,
+                                isNested = false,
+                                endOfCreateCondition,
+                                initialState = null
+                              }) => {
   const {
     setDisplayedPage,
   } = useContext(ShareModalContext);
 
-  const [unifiedAccessControlConditions, setUnifiedAccessControlConditions] = useState([]);
-  const [submitDisabled, setSubmitDisabled] = useState(true);
+  const [ unifiedAccessControlConditions, setUnifiedAccessControlConditions ] = useState([]);
+  const [ submitDisabled, setSubmitDisabled ] = useState(true);
 
   const backButtonAction = () => {
     setSelectPage('chooseAccess');
@@ -39,9 +46,9 @@ const MultipleAddCondition = ({selectPage, setSelectPage, chain, isNested = fals
         })
       } else {
         Object.keys(chain.types.conditionTypes).forEach((c, i) => {
-            allowedNestedConditions.push(<LitChooseAccessButton key={i} onClick={() => setSelectPage(c)}
-                                                                label={conditionTypeData[c].label}
-                                                                img={conditionTypeData[c].img}/>)
+          allowedNestedConditions.push(<LitChooseAccessButton key={i} onClick={() => setSelectPage(c)}
+                                                              label={conditionTypeData[c].label}
+                                                              img={conditionTypeData[c].img}/>)
         })
       }
       return (
@@ -49,7 +56,7 @@ const MultipleAddCondition = ({selectPage, setSelectPage, chain, isNested = fals
         <div className={'lsm-multiple-condition-rendering-options-container'}>
           <h3 className={'lsm-multiple-condition-select-prompt'}>Choose who can
             access this:</h3>
-          { allowedNestedConditions.map((c, i) => {
+          {allowedNestedConditions.map((c, i) => {
             return c
           })
           }
@@ -61,7 +68,8 @@ const MultipleAddCondition = ({selectPage, setSelectPage, chain, isNested = fals
         const ConditionHolder = chain.types.conditionTypes[selectPage];
         return <ConditionHolder updateUnifiedAccessControlConditions={setUnifiedAccessControlConditions}
                                 chain={chain}
-                                submitDisabled={setSubmitDisabled} />
+                                initialState={initialState}
+                                submitDisabled={setSubmitDisabled}/>
       } else {
         // if page type doesn't exist on this chain, redirect to choose access page
         setSelectPage('chooseAccess');
@@ -71,10 +79,10 @@ const MultipleAddCondition = ({selectPage, setSelectPage, chain, isNested = fals
 
   return (
     <div className={'lsm-multiple-condition-add-container'}>
-      <LitChainSelector />
+      <LitChainSelector/>
       {!!chain && !!setSelectPage && (
         <div className={'lsm-multiple-select-condition-display'}>
-          { getRenderedConditionOption() }
+          {getRenderedConditionOption()}
         </div>
       )}
       {selectPage === 'chooseAccess' && (

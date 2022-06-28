@@ -1,16 +1,36 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import LitJsSdk from "lit-js-sdk";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
+import { ShareModalContext } from "../../../shareModal/createShareContext";
 
-const EthereumSelectWallet = ({updateUnifiedAccessControlConditions, submitDisabled, chain}) => {
-  const [walletAddress, setWalletAddress] = useState("");
-  const [addressIsValid, setAddressIsValid] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+const EthereumSelectWallet = ({
+                                updateUnifiedAccessControlConditions,
+                                submitDisabled,
+                                chain,
+                                initialState = null
+                              }) => {
+  const [ walletAddress, setWalletAddress ] = useState("");
+  // const [addressIsValid, setAddressIsValid] = useState(false);
+  const [ loading, setLoading ] = useState(false);
+  const [ errorMessage, setErrorMessage ] = useState('');
+
+  const {
+    wipeInitialProps,
+  } = useContext(ShareModalContext);
+
+  useEffect(() => {
+    if (initialState) {
+      if (initialState['address']) {
+        setWalletAddress(initialState['address']);
+        handleSubmit(initialState['address']);
+      }
+    }
+    wipeInitialProps();
+  }, []);
 
   useEffect(() => {
     handleSubmit(walletAddress);
-  }, [chain, walletAddress]);
+  }, [ chain, walletAddress ]);
 
   const handleSubmit = async (address) => {
     let resolvedAddress = address;
@@ -23,7 +43,6 @@ const EthereumSelectWallet = ({updateUnifiedAccessControlConditions, submitDisab
           chain: chain['value'],
           name: address,
         });
-        setAddressIsValid(true);
       } catch (err) {
         setLoading(false);
         setErrorMessage("Error connecting");
@@ -41,7 +60,6 @@ const EthereumSelectWallet = ({updateUnifiedAccessControlConditions, submitDisab
     }
 
     const checkIfAddressIsValid = chain.addressValidator(resolvedAddress);
-    setAddressIsValid(checkIfAddressIsValid);
 
     if (!checkIfAddressIsValid) {
       setErrorMessage('Address is invalid');
@@ -61,7 +79,7 @@ const EthereumSelectWallet = ({updateUnifiedAccessControlConditions, submitDisab
         standardContractType: "",
         chain: chain['value'],
         method: "",
-        parameters: [":userAddress"],
+        parameters: [ ":userAddress" ],
         returnValueTest: {
           comparator: "=",
           value: resolvedAddress,

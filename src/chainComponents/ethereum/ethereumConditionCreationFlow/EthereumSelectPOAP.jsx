@@ -1,5 +1,6 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useContext } from 'react';
 import Select from "react-select";
+import { ShareModalContext } from "../../../shareModal/createShareContext";
 
 const typesOfPoapGate = [
   {
@@ -28,18 +29,44 @@ const matchConditionOptions = [
   },
 ];
 
-const EthereumSelectPOAP = ({ updateUnifiedAccessControlConditions, submitDisabled }) => {
-  const [poapGateType, setPoapGateType] = useState(typesOfPoapGate[0]);
-  const [poapId, setPoapId] = useState("");
-  const [poapName, setPoapName] = useState("");
-  const [nameMatchCondition, setNameMatchCondition] = useState(matchConditionOptions[0]);
+const EthereumSelectPOAP = ({updateUnifiedAccessControlConditions, submitDisabled, initialState = null}) => {
+  const [ poapGateType, setPoapGateType ] = useState(typesOfPoapGate[0]);
+  const [ poapId, setPoapId ] = useState("");
+  const [ poapName, setPoapName ] = useState("");
+  const [ nameMatchCondition, setNameMatchCondition ] = useState(matchConditionOptions[0]);
+
+  const [ render, setRender ] = useState(false);
+
+  const {
+    wipeInitialProps,
+  } = useContext(ShareModalContext);
+
+  useEffect(() => {
+    if (initialState) {
+      if (initialState['poapName']) {
+        setPoapGateType(typesOfPoapGate[1]);
+        setPoapName(initialState['poapName']);
+        if (initialState['matchCondition'] === 'contains') {
+          setNameMatchCondition(matchConditionOptions[0]);
+        } else if (initialState['matchCondition'] === 'equals') {
+          setNameMatchCondition(matchConditionOptions[1]);
+        }
+      } else if (initialState['poapId']) {
+        setPoapGateType(typesOfPoapGate[0]);
+        setPoapId(initialState['poapId']);
+        setNameMatchCondition(matchConditionOptions[1]);
+      }
+    }
+    setRender(true);
+    wipeInitialProps();
+  }, []);
 
   useEffect(() => {
     if (!poapId.length || (!poapName.length || !nameMatchCondition)) {
       handleSubmit();
     }
     submitDisabled(poapGateType.id === 'eventId' ? !poapId.length : (!poapName.length || !nameMatchCondition));
-  }, [poapGateType, poapId, poapName, nameMatchCondition]);
+  }, [ poapGateType, poapId, poapName, nameMatchCondition ]);
 
 
   const getComparator = (type) => {
@@ -51,7 +78,7 @@ const EthereumSelectPOAP = ({ updateUnifiedAccessControlConditions, submitDisabl
   }
 
   const handleSubmit = () => {
-    const unifiedAccessControlConditions = [[
+    const unifiedAccessControlConditions = [ [
       {
         conditionType: 'evmBasic',
         contractAddress: "0x22C1f6050E56d2876009903609a2cC3fEf83B415",
@@ -64,7 +91,7 @@ const EthereumSelectPOAP = ({ updateUnifiedAccessControlConditions, submitDisabl
           value: poapGateType.id === 'eventId' ? poapId : poapName,
         },
       },
-      { operator: "or" },
+      {operator: "or"},
       {
         conditionType: 'evmBasic',
         contractAddress: "0x22C1f6050E56d2876009903609a2cC3fEf83B415",
@@ -77,7 +104,7 @@ const EthereumSelectPOAP = ({ updateUnifiedAccessControlConditions, submitDisabl
           value: poapGateType.id === 'eventId' ? poapId : poapName,
         },
       },
-    ]];
+    ] ];
 
 
     updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
@@ -116,7 +143,7 @@ const EthereumSelectPOAP = ({ updateUnifiedAccessControlConditions, submitDisabl
             className={'lsm-reusable-select'}
             classNamePrefix={'lsm'}
             options={matchConditionOptions}
-            defaultValue={matchConditionOptions[0]}
+            defaultValue={nameMatchCondition}
             isSeachable={false}
             onChange={(c) => setNameMatchCondition(c)}
           />

@@ -1,15 +1,29 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import LitInput from "../../../reusableComponents/litInput/LitInput";
+import { ShareModalContext } from "../../../shareModal/createShareContext";
 
-const EthereumSelectDAO = ({ updateUnifiedAccessControlConditions, submitDisabled, chain }) => {
-  const [DAOAddress, setDAOAddress] = useState("");
+const EthereumSelectDAO = ({updateUnifiedAccessControlConditions, submitDisabled, chain, initialState = null}) => {
+  const [ DAOAddress, setDAOAddress ] = useState("");
+
+  const {
+    wipeInitialProps,
+  } = useContext(ShareModalContext);
+
+  useEffect(() => {
+    if (initialState) {
+      if (initialState['address'] && initialState['address'].length) {
+        setDAOAddress(initialState['address']);
+      }
+    }
+    wipeInitialProps();
+  }, []);
 
   useEffect(() => {
     if (DAOAddress.length) {
       handleSubmit()
     }
     submitDisabled(!DAOAddress.length)
-  }, [DAOAddress, chain]);
+  }, [ DAOAddress, chain ]);
 
   const handleSubmit = () => {
     const unifiedAccessControlConditions = [
@@ -19,7 +33,7 @@ const EthereumSelectDAO = ({ updateUnifiedAccessControlConditions, submitDisable
         standardContractType: "MolochDAOv2.1",
         chain: chain.value,
         method: "members",
-        parameters: [":userAddress"],
+        parameters: [ ":userAddress" ],
         returnValueTest: {
           comparator: "=",
           value: "true",

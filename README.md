@@ -118,7 +118,7 @@ export default App;
 
 # Props
 
-### Required
+## Required
 
 - `onClose` - **only necessary for modal format**. Callback for actions to take on closing the modal
 - `onUnifiedAccessControlConditionsSelected` - callback for the share modal output
@@ -132,11 +132,16 @@ export default App;
 Documentation on how these properties are used with the `LitJsSdk`, can be found in
 the [LitJsSdk docs](https://lit-protocol.github.io/lit-js-sdk/api_docs_html/index.html#litnodeclientsavesigningcondition)
 
-### Optional
+## Optional
 
-- `darkTheme` - `false` by default. Setting as `true` to enable dark mode.
-- `defaultChain` - `ethereum` by default. A string can be passed in any of the chains listed in the **Usable Chains**
-  section below.
+### Behavior Props
+
+Behavior props allow high level control of the share modal. e.g. passing `defaultChain={solana}`
+and `chainsAllowed={['solana']}` will prevent access to EVM chain conditions and allow only the creation of Solana
+conditions.
+
+- `defaultChain` - `ethereum` by default. A string can be passed in any of the chains listed in
+  the [**Usable Chains** section](#usableChains).
 - `chainsAllowed` - all chains in the **Usable Chains** section below are included by default. An array can be passed in
   with specific values to limit the options. e.g. passing in `['ethereum', 'polygon']` would let users only select
   Ethereum or Polygon.
@@ -147,16 +152,42 @@ the [LitJsSdk docs](https://lit-protocol.github.io/lit-js-sdk/api_docs_html/inde
 - `permanentDefault` - `false` by default. Setting to `true` will check by default the box that makes conditions
   uneditable.
 - `isModal` - `true` by default. Setting to `false` will hide the close icon in the header.
+- `defaultTokens` - set quick access tokens that appear in the `Select a Token/NFT`
+  menu. [More information can be found below in the `defaultTokens` section](#defaultToken)
+
+### Initial State Props
+
+Initial state props control the initial state a user encounters upon mount. Props are evaluates in the same order as
+listed below.
+
+- `injectInitialState` - `false` by default.  **Must be set to `true` to use initial state conditions. None of the
+  following props (basically anything starts with the word `initial`) will register unless this is set to `true`**
+- `initialUnifiedAccessControlConditions` - accepts a `unifiedAccessControlConditions`
+  object ([more information here](https://developer.litprotocol.com/docs/AccessControlConditions/unifiedAccessControlConditions))
+  . <i>If no other initial state conditions are used, the modal state will default to the editor mode on the multiple
+  condition flow.</i>
+- `initialFlow` - points to `singleCondition` by default. Accepts a string, either `singleCondition`
+  or `multipleConditions`. Initial share modal state will reflect that
+  prop.  [More information is available below](#initialState).
+- `initialCondition` - accepts a string to set the initial condition. Different chains have different condition options
+  available. [More information is available below](#initialState).
+- `initialState` - accepts an object with properties included to the desired condition type. [More information regarding
+  individual condition fields is available below](#initialState).
+
+### Additional Props
+
+- `darkTheme` - `false` by default. Setting as `true` to enable dark mode.
 - `allowDevMode` - `false` by default. Setting to `true` will show logs if there are prop type errors and enable the
   ability to see the raw access control conditions in JSON format.
-- `defaultTokens` - set quick access tokens that appear in the `Select a Token/NFT` menu. More information below
 - `injectCSS` - a boolean that is set to true by default. When this is true, the CSS styles will be injected into
   the `<head>` tag of the page when it loads, so there is no need to import any css. You can set this to `false` if you
   want to use your own CSS. For small changes, it's recommended to use the `cssSubstitution` object instead.
 - `cssSubstitution` - empty object by default. Allows pinpoint the customization of different components in the share
   modal. More documentation will be available soon.
 
-### Usable Chains
+## Prop references
+
+### <a id="usableChains"></a>Usable Chains
 
 For use with the `defaultChains` and `chainsAllowed` props. Pass the `value` as a string into the respective props to
 set
@@ -197,7 +228,7 @@ them. `defaultChain` accepts a string, `chainsAllowed` accepts an array of strin
   />
 ```
 
-### `defaultTokens` prop
+### <a id="defaultToken"></a> `defaultTokens` prop
 
 Defines tokens at the top of the select menu for easy access.  `LitGate` is included by default, but this list can be
 customized by passing an array of objects with the following properties:
@@ -222,6 +253,130 @@ export const defaultTokens = [
 ];
 ```
 
-### `cssSubstitution` prop
+### <a id="initialState"></a> `initialFlow`, `initialCondition`, and `initialState` props
+
+[Click here to see an example](#initialPropsExample)
+
+`initialFlow`, `initialCondition`, and `initialState` are technically independent, but can be used together to finely
+tune the initially rendered state.
+
+`initialFlow` - defines whether the modal starts in the single condition or multiple conditions flow. Single condition
+is default, but can be set to `multipleCondition` to begin in the multiple condition edit screen.
+
+`initialCondition` - passed as a string which renders the respective individual control condition upon startup. Each
+chain can use a different variety of values that reflect the conditions available.
+
+`Ethereum`, and `Gnosis (formerly xDai)`:
+
+| Condition Type                  | Value passed to `initialCondition` prop as string |
+|---------------------------------|---------------------------------------------------|
+| An Individual Wallet            | wallet                                            |
+| An Individual NFT               | nft                                               |
+| A Group of Token or NFT Holders | group                                             |
+| DAO Members                     | dao                                               |
+| POAP Collectors                 | poap                                              |
+
+`Polygon`, `Fantom`, `BSC`, `Arbitrum`, `Avalanche`, `Avalanche FUJI Testnet`, `Harmony`, `Mumbai`, `Kovan`, `Goerli`
+, `Ropstein`, `Rinkeby`, `Cronos`, `Optimism`, `Celo`, and `Aurora`:
+
+| Condition Type                  | Value passed to `initialCondition` prop as string |
+|---------------------------------|---------------------------------------------------|
+| An Individual Wallet            | wallet                                            |
+| An Individual NFT               | nft                                               |
+| A Group of Token or NFT Holders | group                                             |
+| DAO Members                     | dao                                               |
+
+`Solana`
+
+| Condition Type        | Value passed to `initialCondition` prop as string |
+|-----------------------|---------------------------------------------------|
+| An Individual Wallet  | wallet                                            |
+| An Individual NFT     | nft                                               |
+| A Metaplex Collection | group                                             |
+
+`initialState` - an object that defines the individual form fields available within a given control condition.
+Individual fields are optional, and those that are not included will be rendered empty as normal.
+
+For EVM chains (`Ethereum`, `Gnosis (formerly xDai)`, `Polygon`, `Fantom`, `BSC`, `Arbitrum`, `Avalanche`
+, `Avalanche FUJI Testnet`, `Harmony`, `Mumbai`, `Kovan`, `Goerli`
+, `Ropstein`, `Rinkeby`, `Cronos`, `Optimism`, `Celo`, and `Aurora`:)
+
+```
+An Individual Wallet
+
+intialState = {
+  address: // wallet address as string
+}
+```
+
+```
+An Individual NFT
+
+intialState = {
+  address: // ERC 721 NFT contract address as string,
+  tokenId: // NFT token ID as string
+}
+```
+
+```
+A Group of Token or NFT Holders
+
+intialState = {
+  address: // token or NFT address as string,
+  amount: // amount to own as string,
+  contractType: // contract type, either 'ERC20', 'ERC721', or 'ERC1155',
+  erc1155TokenId: // ERC1155 token ID as string.  Only necessary if contract type is `ERC1155`
+}
+```
+
+```
+DAO Members
+
+intialState = {
+  address: // DAO address as string,
+}
+```
+
+```
+POAP Collectors
+
+can take either POAP Collection ID or POAP Name, not both.  POAP Name has an additional field 'matchCondition' that can be set to either 'contains' or 'equals'
+
+for POAP Name:
+intialState = {
+  poapName: // name of POAP as string,
+  matchCondition: // condition to measure against.  `contains` for contains value of `poapName`, or `equals` for equals exactly the value of `poapName`.  `contains` by default 
+}
+
+for POAP ID:
+intialState = {
+  poapId: // POAP collection ID as string.  note: individual token ID will not work
+}
+```
+
+### <a id="initialPropsExample"></a> Initial props example
+
+In this example, the share modal will be set to initially render in the **multiple condition flow** on the **Group Token
+or NFT Holders condition** with the **Contract Address** and **Token Contract Type** filled in, but the **Amount** field
+blank.
+
+<i>Note: the `amount` field is not included in the `initialState` object and will render like normal</i>
+
+```
+<ShareModal 
+  injectInitialState={true}
+  initialFlow={'multipleConditions'}
+  initialCondition={'group}
+  initialState={
+    address: '0x495f947276749ce646f68ac8c248420045cb7b5e',
+    contractType: 'ERC721'
+  }
+/>
+```
+
+Result of initial state upon opening the Share Modal:
+![Initial Props Example](src/assets/initialStateExample.png)
+
+### <a id="cssSubstitution"></a> `cssSubstitution` prop
 
 **[More information can be found here](https://lit-services-docs.netlify.app/docs/share-modal/cssSubstitution)**

@@ -1,23 +1,37 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import LitTokenSelect from "../../../reusableComponents/litTokenSelect/LitTokenSelect";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
-import {utils} from "ethers";
-import LitJsSdk from "lit-js-sdk";
+import { utils } from "ethers";
+import { ShareModalContext } from "../../../shareModal/createShareContext";
 
-const EthereumSelectNFT = ({updateUnifiedAccessControlConditions, submitDisabled, chain}) => {
-  const [tokenId, setTokenId] = useState("");
-  const [selectedToken, setSelectedToken] = useState({});
-  const [contractAddress, setContractAddress] = useState("");
-  const [addressIsValid, setAddressIsValid] = useState(false);
+const EthereumSelectNFT = ({updateUnifiedAccessControlConditions, submitDisabled, chain, initialState = null}) => {
+  const [ tokenId, setTokenId ] = useState("");
+  const [ selectedToken, setSelectedToken ] = useState({});
+  const [ contractAddress, setContractAddress ] = useState("");
+  const [ addressIsValid, setAddressIsValid ] = useState(false);
+
+  const {
+    wipeInitialProps,
+  } = useContext(ShareModalContext);
 
   useEffect(() => {
-    const isValid = chain.addressValidator(contractAddress);
-    setAddressIsValid(isValid);
-    if (!!contractAddress) {
-      handleSubmit();
+    if (initialState) {
+      if (initialState['address']) {
+        setContractAddress(initialState['address']);
+        handleSubmit(initialState['address'])
+      }
+      if (initialState['tokenId']) {
+        setTokenId(initialState['tokenId']);
+      }
     }
-    submitDisabled(!tokenId.length || !selectedToken)
-  }, [chain, tokenId, contractAddress])
+    wipeInitialProps();
+  }, [])
+
+  useEffect(() => {
+    if (!!contractAddress) {
+      handleSubmit(contractAddress);
+    }
+  }, [ chain, tokenId, contractAddress ])
 
   useEffect(() => {
     if (selectedToken === null) {
@@ -29,17 +43,22 @@ const EthereumSelectNFT = ({updateUnifiedAccessControlConditions, submitDisabled
     if (selectedToken?.['value'] && utils.isAddress(selectedToken?.['value'])) {
       setContractAddress(selectedToken['value']);
     }
-  }, [selectedToken]);
+  }, [ selectedToken ]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (address) => {
+    const isValid = chain.addressValidator(address);
+    setAddressIsValid(isValid);
+
+    submitDisabled(!address || !address.length || !tokenId.length || !isValid)
+
     const unifiedAccessControlConditions = [
       {
         conditionType: 'evmBasic',
-        contractAddress: contractAddress,
+        contractAddress: address,
         standardContractType: "ERC721",
         chain: chain['value'],
         method: "ownerOf",
-        parameters: [tokenId],
+        parameters: [ tokenId ],
         returnValueTest: {
           comparator: "=",
           value: ":userAddress",

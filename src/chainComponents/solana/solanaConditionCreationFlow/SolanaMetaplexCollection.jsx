@@ -1,16 +1,29 @@
-import React, {useContext, useState, useEffect} from 'react';
-import {ShareModalContext} from "../../../shareModal/createShareContext.js";
+import React, { useContext, useState, useEffect } from 'react';
+import { ShareModalContext } from "../../../shareModal/createShareContext.js";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
 
-const SolanaMetaplexCollection = ({updateUnifiedAccessControlConditions, submitDisabled}) => {
+const SolanaMetaplexCollection = ({updateUnifiedAccessControlConditions, submitDisabled, initialState = null}) => {
   const context = useContext(ShareModalContext);
-  const [amount, setAmount] = useState("");
-  const [contractAddress, setContractAddress] = useState("");
+  const [ amount, setAmount ] = useState("");
+  const [ contractAddress, setContractAddress ] = useState("");
+
+  const {
+    wipeInitialProps,
+  } = useContext(ShareModalContext);
+
+  useEffect(() => {
+    if (initialState) {
+      if (initialState['address']) {
+        setContractAddress(initialState['address']);
+      }
+    }
+    wipeInitialProps();
+  }, []);
 
   useEffect(() => {
     submitDisabled(!amount || !contractAddress.length);
     handleSubmit();
-  }, [amount, contractAddress])
+  }, [ amount, contractAddress ])
 
   const handleSubmit = async () => {
     if (contractAddress && contractAddress.length) {
@@ -18,7 +31,7 @@ const SolanaMetaplexCollection = ({updateUnifiedAccessControlConditions, submitD
         {
           conditionType: 'solRpc',
           method: "balanceOfMetaplexCollection",
-          params: [contractAddress],
+          params: [ contractAddress ],
           chain: 'solana',
           returnValueTest: {
             key: "",

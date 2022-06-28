@@ -38,6 +38,15 @@ const checkPropTypes = (props) => {
     logDevError("'allowDevMode' prop must be a boolean.")
     setDevModeIsAllowed(false);
   }
+  if (props['injectInitialState'] && typeof props['injectInitialState'] !== 'boolean') {
+    logDevError("'injectInitialState' prop must be a boolean.")
+  }
+  if (props['initialFlow'] && (props['initialFlow'] !== 'singleCondition' || props['initialFlow'] !== 'multipleConditions')) {
+    logDevError("'initialFlow' prop must be either `singleCondition` or `multipleConditions`.")
+  }
+  if (props['initialState'] && typeof props['initialState'] !== 'string') {
+    logDevError("'initialState' prop must be a string.")
+  }
 }
 
 const getAllowedConditionTypes = (chainData, conditionsAllowed = null) => {
@@ -47,7 +56,7 @@ const getAllowedConditionTypes = (chainData, conditionsAllowed = null) => {
     const chainDataHolder = chainData;
     const chainConditionsAllowed = {};
     conditionsAllowed.forEach(c => {
-      if(!!chainData.types.conditionTypes[c]) {
+      if (!!chainData.types.conditionTypes[c]) {
         chainConditionsAllowed[c] = chainData.types.conditionTypes[c];
       } else {
         logDevError(`condition '${c}' not found or not supported for this chain.`)
@@ -73,7 +82,7 @@ const getAllowedConditions = (chainsAllowed, conditionsAllowed, defaultAllowedCh
 }
 
 const stripNestedArray = (unifiedAccessControlConditions) => {
-  if (unifiedAccessControlConditions.length === 1 && Array.isArray(unifiedAccessControlConditions[0]) ) {
+  if (unifiedAccessControlConditions.length === 1 && Array.isArray(unifiedAccessControlConditions[0])) {
     return stripNestedArray(unifiedAccessControlConditions[0]);
   } else {
     return unifiedAccessControlConditions;

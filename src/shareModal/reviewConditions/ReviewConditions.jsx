@@ -1,8 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import LitFooter from "../../reusableComponents/litFooter/LitFooter";
-import {ShareModalContext} from "../createShareContext";
+import { ShareModalContext } from "../createShareContext";
 import LitConfirmationModal from "../../reusableComponents/litConfirmationModal/LitConfirmationModal";
-import {colorArray} from "../helpers/colorArray";
+import { colorArray } from "../helpers/colorArray";
 import link from "../../assets/link.svg";
 import LitCheckbox from "../../reusableComponents/litCheckbox/LitCheckbox";
 
@@ -10,15 +10,14 @@ const ReviewConditions = ({humanizedUnifiedAccessControlConditions, unifiedAcces
   const {
     sendUnifiedAccessControlConditions,
     flow,
-    handleClose,
     resetModal,
     setDisplayedPage,
     permanentDefault
   } = useContext(ShareModalContext);
 
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [conditionsArePermanent, setConditionsArePermanent] = useState(permanentDefault);
-  const [conditionsSent, setConditionsSent] = useState(false);
+  const [ showConfirmationModal, setShowConfirmationModal ] = useState(false);
+  const [ conditionsArePermanent, setConditionsArePermanent ] = useState(permanentDefault);
+  const [ conditionsSent, setConditionsSent ] = useState(false);
 
   const navigateBack = () => {
     if (flow === 'singleCondition') {

@@ -2,10 +2,10 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import {ShareModalContext} from "./createShareContext";
+import { ShareModalContext } from "./createShareContext";
 
 import LitJsSdk from "lit-js-sdk";
-import {TOP_LIST} from "./helpers/topList";
+import { TOP_LIST } from "./helpers/topList";
 import {
   humanizeNestedConditions,
   cleanUnifiedAccessControlConditions,
@@ -13,11 +13,12 @@ import {
 import LitHeader from "../reusableComponents/litHeader/LitHeader";
 import SingleConditionSelect from "./singleConditionSelect/SingleConditionSelect";
 import MultipleConditionSelect from "./multipleConditionSelect/MultipleConditionSelect";
-import {chainConfig} from "../chainComponents/chainConfig.js";
+import { chainConfig } from "../chainComponents/chainConfig.js";
 import {
   checkPropTypes,
   getAllowedConditions,
-  logDevError, setDevModeIsAllowed,
+  logDevError,
+  setDevModeIsAllowed,
   stripNestedArray
 } from "./helpers/helperFunctions.js";
 import ReviewConditions from "./reviewConditions/ReviewConditions";
@@ -68,24 +69,31 @@ const cssReference = {
 }
 
 const ShareModal = (props) => {
-  const [displayedPage, setDisplayedPage] = useState("single");
-  const [error, setError] = useState(null);
-  const [unifiedAccessControlConditions, setUnifiedAccessControlConditions] = useState([]);
+  const [ displayedPage, setDisplayedPage ] = useState("single");
+  const [ error, setError ] = useState(null);
+  const [ unifiedAccessControlConditions, setUnifiedAccessControlConditions ] = useState([]);
   const [
     humanizedUnifiedAccessControlConditions,
     setHumanizedUnifiedAccessControlConditions,
   ] = useState([]);
-  const [flow, setFlow] = useState("singleCondition");
-  const [tokenList, setTokenList] = useState(null);
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [chain, setChain] = useState(null);
-  const [cssLoaded, setCssLoaded] = useState(false);
-  const [chainList, setChainList] = useState([]);
-  const [showDevMode, setShowDevMode] = useState(false);
+  const [ flow, setFlow ] = useState("singleCondition");
+  const [ tokenList, setTokenList ] = useState(null);
+  const [ showConfirmationModal, setShowConfirmationModal ] = useState(false);
+  const [ chain, setChain ] = useState(null);
+  const [ cssLoaded, setCssLoaded ] = useState(false);
+  const [ chainList, setChainList ] = useState([]);
+  const [ showDevMode, setShowDevMode ] = useState(false);
+
+  const [ storedInitialState, setStoredInitialState ] = useState(null);
+  const [ storedInitialCondition, setStoredInitialCondition ] = useState('chooseAccess');
 
   const {
     onClose = () => false,
     onUnifiedAccessControlConditionsSelected = (conditions) => console.log('conditions', conditions),
+    injectInitialState = false,
+    initialUnifiedAccessControlConditions = null,
+    initialFlow = null,
+    initialState = null,
     defaultTokens = TOP_LIST,
     defaultChain = 'ethereum',
     allowChainSelector = true,
@@ -100,12 +108,9 @@ const ShareModal = (props) => {
     cssSubstitution = {}
   } = props;
 
-  // TODO: prop setup
   useEffect(() => {
     checkPropTypes(props);
-
     setDevModeIsAllowed(allowDevMode);
-
     // check and set allowed conditions per chain
     const chainsWithAllowedConditions = getAllowedConditions(chainsAllowed, conditionsAllowed, chainConfig);
     setChainList(chainsWithAllowedConditions);
@@ -113,9 +118,55 @@ const ShareModal = (props) => {
     setInitialChain(chainsWithAllowedConditions)
 
     getTokens();
-  }, [defaultChain]);
 
-  useEffect(() => {
+    if (injectInitialState) {
+      if (Array.isArray(initialUnifiedAccessControlConditions)) {
+        updateState(initialUnifiedAccessControlConditions);
+        setFlow('multipleConditions');
+        setDisplayedPage('multiple');
+      }
+      if (initialFlow) {
+        setFlow(initialFlow);
+        if (initialFlow === 'multipleConditions') {
+          setDisplayedPage('multiple');
+        }
+      }
+      if (initialCondition) {
+        setStoredInitialCondition(initialCondition)
+        if (initialFlow === 'multipleConditions') {
+          setDisplayedPage('multiple-add');
+        }
+      }
+      if (initialState) {
+        setStoredInitialState(initialState);
+      }
+    }
+
+
+    checkInjectCss();
+  }, []);
+
+  // // TODO: prop setup
+  // useEffect(() => {
+  //   setDevModeIsAllowed(allowDevMode);
+  //
+  //   // check and set allowed conditions per chain
+  //   const chainsWithAllowedConditions = getAllowedConditions(chainsAllowed, conditionsAllowed, chainConfig);
+  //   setChainList(chainsWithAllowedConditions);
+  //
+  //   setInitialChain(chainsWithAllowedConditions)
+  //
+  //   getTokens();
+  // }, [ defaultChain ]);
+
+  const wipeInitialProps = () => {
+    setStoredInitialCondition(null);
+    setStoredInitialState(null);
+  }
+
+  // switch from useEffect to call after `initialState` props have been checked
+  // useEffect(() => {
+  const checkInjectCss = () => {
     if (injectCSS) {
       // concat the CSS
       let cssInjectArray = [];
@@ -143,7 +194,8 @@ const ShareModal = (props) => {
     setTimeout(() => {
       setCssLoaded(true);
     }, 100)
-  }, [injectCSS]);
+  }
+  // }, [ injectCSS ]);
 
   const setInitialChain = async (chainsAllowed) => {
     // get default chain
@@ -220,7 +272,7 @@ const ShareModal = (props) => {
     isNested = false,
     index = null
   ) => {
-    let updatedAcc = [...unifiedAccessControlConditions];
+    let updatedAcc = [ ...unifiedAccessControlConditions ];
     if (!newAccessControlCondition[0]) {
       return;
     }
@@ -233,7 +285,7 @@ const ShareModal = (props) => {
         );
       } else {
         let nestedUpdatedAcc = checkForAddingOperatorToCondition(
-          [updatedAcc[index]],
+          [ updatedAcc[index] ],
           newAccessControlCondition
         );
         updatedAcc[index] = nestedUpdatedAcc;
@@ -249,7 +301,7 @@ const ShareModal = (props) => {
   };
 
   const updateLogicOperator = async (value, localIndex, nestedIndex = null) => {
-    let updatedAcc = [...unifiedAccessControlConditions];
+    let updatedAcc = [ ...unifiedAccessControlConditions ];
     if (nestedIndex) {
       updatedAcc[localIndex][nestedIndex].operator = value;
     } else {
@@ -264,12 +316,12 @@ const ShareModal = (props) => {
     const cleanedAcc = cleanUnifiedAccessControlConditions(acc);
     let humanizedData;
     try {
-      humanizedData = await humanizeNestedConditions([...cleanedAcc]);
-      setHumanizedUnifiedAccessControlConditions([...humanizedData]);
+      humanizedData = await humanizeNestedConditions([ ...cleanedAcc ]);
+      setHumanizedUnifiedAccessControlConditions([ ...humanizedData ]);
     } catch (err) {
       logDevError(err);
     }
-    setUnifiedAccessControlConditions([...cleanedAcc]);
+    setUnifiedAccessControlConditions([ ...cleanedAcc ]);
   };
 
   // TODO: functions for keeping
@@ -340,6 +392,7 @@ const ShareModal = (props) => {
             handleClose,
             sendUnifiedAccessControlConditions,
             resetModal,
+            wipeInitialProps,
             allowChainSelector,
             chain,
             chainList,
@@ -354,7 +407,7 @@ const ShareModal = (props) => {
             flow,
             defaultTokens,
             allowMultipleConditions,
-            permanentDefault
+            permanentDefault,
           }}
         >
           {allowDevMode ? (
@@ -372,11 +425,15 @@ const ShareModal = (props) => {
               {(flow === 'singleCondition' && displayedPage !== 'review') && (
                 <SingleConditionSelect stepAfterUpdate={'review'}
                                        chain={chain}
+                                       initialState={storedInitialState}
+                                       initialCondition={storedInitialCondition}
                                        humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions}
                                        unifiedAccessControlConditions={unifiedAccessControlConditions}/>
               )}
               {(flow === 'multipleConditions' && displayedPage !== 'review') && (
                 <MultipleConditionSelect chain={chain}
+                                         initialState={storedInitialState}
+                                         initialCondition={initialCondition}
                                          humanizedUnifiedAccessControlConditions={humanizedUnifiedAccessControlConditions}
                                          unifiedAccessControlConditions={unifiedAccessControlConditions}/>
               )}

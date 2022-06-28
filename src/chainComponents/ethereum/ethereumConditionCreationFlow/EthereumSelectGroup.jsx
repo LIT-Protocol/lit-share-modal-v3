@@ -1,18 +1,47 @@
-import React, {useContext, useEffect, useMemo, useState, Fragment} from 'react';
-import {ethers, utils} from "ethers";
+import React, { useContext, useEffect, useState, Fragment } from 'react';
+import { ethers, utils } from "ethers";
 import LitJsSdk from "lit-js-sdk";
 import LitTokenSelect from "../../../reusableComponents/litTokenSelect/LitTokenSelect";
 import LitInput from "../../../reusableComponents/litInput/LitInput";
-import {logDevError} from "../../../shareModal/helpers/helperFunctions";
+import { logDevError } from "../../../shareModal/helpers/helperFunctions";
+import { ShareModalContext } from "../../../shareModal/createShareContext";
 
-const EthereumSelectGroup = ({updateUnifiedAccessControlConditions, submitDisabled, chain}) => {
-  const [amount, setAmount] = useState("");
-  const [selectedToken, setSelectedToken] = useState({});
-  const [contractAddress, setContractAddress] = useState("");
-  const [contractType, setContractType] = useState("");
-  const [erc1155TokenId, setErc1155TokenId] = useState("");
-  const [erc1155TokenIdIsValid, setErc1155TokenIdIsValid] = useState(false);
-  const [addressIsValid, setAddressIsValid] = useState(false);
+const EthereumSelectGroup = ({
+                               updateUnifiedAccessControlConditions,
+                               submitDisabled,
+                               chain,
+                               initialState = null
+                             }) => {
+  const [ amount, setAmount ] = useState("");
+  const [ selectedToken, setSelectedToken ] = useState({});
+  const [ contractAddress, setContractAddress ] = useState("");
+  const [ contractType, setContractType ] = useState("");
+  const [ erc1155TokenId, setErc1155TokenId ] = useState("");
+
+  // const [ erc1155TokenIdIsValid, setErc1155TokenIdIsValid ] = useState(false);
+  const [ addressIsValid, setAddressIsValid ] = useState(false);
+
+  const {
+    wipeInitialProps,
+  } = useContext(ShareModalContext);
+
+  useEffect(() => {
+    if (initialState) {
+      if (initialState['address']) {
+        setContractAddress(initialState['address']);
+      }
+      if (initialState['contractType']) {
+        handleChangeContractType(initialState['contractType'].toUpperCase());
+      }
+      if (initialState['amount']) {
+        setAmount(initialState['amount']);
+      }
+      if (initialState['erc1155TokenId']) {
+        setErc1155TokenId(initialState['erc1155TokenId'])
+      }
+    }
+    wipeInitialProps();
+  }, [])
 
   useEffect(() => {
     if (selectedToken === null) {
@@ -28,7 +57,7 @@ const EthereumSelectGroup = ({updateUnifiedAccessControlConditions, submitDisabl
     if (selectedToken?.['standard']) {
       setContractType(selectedToken['standard'].toUpperCase());
     }
-  }, [selectedToken]);
+  }, [ selectedToken ]);
 
   useEffect(() => {
     if (contractAddress.length && !!selectedToken && (contractAddress !== selectedToken['value'])) {
@@ -37,19 +66,19 @@ const EthereumSelectGroup = ({updateUnifiedAccessControlConditions, submitDisabl
 
     const contractIsValid = chain.addressValidator(contractAddress);
     setAddressIsValid(contractIsValid);
-  }, [contractAddress]);
+  }, [ contractAddress ]);
 
-  useEffect(() => {
-    const erc1155IsValid = utils.isAddress(erc1155TokenId);
-    setErc1155TokenIdIsValid(erc1155IsValid);
-  }, [erc1155TokenId])
+  // useEffect(() => {
+  //   const erc1155IsValid = utils.isAddress(erc1155TokenId);
+  //   setErc1155TokenIdIsValid(erc1155IsValid);
+  // }, [ erc1155TokenId ])
 
   useEffect(() => {
     const itIsValid = isValid();
     handleSubmit();
 
     submitDisabled(itIsValid);
-  }, [amount, addressIsValid, contractAddress, chain, selectedToken, contractType, erc1155TokenId]);
+  }, [ amount, addressIsValid, contractAddress, chain, selectedToken, contractType, erc1155TokenId ]);
 
 
   const isValid = () => {
@@ -73,7 +102,7 @@ const EthereumSelectGroup = ({updateUnifiedAccessControlConditions, submitDisabl
         standardContractType: "",
         chain: chain['value'],
         method: "eth_getBalance",
-        parameters: [":userAddress", "latest"],
+        parameters: [ ":userAddress", "latest" ],
         returnValueTest: {
           comparator: ">=",
           value: amountInWei.toString(),
@@ -91,7 +120,7 @@ const EthereumSelectGroup = ({updateUnifiedAccessControlConditions, submitDisabl
         standardContractType: contractType,
         chain: chain['value'],
         method: "balanceOf",
-        parameters: [":userAddress", erc1155TokenId],
+        parameters: [ ":userAddress", erc1155TokenId ],
         returnValueTest: {
           comparator: ">=",
           value: amount.toString(),
@@ -109,7 +138,7 @@ const EthereumSelectGroup = ({updateUnifiedAccessControlConditions, submitDisabl
         standardContractType: contractType,
         chain: chain['value'],
         method: "balanceOf",
-        parameters: [":userAddress"],
+        parameters: [ ":userAddress" ],
         returnValueTest: {
           comparator: ">=",
           value: amount.toString(),
@@ -148,7 +177,7 @@ const EthereumSelectGroup = ({updateUnifiedAccessControlConditions, submitDisabl
           standardContractType: contractType,
           chain: chain['value'],
           method: "balanceOf",
-          parameters: [":userAddress"],
+          parameters: [ ":userAddress" ],
           returnValueTest: {
             comparator: ">=",
             value: amountInBaseUnit.toString(),
@@ -181,101 +210,6 @@ const EthereumSelectGroup = ({updateUnifiedAccessControlConditions, submitDisabl
     } else if (contractType === "ERC20") {
       await checkERC20();
     }
-    // if (contractAddress && contractAddress.length) {
-    //   let unifiedAccessControlConditions;
-    //
-    //   let tokenType;
-    //
-    //   if (selectedToken && selectedToken.standard?.toLowerCase() === "erc721") {
-    //     tokenType = "erc721";
-    //   } else if (selectedToken && selectedToken.decimals) {
-    //     tokenType = "erc20";
-    //   } else {
-    //     // if we don't already know the type, try and get decimal places.  if we get back 0 or the request fails then it's probably erc721.
-    //
-    //     let decimals = 0;
-    //     try {
-    //       decimals = await LitJsSdk.decimalPlaces({
-    //         conditionType: 'ethereum',
-    //         // contractAddress: selectedToken?.['value'],
-    //         contractAddress: contractAddress,
-    //       });
-    //     } catch (e) {
-    //       context.setError(e);
-    //       console.log(e);
-    //     }
-    //
-    //     if (decimals == 0) {
-    //       tokenType = "erc721";
-    //     } else {
-    //       tokenType = "erc20";
-    //     }
-    //   }
-    //   let amountInBaseUnit;
-    //
-    //   if (tokenType == "erc721") {
-    //     // erc721
-    //     unifiedAccessControlConditions = [
-    //       {
-    //         conditionType: 'evmBasic',
-    //         contractAddress: selectedToken.value,
-    //         standardContractType: "ERC721",
-    //         chain: subChain?.['value'],
-    //         method: "balanceOf",
-    //         parameters: [":userAddress"],
-    //         returnValueTest: {
-    //           comparator: ">=",
-    //           value: amount.toString(),
-    //         },
-    //       },
-    //     ];
-    //     updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
-    //   } else {
-    //     // erc20 token
-    //     if (selectedToken?.decimals) {
-    //       try {
-    //         amountInBaseUnit = ethers.utils.parseUnits(
-    //           amount,
-    //           selectedToken.decimals
-    //         );
-    //       } catch (err) {
-    //         logDevError(err);
-    //       }
-    //     } else if (selectedToken?.['value']) {
-    //       // need to check the contract for decimals
-    //       // this will auto switch the chain to the selected one in metamask
-    //       let decimals = 0;
-    //       try {
-    //         decimals = await LitJsSdk.decimalPlaces({
-    //           chain: 'ethereum',
-    //           contractAddress: selectedToken?.['value'],
-    //         });
-    //       } catch (e) {
-    //         context.setError(e);
-    //         logDevError(e);
-    //       }
-    //       amountInBaseUnit = ethers.utils.parseUnits(amount, decimals);
-    //     }
-    //
-    //     console.log('---> amountInBaseUnit: ', amountInBaseUnit)
-    //
-    //     unifiedAccessControlConditions = [
-    //       {
-    //         conditionType: 'evmBasic',
-    //         contractAddress: selectedToken.value,
-    //         standardContractType: "ERC20",
-    //         chain: subChain?.['value'],
-    //         method: "balanceOf",
-    //         parameters: [":userAddress"],
-    //         returnValueTest: {
-    //           comparator: ">=",
-    //           value: amountInBaseUnit.toString(),
-    //         },
-    //       },
-    //     ];
-    //     updateUnifiedAccessControlConditions(unifiedAccessControlConditions);
-    //   }
-    // }
   };
 
   const handleChangeContractType = (value) => {
@@ -339,7 +273,6 @@ const EthereumSelectGroup = ({updateUnifiedAccessControlConditions, submitDisabl
           )}
           {(!!contractAddress.length && contractType === 'ERC1155') && (
             <LitInput value={erc1155TokenId} setValue={setErc1155TokenId}
-                      errorMessage={erc1155TokenIdIsValid ? null : 'ERC1155 token id is invalid'}
                       placeholder={'ERC1155 Token Id'}
             />
           )}

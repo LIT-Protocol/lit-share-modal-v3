@@ -1,11 +1,16 @@
-import React, { useContext, useState, Fragment } from 'react';
+import React, { useContext, useState, useEffect, Fragment } from 'react';
 import LitFooter from "../../reusableComponents/litFooter/LitFooter";
 import { ShareModalContext } from "../createShareContext";
 import MultipleConditionsEditor from "./MultipleConditionsEditor";
 import MultipleAddCondition from "./MultipleAddCondition";
 import LitConfirmationModal from "../../reusableComponents/litConfirmationModal/LitConfirmationModal";
 
-const MultipleConditionSelect = ({ humanizedUnifiedAccessControlConditions, chain }) => {
+const MultipleConditionSelect = ({
+                                   humanizedUnifiedAccessControlConditions,
+                                   chain,
+                                   initialState = null,
+                                   initialCondition = null
+                                 }) => {
   const {
     setDisplayedPage,
     setFlow,
@@ -13,11 +18,18 @@ const MultipleConditionSelect = ({ humanizedUnifiedAccessControlConditions, chai
     resetModal,
     handleUpdateUnifiedAccessControlConditions
   } = useContext(ShareModalContext);
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [isNested, setIsNested] = useState(false);
-  const [nestedIndex, setNestedIndex] = useState(null);
 
-  const [selectPage, setSelectPage] = useState('chooseAccess');
+  useEffect(() => {
+    if (initialCondition) {
+      setSelectPage(initialCondition);
+    }
+  }, []);
+
+  const [ showConfirmationModal, setShowConfirmationModal ] = useState(false);
+  const [ isNested, setIsNested ] = useState(false);
+  const [ nestedIndex, setNestedIndex ] = useState(null);
+
+  const [ selectPage, setSelectPage ] = useState('chooseAccess');
 
   const handleConfirmGoBack = (modalResponse) => {
     if (modalResponse === 'yes') {
@@ -69,6 +81,8 @@ const MultipleConditionSelect = ({ humanizedUnifiedAccessControlConditions, chai
         <MultipleAddCondition selectPage={selectPage}
                               setSelectPage={setSelectPage}
                               chain={chain}
+                              initialCondition={initialCondition}
+                              initialState={initialState}
                               isNested={isNested}
                               endOfCreateCondition={endOfCreateCondition}/>
       )}
