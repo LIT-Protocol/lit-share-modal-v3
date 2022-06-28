@@ -93,6 +93,7 @@ const ShareModal = (props) => {
     injectInitialState = false,
     initialUnifiedAccessControlConditions = null,
     initialFlow = null,
+    initialCondition = null,
     initialState = null,
     defaultTokens = TOP_LIST,
     defaultChain = 'ethereum',
