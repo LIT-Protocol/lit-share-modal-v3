@@ -49,23 +49,6 @@
     font-size: 1em;
 }
 
-/*.lsm-general-button {*/
-/*    !*height: 2em;*!*/
-/*    padding: 1.5em;*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    border-radius: 0.25em;*/
-/*    border: none;*/
-/*    color: var(--lsm-accent-text);*/
-/*    background-color: var(--lsm-accent-color);*/
-/*    cursor: pointer;*/
-/*    transition-duration: 0.3s;*/
-/*}*/
-
-/*.lsm-general-button:hover {*/
-/*    opacity: 0.9;*/
-/*}*/
-
 .lsm-radio-container {
     display: flex;
     justify-content: space-between;
