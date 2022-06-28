@@ -85,7 +85,7 @@ const ShareModal = (props) => {
 
   const {
     onClose = () => false,
-    onUnifiedAccessControlConditionsSelected,
+    onUnifiedAccessControlConditionsSelected = (conditions) => console.log('conditions', conditions),
     defaultTokens = TOP_LIST,
     defaultChain = 'ethereum',
     allowChainSelector = true,
@@ -308,7 +308,7 @@ const ShareModal = (props) => {
     }
   };
 
-  const sendUnifiedAccessControlConditions = (conditionsArePermanent) => {
+  const sendUnifiedAccessControlConditions = async (conditionsArePermanent) => {
     const cleanedAccessControlConditions = stripNestedArray(unifiedAccessControlConditions);
     const keyParams = {
       unifiedAccessControlConditions: cleanedAccessControlConditions,
@@ -316,7 +316,7 @@ const ShareModal = (props) => {
       chain: chain.value
     };
     // TODO: comment back in to export conditions
-    onUnifiedAccessControlConditionsSelected(keyParams);
+    await onUnifiedAccessControlConditionsSelected(keyParams);
     resetModal();
   };
 
