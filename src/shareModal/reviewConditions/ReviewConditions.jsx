@@ -56,14 +56,14 @@ const ReviewConditions = ({humanizedUnifiedAccessControlConditions, unifiedAcces
     }
   }
 
-  const recursiveRenderConditionsGroups = (humanAcc, depth = 0) => {
+  const recursiveRenderConditionsGroups = (humanAcc, depth = 0, index = 0) => {
     return (
       <div className={'lsm-review-conditions-group '}
-           key={depth}
+           key={`${depth}-${index}}`}
            style={{'backgroundColor': colorArray[Math.ceil((depth) / 2)]}}>
         {Array.isArray(humanAcc) ? (humanAcc.map((h, i) => {
             if (Array.isArray(h)) {
-              return recursiveRenderConditionsGroups(h, depth)
+              return recursiveRenderConditionsGroups(h, depth, i)
             } else {
               return getOperatorAndCondition(h, depth + i)
             }

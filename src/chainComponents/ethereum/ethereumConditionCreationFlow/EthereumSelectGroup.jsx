@@ -27,17 +27,17 @@ const EthereumSelectGroup = ({
 
   useEffect(() => {
     if (initialState) {
-      if (initialState['address']) {
-        setContractAddress(initialState['address']);
+      if (initialState['groupAddress']) {
+        setContractAddress(initialState['groupAddress']);
       }
-      if (initialState['contractType']) {
-        handleChangeContractType(initialState['contractType'].toUpperCase());
+      if (initialState['groupContractType']) {
+        handleChangeContractType(initialState['groupContractType'].toUpperCase());
       }
-      if (initialState['amount']) {
-        setAmount(initialState['amount']);
+      if (initialState['groupAmount']) {
+        setAmount(initialState['groupAmount']);
       }
-      if (initialState['erc1155TokenId']) {
-        setErc1155TokenId(initialState['erc1155TokenId'])
+      if (initialState['groupErc1155TokenId']) {
+        setErc1155TokenId(initialState['groupErc1155TokenId'])
       }
     }
     wipeInitialProps();

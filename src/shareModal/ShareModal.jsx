@@ -8,7 +8,7 @@ import LitJsSdk from "lit-js-sdk";
 import { TOP_LIST } from "./helpers/topList";
 import {
   humanizeNestedConditions,
-  cleanUnifiedAccessControlConditions,
+  cleanUnifiedAccessControlConditions, getAllNeededAuthSigs, getAllChains,
 } from "./helpers/multipleConditionHelpers";
 import LitHeader from "../reusableComponents/litHeader/LitHeader";
 import SingleConditionSelect from "./singleConditionSelect/SingleConditionSelect";
@@ -143,26 +143,12 @@ const ShareModal = (props) => {
       }
     }
 
-
     checkInjectCss();
   }, []);
 
-  // // TODO: prop setup
-  // useEffect(() => {
-  //   setDevModeIsAllowed(allowDevMode);
-  //
-  //   // check and set allowed conditions per chain
-  //   const chainsWithAllowedConditions = getAllowedConditions(chainsAllowed, conditionsAllowed, chainConfig);
-  //   setChainList(chainsWithAllowedConditions);
-  //
-  //   setInitialChain(chainsWithAllowedConditions)
-  //
-  //   getTokens();
-  // }, [ defaultChain ]);
-
   const wipeInitialProps = () => {
-    setStoredInitialCondition(null);
-    setStoredInitialState(null);
+    // setStoredInitialCondition(null);
+    // setStoredInitialState(null);
   }
 
   // switch from useEffect to call after `initialState` props have been checked
@@ -363,10 +349,18 @@ const ShareModal = (props) => {
 
   const sendUnifiedAccessControlConditions = async (conditionsArePermanent) => {
     const cleanedAccessControlConditions = stripNestedArray(unifiedAccessControlConditions);
+
+    const allConditionTypes = getAllNeededAuthSigs(unifiedAccessControlConditions);
+    const authSigTypes = [ ...new Set(allConditionTypes) ];
+
+    const allChainTypes = getAllChains(unifiedAccessControlConditions);
+    const chains = [ ...new Set(allChainTypes) ];
+
     const keyParams = {
       unifiedAccessControlConditions: cleanedAccessControlConditions,
       permanent: conditionsArePermanent,
-      chain: chain.value
+      chains,
+      authSigTypes
     };
     // TODO: comment back in to export conditions
     await onUnifiedAccessControlConditionsSelected(keyParams);

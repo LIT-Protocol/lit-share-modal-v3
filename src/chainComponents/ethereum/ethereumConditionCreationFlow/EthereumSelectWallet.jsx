@@ -10,7 +10,6 @@ const EthereumSelectWallet = ({
                                 initialState = null
                               }) => {
   const [ walletAddress, setWalletAddress ] = useState("");
-  // const [addressIsValid, setAddressIsValid] = useState(false);
   const [ loading, setLoading ] = useState(false);
   const [ errorMessage, setErrorMessage ] = useState('');
 
@@ -20,9 +19,9 @@ const EthereumSelectWallet = ({
 
   useEffect(() => {
     if (initialState) {
-      if (initialState['address']) {
-        setWalletAddress(initialState['address']);
-        handleSubmit(initialState['address']);
+      if (initialState['walletAddress']) {
+        setWalletAddress(initialState['walletAddress']);
+        handleSubmit(initialState['walletAddress']);
       }
     }
     wipeInitialProps();

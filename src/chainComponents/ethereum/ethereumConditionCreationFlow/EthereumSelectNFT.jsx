@@ -16,12 +16,12 @@ const EthereumSelectNFT = ({updateUnifiedAccessControlConditions, submitDisabled
 
   useEffect(() => {
     if (initialState) {
-      if (initialState['address']) {
-        setContractAddress(initialState['address']);
-        handleSubmit(initialState['address'])
+      if (initialState['NFTAddress']) {
+        setContractAddress(initialState['NFTAddress']);
+        handleSubmit(initialState['NFTAddress'])
       }
-      if (initialState['tokenId']) {
-        setTokenId(initialState['tokenId']);
+      if (initialState['NFTTokenId']) {
+        setTokenId(initialState['NFTTokenId']);
       }
     }
     wipeInitialProps();

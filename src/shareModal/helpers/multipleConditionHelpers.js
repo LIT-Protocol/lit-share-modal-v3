@@ -41,7 +41,7 @@ const humanizeNestedConditions = async (acc) => {
       })
     } else {
       const humanizedAcc = await humanizeUnifiedAccessControlConditions(
-        [acc[i]]
+        [ acc[i] ]
       );
       newHumanizedAcc.push({
         humanizedAcc: humanizedAcc,
@@ -53,6 +53,38 @@ const humanizeNestedConditions = async (acc) => {
   }
   return newHumanizedAcc;
 }
+
+const getAllNeededAuthSigs = (uacc) => {
+  let allAuthSigs = [];
+  for (let i = 0; i < uacc.length; i++) {
+    if (Array.isArray(uacc[i])) {
+      const authSigs = getAllNeededAuthSigs(uacc[i]);
+      allAuthSigs.push(...authSigs);
+    } else {
+      if (uacc[i]['conditionType'] && uacc[i]['conditionType'] === 'solRpc') {
+        allAuthSigs.push('solana');
+      } else if (uacc[i]['conditionType'] && uacc[i]['conditionType'] === 'evmBasic') {
+        allAuthSigs.push('ethereum');
+      }
+    }
+  }
+  return allAuthSigs;
+}
+
+const getAllChains = (uacc) => {
+  let allChains = [];
+  for (let i = 0; i < uacc.length; i++) {
+    if (Array.isArray(uacc[i])) {
+      const chains = getAllChains(uacc[i]);
+      allChains.push(...chains);
+    } else {
+      if (uacc[i]['chain']) {
+        allChains.push(uacc[i]['chain']);
+      }
+    }
+  }
+  return allChains;
+};
 
 const handleUpdateUnifiedAccessControlConditions = (acc, index, depth, currentDepth = 0) => {
   if (currentDepth < depth) {
@@ -76,5 +108,7 @@ export {
   cleanUnifiedAccessControlConditions,
   humanizeNestedConditions,
   handleDeleteAccessControlCondition,
-  handleUpdateUnifiedAccessControlConditions
+  handleUpdateUnifiedAccessControlConditions,
+  getAllNeededAuthSigs,
+  getAllChains
 }

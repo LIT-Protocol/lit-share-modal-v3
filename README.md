@@ -1,6 +1,7 @@
-This version of Lit Share Modal is for React
+This version of Lit Share Modal is for React 18.
+[A React 17 version can be found here.](https://www.npmjs.com/package/lit-share-modal-v3-react-17)
 
-18. [A React 17 version can be found here.](https://www.npmjs.com/package/lit-share-modal-v3-react-17)
+[A list of recent updates can be found here](https://lit-services-docs.netlify.app/docs/share-modal/shareModalUpdates)
 
 [Click here to try out the share modal playground.](https://lit-share-modal-v3-playground.netlify.app/)
 
@@ -128,6 +129,9 @@ export default App;
 - `unifiedAccessControlConditions` - an array of objects and nested arrays reflecting the selected conditions
 - `permanent` - a boolean signaling whether conditions will be permanent (true) or editable by the author in the
   future (false)
+- `chains` - an array of all chain types used in a set of conditions
+- `authSigTypes` - an array of all authSig types that need to be passed into `saveSigningConditions`
+  and `getSignedToken` when saving and retrieving conditions.
 
 Documentation on how these properties are used with the `LitJsSdk`, can be found in
 the [LitJsSdk docs](https://lit-protocol.github.io/lit-js-sdk/api_docs_html/index.html#litnodeclientsavesigningcondition)
@@ -305,7 +309,7 @@ For EVM chains (`Ethereum`, `Gnosis (formerly xDai)`, `Polygon`, `Fantom`, `BSC`
 An Individual Wallet
 
 intialState = {
-  address: // wallet address as string
+  walletAddress: // wallet address as string
 }
 ```
 
@@ -313,8 +317,8 @@ intialState = {
 An Individual NFT
 
 intialState = {
-  address: // ERC 721 NFT contract address as string,
-  tokenId: // NFT token ID as string
+  NFTAddress: // ERC 721 NFT contract address as string,
+  NFTTokenId: // NFT token ID as string
 }
 ```
 
@@ -322,10 +326,10 @@ intialState = {
 A Group of Token or NFT Holders
 
 intialState = {
-  address: // token or NFT address as string,
-  amount: // amount to own as string,
-  contractType: // contract type, either 'ERC20', 'ERC721', or 'ERC1155',
-  erc1155TokenId: // ERC1155 token ID as string.  Only necessary if contract type is `ERC1155`
+  groupAddress: // token or NFT address as string,
+  groupAmount: // amount to own as string,
+  groupContractType: // contract type, either 'ERC20', 'ERC721', or 'ERC1155',
+  groupErc1155TokenId: // ERC1155 token ID as string.  Only necessary if contract type is `ERC1155`
 }
 ```
 
@@ -333,7 +337,8 @@ intialState = {
 DAO Members
 
 intialState = {
-  address: // DAO address as string,
+  DAOAddress: // DAO address as string,
+  DAOName: // not generally part of DAO conditions, but if a string is provided as a name it will render on the condition page
 }
 ```
 
@@ -345,7 +350,7 @@ can take either POAP Collection ID or POAP Name, not both.  POAP Name has an add
 for POAP Name:
 intialState = {
   poapName: // name of POAP as string,
-  matchCondition: // condition to measure against.  `contains` for contains value of `poapName`, or `equals` for equals exactly the value of `poapName`.  `contains` by default 
+  poapMatchCondition: // condition to measure against.  `contains` for contains value of `poapName`, or `equals` for equals exactly the value of `poapName`.  `contains` by default 
 }
 
 for POAP ID:

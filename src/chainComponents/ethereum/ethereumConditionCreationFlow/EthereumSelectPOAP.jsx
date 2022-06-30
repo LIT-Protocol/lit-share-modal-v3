@@ -46,9 +46,9 @@ const EthereumSelectPOAP = ({updateUnifiedAccessControlConditions, submitDisable
       if (initialState['poapName']) {
         setPoapGateType(typesOfPoapGate[1]);
         setPoapName(initialState['poapName']);
-        if (initialState['matchCondition'] === 'contains') {
+        if (initialState['poapMatchCondition'] === 'contains') {
           setNameMatchCondition(matchConditionOptions[0]);
-        } else if (initialState['matchCondition'] === 'equals') {
+        } else if (initialState['poapMatchCondition'] === 'equals') {
           setNameMatchCondition(matchConditionOptions[1]);
         }
       } else if (initialState['poapId']) {

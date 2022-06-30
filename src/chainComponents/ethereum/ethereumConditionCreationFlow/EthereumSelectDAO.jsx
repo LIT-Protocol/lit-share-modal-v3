@@ -4,6 +4,7 @@ import { ShareModalContext } from "../../../shareModal/createShareContext";
 
 const EthereumSelectDAO = ({updateUnifiedAccessControlConditions, submitDisabled, chain, initialState = null}) => {
   const [ DAOAddress, setDAOAddress ] = useState("");
+  const [ DAOName, setDAOName ] = useState(null);
 
   const {
     wipeInitialProps,
@@ -11,8 +12,12 @@ const EthereumSelectDAO = ({updateUnifiedAccessControlConditions, submitDisabled
 
   useEffect(() => {
     if (initialState) {
-      if (initialState['address'] && initialState['address'].length) {
-        setDAOAddress(initialState['address']);
+      if (initialState['DAOAddress'] && initialState['DAOAddress'].length) {
+        setDAOAddress(initialState['DAOAddress']);
+      }
+      if (initialState['DAOName'] && initialState['DAOName'].length) {
+        console.log(initialState['DAOName'])
+        setDAOName(initialState['DAOName']);
       }
     }
     wipeInitialProps();
@@ -48,6 +53,9 @@ const EthereumSelectDAO = ({updateUnifiedAccessControlConditions, submitDisabled
     <div className={'lsm-condition-container'}>
       <h3 className={'lsm-condition-prompt-text'}>Which DAO's
         members should be able to access this asset?</h3>
+      {DAOName && (
+        <h3 className={'lsm-condition-prompt-text'}>DAO Name: <strong>{DAOName}</strong></h3>
+      )}
       <h3 className={'lsm-condition-prompt-text'}>Add DAO
         contract address:</h3>
       <LitInput value={DAOAddress} setValue={setDAOAddress}/>
