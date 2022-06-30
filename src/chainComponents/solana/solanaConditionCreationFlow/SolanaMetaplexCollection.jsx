@@ -13,8 +13,8 @@ const SolanaMetaplexCollection = ({updateUnifiedAccessControlConditions, submitD
 
   useEffect(() => {
     if (initialState) {
-      if (initialState['address']) {
-        setContractAddress(initialState['address']);
+      if (initialState['solMetaplexAddress']) {
+        setContractAddress(initialState['solMetaplexAddress']);
       }
     }
     wipeInitialProps();

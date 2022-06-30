@@ -359,6 +359,32 @@ intialState = {
 }
 ```
 
+For Solana
+
+```
+An Individual Wallet
+
+initialState = {
+  solWalletAddress: // Phantom wallet address as a string
+}
+```
+
+```
+An Individual NFT
+
+initialState = {
+  solNFTAddress: // NFT contract address as a string
+}
+```
+
+```
+A Metaplex Collection
+
+initialState = {
+  solMetaplexAddress: // Metaplex Collection address as a string
+}
+```
+
 ### <a id="initialPropsExample"></a> Initial props example
 
 In this example, the share modal will be set to initially render in the **multiple condition flow** on the **Group Token

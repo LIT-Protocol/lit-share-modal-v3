@@ -15,8 +15,8 @@ const SolanaSelectNFT = ({
 
   useEffect(() => {
     if (initialState) {
-      if (initialState['address']) {
-        setContractAddress(initialState['address']);
+      if (initialState['solNFTAddress']) {
+        setContractAddress(initialState['solNFTAddress']);
       }
     }
     wipeInitialProps();

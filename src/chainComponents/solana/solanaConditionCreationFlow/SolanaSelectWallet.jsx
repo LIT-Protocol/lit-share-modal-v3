@@ -11,8 +11,8 @@ const SolanaSelectWallet = ({updateUnifiedAccessControlConditions, submitDisable
 
   useEffect(() => {
     if (initialState) {
-      if (initialState['address']) {
-        setWalletAddress(initialState['address']);
+      if (initialState['solWalletAddress']) {
+        setWalletAddress(initialState['solWalletAddress']);
       }
     }
     wipeInitialProps();
