@@ -43,8 +43,12 @@ const SingleConditionSelect = ({chain, initialState = null, initialCondition = n
           access this:</h3>
         {
           Object.keys(chain.types.conditionTypes).map((c, i) => {
-            return <LitChooseAccessButton key={i} onClick={() => setSelectPage(c)} label={conditionTypeData[c].label}
-                                          img={conditionTypeData[c].img}/>
+            if (!conditionTypeData[c].supportedChains || conditionTypeData[c].supportedChains.includes(chain.value)) {
+              return <LitChooseAccessButton key={i} onClick={() => setSelectPage(c)} label={conditionTypeData[c].label}
+                                            img={conditionTypeData[c].img}/>
+            } else {
+              return null
+            }
           })
         }
       </div>
