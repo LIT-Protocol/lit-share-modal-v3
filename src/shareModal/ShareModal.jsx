@@ -39,7 +39,7 @@ import litInputCss from '../reusableComponents/litInput/LitInput.css';
 import litDevModeCss from '../shareModal/devMode/DevModeContent.css';
 import litFooterCss from '../reusableComponents/litFooter/LitFooter.css';
 import litBackButtonCss from '../reusableComponents/litFooter/LitBackButton.css';
-import litNextButtonCss from '../reusableComponents/litFooter/litNextButton.css';
+import litNextButtonCss from '../reusableComponents/litFooter/LitNextButton.css';
 import litConfirmationModalCss from '../reusableComponents/litConfirmationModal/LitConfirmationModal.css';
 import litDeleteModalCss from '../reusableComponents/litDeleteModal/LitDeleteModal.css';
 import litMultipleAddConditionCss from './multipleConditionSelect/MultipleAddCondition.css';
