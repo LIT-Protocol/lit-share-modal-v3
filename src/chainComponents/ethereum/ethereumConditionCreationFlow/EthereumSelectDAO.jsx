@@ -53,7 +53,7 @@ const EthereumSelectDAO = ({updateUnifiedAccessControlConditions, submitDisabled
     <div className={'lsm-condition-container'}>
       <h3 className={'lsm-condition-prompt-text'}>Which DAO's
         members should be able to access this asset?</h3>
-      {DAOName && (
+      {DAOName && initialState?.['DAOAddress'] && DAOAddress === initialState['DAOAddress'] && (
         <h3 className={'lsm-condition-prompt-text'}>DAO Name: <strong>{DAOName}</strong></h3>
       )}
       <h3 className={'lsm-condition-prompt-text'}>Add DAO

@@ -1,5 +1,4 @@
-import React, {useEffect, useMemo, useContext} from 'react';
-// import './LitTokenSelect.css';
+import React, { useMemo, useContext } from 'react';
 
 
 import {
@@ -8,7 +7,7 @@ import {
   components,
 } from "react-windowed-select";
 
-import {ShareModalContext} from "../../shareModal/createShareContext.js";
+import { ShareModalContext } from "../../shareModal/createShareContext.js";
 import CreatableSelect from "react-select/creatable";
 
 const LitTokenSelect = ({label, setSelectedToken, option, selectedToken, allowEthereum = false}) => {
@@ -81,12 +80,12 @@ const LitTokenSelect = ({label, setSelectedToken, option, selectedToken, allowEt
       ];
     }
 
-  }, [tokenList]);
+  }, [ tokenList ]);
 
   return (
     <CreatableSelect
       className={'lsm-token-select'}
-      classNamePrefix={'lsm'}
+      classNamePrefix={'lsm-ts'}
       filterOption={createFilter({ignoreAccents: false})}
       components={{Option, MenuList: WindowedMenuList}}
       isClearable

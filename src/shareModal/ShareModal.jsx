@@ -45,6 +45,7 @@ import litDeleteModalCss from '../reusableComponents/litDeleteModal/LitDeleteMod
 import litMultipleAddConditionCss from './multipleConditionSelect/MultipleAddCondition.css';
 import litMultipleConditionEditorCss from './multipleConditionSelect/MultipleConditionEditor.css';
 import litCheckboxCss from '../reusableComponents/litCheckbox/LitCheckbox.css';
+import litTokenSelectCss from '../reusableComponents/litTokenSelect/LitTokenSelect.css';
 
 const cssReference = {
   baseCss,
@@ -66,6 +67,7 @@ const cssReference = {
   litConfirmationModalCss,
   litDeleteModalCss,
   litCheckboxCss,
+  litTokenSelectCss
 }
 
 const ShareModal = (props) => {
@@ -90,7 +92,7 @@ const ShareModal = (props) => {
   const {
     onClose = () => false,
     onUnifiedAccessControlConditionsSelected = (conditions) => console.log('conditions', conditions),
-    injectInitialState = false,
+    injectInitialState = true,
     initialUnifiedAccessControlConditions = null,
     initialFlow = null,
     initialCondition = null,
