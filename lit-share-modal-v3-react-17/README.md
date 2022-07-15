@@ -218,6 +218,7 @@ them. `defaultChain` accepts a string, `chainsAllowed` accepts an array of strin
 | Optimism              | optimism    |
 | Celo                  | celo        |
 | Aurora                | aurora      |
+| Eluvio                | eluvio      |
 
 **Example of setting `Polygon` as the default chain, and allowing `Polygon`, `Ethereum`, and `xDai` as options**
 
@@ -281,7 +282,7 @@ chain can use a different variety of values that reflect the conditions availabl
 | POAP Collectors                 | poap                                              |
 
 `Polygon`, `Fantom`, `BSC`, `Arbitrum`, `Avalanche`, `Avalanche FUJI Testnet`, `Harmony`, `Mumbai`, `Kovan`, `Goerli`
-, `Ropstein`, `Rinkeby`, `Cronos`, `Optimism`, `Celo`, and `Aurora`:
+, `Ropstein`, `Rinkeby`, `Cronos`, `Optimism`, `Celo`, `Eluvio`, and `Aurora`:
 
 | Condition Type                  | Value passed to `initialCondition` prop as string |
 |---------------------------------|---------------------------------------------------|

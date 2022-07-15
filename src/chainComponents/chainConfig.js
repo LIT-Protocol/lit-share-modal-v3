@@ -8,15 +8,16 @@ import avalancheLogo from "../assets/chainLogos/avalancheLogo.svg";
 import harmonyLogo from "../assets/chainLogos/harmonyLogo.svg";
 import cronosLogo from "../assets/chainLogos/cronosLogo.svg";
 import celoLogo from "../assets/chainLogos/celoLogo.svg";
+import eluvioLogo from "../assets/chainLogos/eluvioLogo.png";
 import auroraLogo from "../assets/chainLogos/auroraLogo.svg";
 import kovanLogo from "../assets/chainLogos/kovanLogo.png";
 import goerliLogo from "../assets/chainLogos/goerliLogo.png";
 import optimismLogo from "../assets/chainLogos/optimismLogo.jpeg";
 import solanaLogo from "../assets/chainLogos/solanaLogo.svg";
-import {ethereumTypesConfig, ethereumNoPOAPTypesConfig} from "./ethereum/ethereumTypesConfig";
-import {solanaTypesConfig} from "./solana/solanaTypesConfig";
+import { ethereumTypesConfig, ethereumNoPOAPTypesConfig } from "./ethereum/ethereumTypesConfig";
+import { solanaTypesConfig } from "./solana/solanaTypesConfig";
 
-import {utils} from 'ethers';
+import { utils } from 'ethers';
 
 const chainConfig = {
   ethereum: {
@@ -83,6 +84,30 @@ const chainConfig = {
     types: ethereumNoPOAPTypesConfig,
     addressValidator: (walletAddress) => true
   },
+  optimism: {
+    value: 'optimism',
+    label: 'Optimism',
+    logo: optimismLogo,
+    abbreviation: 'op',
+    types: ethereumNoPOAPTypesConfig,
+    addressValidator: (walletAddress) => true
+  },
+  celo: {
+    value: 'celo',
+    label: 'Celo',
+    logo: celoLogo,
+    abbreviation: 'celo',
+    types: ethereumNoPOAPTypesConfig,
+    addressValidator: (walletAddress) => true
+  },
+  eluvio: {
+    value: 'eluvio',
+    label: 'Eluvio',
+    logo: eluvioLogo,
+    abbreviation: 'elv',
+    types: ethereumNoPOAPTypesConfig,
+    addressValidator: (walletAddress) => true
+  },
   fuji: {
     value: 'fuji',
     label: 'Avalanche FUJI Testnet',
@@ -144,22 +169,6 @@ const chainConfig = {
     label: 'Cronos',
     logo: cronosLogo,
     abbreviation: 'cro',
-    types: ethereumNoPOAPTypesConfig,
-    addressValidator: (walletAddress) => true
-  },
-  optimism: {
-    value: 'optimism',
-    label: 'Optimism',
-    logo: optimismLogo,
-    abbreviation: 'op',
-    types: ethereumNoPOAPTypesConfig,
-    addressValidator: (walletAddress) => true
-  },
-  celo: {
-    value: 'celo',
-    label: 'Celo',
-    logo: celoLogo,
-    abbreviation: 'celo',
     types: ethereumNoPOAPTypesConfig,
     addressValidator: (walletAddress) => true
   },

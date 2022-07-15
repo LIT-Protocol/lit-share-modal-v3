@@ -92,7 +92,7 @@ const ShareModal = (props) => {
   const {
     onClose = () => false,
     onUnifiedAccessControlConditionsSelected = (conditions) => console.log('conditions', conditions),
-    injectInitialState = true,
+    injectInitialState = false,
     initialUnifiedAccessControlConditions = null,
     initialFlow = null,
     initialCondition = null,
@@ -112,6 +112,9 @@ const ShareModal = (props) => {
   } = props;
 
   useEffect(() => {
+    // const allChains = LitJsSdk.ALL_LIT_CHAINS
+    //
+    // console.log('ALL CHAINS', allChains)
     checkPropTypes(props);
     setDevModeIsAllowed(allowDevMode);
     // check and set allowed conditions per chain
