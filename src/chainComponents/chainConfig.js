@@ -14,8 +14,8 @@ import kovanLogo from "../assets/chainLogos/kovanLogo.png";
 import goerliLogo from "../assets/chainLogos/goerliLogo.png";
 import optimismLogo from "../assets/chainLogos/optimismLogo.jpeg";
 import solanaLogo from "../assets/chainLogos/solanaLogo.svg";
-import {ethereumTypesConfig} from "./ethereum/ethereumTypesConfig";
-import {solanaTypesConfig} from "./solana/solanaTypesConfig";
+import { ethereumTypesConfig } from "./ethereum/ethereumTypesConfig";
+import { solanaTypesConfig } from "./solana/solanaTypesConfig";
 
 import { utils } from 'ethers';
 
