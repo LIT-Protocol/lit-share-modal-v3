@@ -21,6 +21,7 @@
     left: 0;
     right: 0;
     overflow-y: scroll;
+    text-align: left;
 }
 
 .lsm-condition-container {

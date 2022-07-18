@@ -39,12 +39,13 @@ import litInputCss from '../reusableComponents/litInput/LitInput.css';
 import litDevModeCss from '../shareModal/devMode/DevModeContent.css';
 import litFooterCss from '../reusableComponents/litFooter/LitFooter.css';
 import litBackButtonCss from '../reusableComponents/litFooter/LitBackButton.css';
-import litNextButtonCss from '../reusableComponents/litFooter/litNextButton.css';
+import litNextButtonCss from '../reusableComponents/litFooter/LitNextButton.css';
 import litConfirmationModalCss from '../reusableComponents/litConfirmationModal/LitConfirmationModal.css';
 import litDeleteModalCss from '../reusableComponents/litDeleteModal/LitDeleteModal.css';
 import litMultipleAddConditionCss from './multipleConditionSelect/MultipleAddCondition.css';
 import litMultipleConditionEditorCss from './multipleConditionSelect/MultipleConditionEditor.css';
 import litCheckboxCss from '../reusableComponents/litCheckbox/LitCheckbox.css';
+import litTokenSelectCss from '../reusableComponents/litTokenSelect/LitTokenSelect.css';
 
 const cssReference = {
   baseCss,
@@ -66,6 +67,7 @@ const cssReference = {
   litConfirmationModalCss,
   litDeleteModalCss,
   litCheckboxCss,
+  litTokenSelectCss
 }
 
 const ShareModal = (props) => {
@@ -110,6 +112,9 @@ const ShareModal = (props) => {
   } = props;
 
   useEffect(() => {
+    // const allChains = LitJsSdk.ALL_LIT_CHAINS
+    //
+    // console.log('ALL CHAINS', allChains)
     checkPropTypes(props);
     setDevModeIsAllowed(allowDevMode);
     // check and set allowed conditions per chain

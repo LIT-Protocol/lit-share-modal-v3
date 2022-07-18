@@ -218,6 +218,7 @@ them. `defaultChain` accepts a string, `chainsAllowed` accepts an array of strin
 | Optimism              | optimism    |
 | Celo                  | celo        |
 | Aurora                | aurora      |
+| Eluvio                | eluvio      |
 
 **Example of setting `Polygon` as the default chain, and allowing `Polygon`, `Ethereum`, and `xDai` as options**
 
@@ -303,7 +304,7 @@ Individual fields are optional, and those that are not included will be rendered
 
 For EVM chains (`Ethereum`, `Gnosis (formerly xDai)`, `Polygon`, `Fantom`, `BSC`, `Arbitrum`, `Avalanche`
 , `Avalanche FUJI Testnet`, `Harmony`, `Mumbai`, `Kovan`, `Goerli`
-, `Ropstein`, `Rinkeby`, `Cronos`, `Optimism`, `Celo`, and `Aurora`:)
+, `Ropstein`, `Rinkeby`, `Cronos`, `Optimism`, `Celo`, `Eluvio`, and `Aurora`:)
 
 ```
 An Individual Wallet
