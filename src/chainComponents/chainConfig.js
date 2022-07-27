@@ -14,7 +14,7 @@ import kovanLogo from "../assets/chainLogos/kovanLogo.png";
 import goerliLogo from "../assets/chainLogos/goerliLogo.png";
 import optimismLogo from "../assets/chainLogos/optimismLogo.jpeg";
 import solanaLogo from "../assets/chainLogos/solanaLogo.svg";
-import { ethereumTypesConfig, ethereumNoPOAPTypesConfig } from "./ethereum/ethereumTypesConfig";
+import { ethereumTypesConfig } from "./ethereum/ethereumTypesConfig";
 import { solanaTypesConfig } from "./solana/solanaTypesConfig";
 
 import { utils } from 'ethers';
@@ -33,7 +33,7 @@ const chainConfig = {
     label: 'Polygon',
     logo: polygonLogo,
     abbreviation: 'matic',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   solana: {
@@ -49,7 +49,7 @@ const chainConfig = {
     label: 'Fantom',
     logo: ftmLogo,
     abbreviation: 'ftm',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   xdai: {
@@ -65,7 +65,7 @@ const chainConfig = {
     label: 'Binance Smart Chain',
     logo: bnbLogo,
     abbreviation: 'bsc',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   arbitrum: {
@@ -73,7 +73,7 @@ const chainConfig = {
     label: 'Arbitrum',
     logo: arbitrumLogo,
     abbreviation: 'arbitrum',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   avalanche: {
@@ -81,7 +81,7 @@ const chainConfig = {
     label: 'Avalanche',
     logo: avalancheLogo,
     abbreviation: 'avax',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   optimism: {
@@ -89,7 +89,7 @@ const chainConfig = {
     label: 'Optimism',
     logo: optimismLogo,
     abbreviation: 'op',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   celo: {
@@ -97,7 +97,7 @@ const chainConfig = {
     label: 'Celo',
     logo: celoLogo,
     abbreviation: 'celo',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   eluvio: {
@@ -105,7 +105,7 @@ const chainConfig = {
     label: 'Eluvio',
     logo: eluvioLogo,
     abbreviation: 'elv',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   fuji: {
@@ -113,7 +113,7 @@ const chainConfig = {
     label: 'Avalanche FUJI Testnet',
     logo: avalancheLogo,
     abbreviation: 'fuji',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   harmony: {
@@ -121,7 +121,7 @@ const chainConfig = {
     label: 'Harmony',
     logo: harmonyLogo,
     abbreviation: 'one',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   kovan: {
@@ -129,7 +129,7 @@ const chainConfig = {
     label: 'Kovan',
     logo: kovanLogo,
     abbreviation: 'kovan',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   mumbai: {
@@ -137,7 +137,7 @@ const chainConfig = {
     label: 'Mumbai',
     logo: polygonLogo,
     abbreviation: 'mumbai',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   goerli: {
@@ -145,7 +145,7 @@ const chainConfig = {
     label: 'Goerli',
     logo: goerliLogo,
     abbreviation: 'goerli',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   ropstein: {
@@ -153,7 +153,7 @@ const chainConfig = {
     label: 'Ropstein',
     logo: ethLogo,
     abbreviation: 'ropstein',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   rinkeby: {
@@ -161,7 +161,7 @@ const chainConfig = {
     label: 'Rinkeby',
     logo: ethLogo,
     abbreviation: 'rinkeby',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   cronos: {
@@ -169,7 +169,7 @@ const chainConfig = {
     label: 'Cronos',
     logo: cronosLogo,
     abbreviation: 'cro',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
   aurora: {
@@ -177,7 +177,7 @@ const chainConfig = {
     label: 'Aurora',
     logo: auroraLogo,
     abbreviation: 'aoa',
-    types: ethereumNoPOAPTypesConfig,
+    types: ethereumTypesConfig,
     addressValidator: (walletAddress) => true
   },
 }

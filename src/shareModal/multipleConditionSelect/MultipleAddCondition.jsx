@@ -38,7 +38,9 @@ const MultipleAddCondition = ({
       if (isNested === true) {
         // conditions like POAP are already nested, so there is an option to prevent deeper nesting
         Object.keys(chain.types.conditionTypes).forEach((c, i) => {
-          if (!chain['disallowNesting'] || !chain['disallowNesting'].find(n => n === c)) {
+          if ((!conditionTypeData[c].supportedChains || conditionTypeData[c].supportedChains.includes(chain.value)) &&
+              (!chain['disallowNesting'] || !chain['disallowNesting'].find(n => n === c)))
+          {
             allowedNestedConditions.push(<LitChooseAccessButton key={i} onClick={() => setSelectPage(c)}
                                                                 label={conditionTypeData[c].label}
                                                                 img={conditionTypeData[c].img}/>)
@@ -46,9 +48,11 @@ const MultipleAddCondition = ({
         })
       } else {
         Object.keys(chain.types.conditionTypes).forEach((c, i) => {
-          allowedNestedConditions.push(<LitChooseAccessButton key={i} onClick={() => setSelectPage(c)}
-                                                              label={conditionTypeData[c].label}
-                                                              img={conditionTypeData[c].img}/>)
+          if (!conditionTypeData[c].supportedChains || conditionTypeData[c].supportedChains.includes(chain.value)) {
+            allowedNestedConditions.push(<LitChooseAccessButton key={i} onClick={() => setSelectPage(c)}
+                                                                label={conditionTypeData[c].label}
+                                                                img={conditionTypeData[c].img}/>)
+          }
         })
       }
       return (
