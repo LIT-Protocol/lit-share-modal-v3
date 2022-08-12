@@ -26,7 +26,7 @@ const ethereumTypesConfig = {
       supportedChains: ['ethereum','xdai']
     },
     cask: { label: 'Active Subscriber (Powered by Cask)', img: CASK, requiresMultipleConditions: false,
-      supportedChains: ['polygon','avalanche','mumbai','fuji']
+      supportedChains: ['polygon','avalanche','mumbai','fuji','fantom','aurora','xdai']
     }
   },
   disallowNesting: ['poap']

@@ -8,6 +8,9 @@ const caskContractMap = {
     avalanche: '0x4A6f232552E0fd76787006Bb688bFBCB931cc3d0',
     fuji: '0x921ec72BEf414D75F0C6fFee37975BB3ae80d41C',
     mumbai: '0xaC7331DF9CB75beC251b75647AEccdeA8d336e33',
+    fantom: '0x7DaF9a1744Df00d0473A9A920B6A4Ea33B665360',
+    aurora: '0xD054F8866fc45c4387d56D2340dCA08d83E14A5e',
+    xdai: '0xD054F8866fc45c4387d56D2340dCA08d83E14A5e',
 };
 
 const EthereumSelectCask = ({updateUnifiedAccessControlConditions, submitDisabled, chain, initialState = null}) => {
