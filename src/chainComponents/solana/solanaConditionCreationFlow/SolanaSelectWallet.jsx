@@ -32,6 +32,9 @@ const SolanaSelectWallet = ({updateUnifiedAccessControlConditions, submitDisable
         method: "",
         params: [ ":userAddress" ],
         chain: 'solana',
+        pdaParams: [],
+        pdaInterface: {offset: 0, fields: {}},
+        pdaKey: "",
         returnValueTest: {
           key: "",
           comparator: "=",

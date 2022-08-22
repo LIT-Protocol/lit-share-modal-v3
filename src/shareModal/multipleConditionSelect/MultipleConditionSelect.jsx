@@ -73,7 +73,7 @@ const MultipleConditionSelect = ({
               }
             }}
             nextAction={() => setDisplayedPage('review')}
-            nextDisableConditions={!humanizedUnifiedAccessControlConditions || !humanizedUnifiedAccessControlConditions.length}
+            disableNextButton={!humanizedUnifiedAccessControlConditions || !humanizedUnifiedAccessControlConditions.length}
           />
         </Fragment>
       )}

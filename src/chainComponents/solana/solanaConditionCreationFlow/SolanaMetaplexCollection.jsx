@@ -33,6 +33,9 @@ const SolanaMetaplexCollection = ({updateUnifiedAccessControlConditions, submitD
           method: "balanceOfMetaplexCollection",
           params: [ contractAddress ],
           chain: 'solana',
+          pdaParams: [],
+          pdaInterface: {offset: 0, fields: {}},
+          pdaKey: "",
           returnValueTest: {
             key: "",
             comparator: ">=",

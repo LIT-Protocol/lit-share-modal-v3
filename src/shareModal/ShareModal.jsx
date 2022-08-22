@@ -210,7 +210,9 @@ const ShareModal = (props) => {
       const tokens = await LitJsSdk.getTokenList();
       setTokenList(tokens);
     } catch (err) {
-      setError(err)
+      setTokenList([])
+      // setError(err)
+      console.log('Error retrieving token list:', err)
     }
   };
 

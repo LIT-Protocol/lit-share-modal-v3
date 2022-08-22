@@ -103,7 +103,7 @@ const ReviewConditions = ({humanizedUnifiedAccessControlConditions, unifiedAcces
                    setConditionsSent(true);
                    sendUnifiedAccessControlConditions(conditionsArePermanent);
                  }}
-                 nextDisableConditions={false}
+                 disableNextButton={false}
                  nextButtonLabel={'DONE'}/>
       <LitConfirmationModal showConfirmationModal={showConfirmationModal}
                             onClick={handleConfirmGoBack}/>

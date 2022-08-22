@@ -36,6 +36,9 @@ const SolanaSelectNFT = ({
         method: "balanceOfToken",
         params: [ contractAddress ],
         chain: "solana",
+        pdaParams: [],
+        pdaInterface: {offset: 0, fields: {}},
+        pdaKey: "",
         returnValueTest: {
           key: "$.amount",
           comparator: ">",
