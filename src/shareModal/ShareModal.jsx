@@ -46,6 +46,8 @@ import litMultipleAddConditionCss from './multipleConditionSelect/MultipleAddCon
 import litMultipleConditionEditorCss from './multipleConditionSelect/MultipleConditionEditor.css';
 import litCheckboxCss from '../reusableComponents/litCheckbox/LitCheckbox.css';
 import litTokenSelectCss from '../reusableComponents/litTokenSelect/LitTokenSelect.css';
+import litLoadingCss from '../reusableComponents/litLoading/LitLoading.css';
+import LitLoading from "../reusableComponents/litLoading/LitLoading";
 
 const cssReference = {
   baseCss,
@@ -67,11 +69,13 @@ const cssReference = {
   litConfirmationModalCss,
   litDeleteModalCss,
   litCheckboxCss,
-  litTokenSelectCss
+  litTokenSelectCss,
+  litLoadingCss
 }
 
 const ShareModal = (props) => {
   const [ displayedPage, setDisplayedPage ] = useState("single");
+  const [ loading, setLoading ] = useState(true);
   const [ error, setError ] = useState(null);
   const [ unifiedAccessControlConditions, setUnifiedAccessControlConditions ] = useState([]);
   const [
@@ -206,14 +210,16 @@ const ShareModal = (props) => {
 
   const getTokens = async () => {
     // get token list and cache it
+    console.log('getting tokens')
     try {
       const tokens = await LitJsSdk.getTokenList();
       setTokenList(tokens);
     } catch (err) {
       setTokenList([])
-      // setError(err)
+      setError(err)
       console.log('Error retrieving token list:', err)
     }
+    setLoading(false);
   };
 
   const handleDeleteAccessControlCondition = async (
@@ -380,6 +386,14 @@ const ShareModal = (props) => {
     } else {
       return 'lsm-light-theme';
     }
+  }
+
+  if (loading) {
+    return (
+      <span className={'lsm-loading-display'}>
+        <LitLoading/>
+      </span>
+    )
   }
 
   return (

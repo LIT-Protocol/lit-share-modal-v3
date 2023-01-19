@@ -28,8 +28,10 @@
     align-items: center !important;
     background-color: var(--lsm-background-color) !important;
     color: var(--lsm-primary-color) !important;
-    font-family: var(--lsm-primary-font) !important;
+    font-weight: 300;
+    font-family: Segoe UI, sans-serif !important;
     cursor: pointer !important;
+    font-size: 1em !important;
 }
 
 .lsm-ts__option--is-focused,

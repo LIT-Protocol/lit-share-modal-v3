@@ -50,7 +50,9 @@
 }
 
 .lsm-condition-prompt-text-no-margin {
-    font-weight: var(--lsm-primary-font-weight);
+    font-weight: 500;
+    /*font-family: var(--lsm-primary-font);*/
+    font-family: Segoe UI, sans-serif !important;
     font-size: 1em;
 }
 
