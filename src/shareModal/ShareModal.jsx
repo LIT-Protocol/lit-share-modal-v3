@@ -11,6 +11,7 @@ import {
   cleanUnifiedAccessControlConditions, getAllNeededAuthSigs, getAllChains,
 } from "./helpers/multipleConditionHelpers";
 import LitHeader from "../reusableComponents/litHeader/LitHeader";
+import LitLoading from "../reusableComponents/litLoading/LitLoading";
 import SingleConditionSelect from "./singleConditionSelect/SingleConditionSelect";
 import MultipleConditionSelect from "./multipleConditionSelect/MultipleConditionSelect";
 import { chainConfig } from "../chainComponents/chainConfig.js";
@@ -47,7 +48,6 @@ import litMultipleConditionEditorCss from './multipleConditionSelect/MultipleCon
 import litCheckboxCss from '../reusableComponents/litCheckbox/LitCheckbox.css';
 import litTokenSelectCss from '../reusableComponents/litTokenSelect/LitTokenSelect.css';
 import litLoadingCss from '../reusableComponents/litLoading/LitLoading.css';
-import LitLoading from "../reusableComponents/litLoading/LitLoading";
 
 const cssReference = {
   baseCss,
@@ -228,6 +228,8 @@ const ShareModal = (props) => {
   ) => {
     const updatedAcc = unifiedAccessControlConditions;
     // TODO: create nested delete
+    console.log('localIndex', localIndex)
+    console.log('nestedIndex', nestedIndex)
 
     if (nestedIndex === null) {
       if (localIndex > 1 && localIndex === updatedAcc.length - 1) {

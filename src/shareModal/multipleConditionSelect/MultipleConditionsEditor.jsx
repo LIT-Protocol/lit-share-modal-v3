@@ -1,6 +1,6 @@
-import React, {Fragment, useContext, useState} from 'react';
-import {colorArray} from "../helpers/colorArray";
-import {ShareModalContext} from "../createShareContext";
+import React, { Fragment, useContext, useState } from 'react';
+import { colorArray } from "../helpers/colorArray";
+import { ShareModalContext } from "../createShareContext";
 import LitDeleteModal from "../../reusableComponents/litDeleteModal/LitDeleteModal";
 
 const MultipleConditionsEditor = ({humanizedUnifiedAccessControlConditions, createCondition}) => {
@@ -11,9 +11,9 @@ const MultipleConditionsEditor = ({humanizedUnifiedAccessControlConditions, crea
     setDisplayedPage,
   } = useContext(ShareModalContext);
 
-  const [currentAccIndex, setCurrentAccIndex] = useState(null);
-  const [accType, setAccType] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [ currentAccIndex, setCurrentAccIndex ] = useState(null);
+  const [ accType, setAccType ] = useState(null);
+  const [ showDeleteModal, setShowDeleteModal ] = useState(false);
 
   const handleDelete = (modalResponse) => {
     if (modalResponse === 'yes') {
@@ -21,6 +21,7 @@ const MultipleConditionsEditor = ({humanizedUnifiedAccessControlConditions, crea
         handleDeleteAccessControlCondition(currentAccIndex[0], null)
         return;
       }
+      console.log('currentAccIndex', currentAccIndex);
       currentAccIndex.length === 1 ?
         handleDeleteAccessControlCondition(currentAccIndex[0], null) :
         handleDeleteAccessControlCondition(currentAccIndex[0], currentAccIndex[1])
@@ -68,7 +69,7 @@ const MultipleConditionsEditor = ({humanizedUnifiedAccessControlConditions, crea
                 </span>
                 <span>
                   <button className={'lsm-multiple-condition-humanized-delete'} onClick={() => {
-                    setCurrentAccIndex([i]);
+                    setCurrentAccIndex([ i ]);
                     setShowDeleteModal(true);
                   }}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -100,7 +101,8 @@ const MultipleConditionsEditor = ({humanizedUnifiedAccessControlConditions, crea
                       </div>
                       <span>
                         <button className={'lsm-multiple-condition-humanized-delete'} onClick={() => {
-                          setCurrentAccIndex([i]);
+                          console.log('CHECK DELETE', [ i, ni ]);
+                          setCurrentAccIndex([ i, ni ]);
                           setShowDeleteModal(true);
                         }}>
                           <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -149,7 +151,7 @@ const MultipleConditionsEditor = ({humanizedUnifiedAccessControlConditions, crea
                 </div>
                 <span>
                   <button className={'lsm-multiple-condition-humanized-delete'} onClick={() => {
-                    setCurrentAccIndex([i]);
+                    setCurrentAccIndex([ i ]);
                     setShowDeleteModal(true);
                   }}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

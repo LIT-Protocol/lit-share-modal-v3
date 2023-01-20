@@ -20,7 +20,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--lsm-primary-color);
+    /*background-color: var(--lsm-primary-color);*/
+    background-color: #aaa;
 }
 
 /* :not(:required) hides these rules from IE9 and below */
