@@ -90,7 +90,7 @@ const ReviewConditions = ({humanizedUnifiedAccessControlConditions, unifiedAcces
                        setValue={setConditionsArePermanent}
                        label={'Make condition(s) permanent; if selected, you cannot update them later'}/>
           <div className={'lsm-review-conditions-link'}>
-            <a href={'https://developer.litprotocol.com/docs/AccessControlConditions/evmBasicExamples'}
+            <a href={'https://developer.litprotocol.com/coreConcepts/accessControl/EVM/basicExamples'}
                target={'_blank'}
                rel="noreferrer">More information about
               conditions<img
