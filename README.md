@@ -44,7 +44,7 @@ both is provided below.
 
 as a modal
 
-```
+```tsx
 import ShareModal from 'lit-share-modal-v3';
 import { useState } from 'react';
 import './App.css'
@@ -96,7 +96,7 @@ export default App;
 
 as embedded content
 
-```
+```tsx
 import ShareModal from 'lit-share-modal-v3';
 
 const App = () => {
@@ -222,7 +222,7 @@ them. `defaultChain` accepts a string, `chainsAllowed` accepts an array of strin
 
 **Example of setting `Polygon` as the default chain, and allowing `Polygon`, `Ethereum`, and `xDai` as options**
 
-```
+```tsx
   <ShareModal
     defaultChain={'polygon'} // pass as single string
     chainOptions={['polygon', 'ethereum', 'xdai']} // mix of values listed above passed as an array of strings
@@ -246,7 +246,7 @@ customized by passing an array of objects with the following properties:
 
 **Example of a single entry quick access array**
 
-```
+```ts
 export const defaultTokens = [
   {
     label: "Lit Genesis Gate",
@@ -302,30 +302,28 @@ chain can use a different variety of values that reflect the conditions availabl
 `initialState` - an object that defines the individual form fields available within a given control condition.
 Individual fields are optional, and those that are not included will be rendered empty as normal.
 
-For EVM chains (`Ethereum`, `Gnosis (formerly xDai)`, `Polygon`, `Fantom`, `BSC`, `Arbitrum`, `Avalanche`
+### For EVM chains 
+(`Ethereum`, `Gnosis (formerly xDai)`, `Polygon`, `Fantom`, `BSC`, `Arbitrum`, `Avalanche`
 , `Avalanche FUJI Testnet`, `Harmony`, `Mumbai`, `Kovan`, `Goerli`
-, `Ropstein`, `Rinkeby`, `Cronos`, `Optimism`, `Celo`, `Eluvio`, and `Aurora`:)
+, `Ropstein`, `Rinkeby`, `Cronos`, `Optimism`, `Celo`, `Eluvio`, and `Aurora`)
 
-```
-An Individual Wallet
-
+#### An Individual Wallet
+```ts
 intialState = {
   walletAddress: // wallet address as string
 }
 ```
 
-```
-An Individual NFT
-
+#### An Individual NFT
+```ts
 intialState = {
   NFTAddress: // ERC 721 NFT contract address as string,
   NFTTokenId: // NFT token ID as string
 }
 ```
 
-```
-A Group of Token or NFT Holders
-
+#### A Group of Token or NFT Holders
+```ts
 intialState = {
   groupAddress: // token or NFT address as string,
   groupAmount: // amount to own as string,
@@ -334,53 +332,50 @@ intialState = {
 }
 ```
 
-```
-DAO Members
-
+#### DAO Members
+```ts
 intialState = {
   DAOAddress: // DAO address as string,
   DAOName: // not generally part of DAO conditions, but if a string is provided as a name it will render on the condition page
 }
 ```
 
-```
-POAP Collectors
-
+#### POAP Collectors
 can take either POAP Collection ID or POAP Name, not both.  POAP Name has an additional field 'matchCondition' that can be set to either 'contains' or 'equals'
 
-for POAP Name:
+**For POAP Name:**
+```ts
 intialState = {
   poapName: // name of POAP as string,
   poapMatchCondition: // condition to measure against.  `contains` for contains value of `poapName`, or `equals` for equals exactly the value of `poapName`.  `contains` by default 
 }
+```
 
-for POAP ID:
+**For POAP ID:**
+```ts
 intialState = {
   poapId: // POAP collection ID as string.  note: individual token ID will not work
 }
 ```
 
-For Solana
+### For Solana
 
-```
-An Individual Wallet
-
+#### An Individual Wallet
+```ts
 initialState = {
   solWalletAddress: // Phantom wallet address as a string
 }
 ```
 
-```
-An Individual NFT
-
+#### An Individual NFT
+```ts
 initialState = {
   solNFTAddress: // NFT contract address as a string
 }
 ```
 
-```
-A Metaplex Collection
-
+#### A Metaplex Collection
+```ts
 initialState = {
   solMetaplexAddress: // Metaplex Collection address as a string
 }
@@ -394,15 +389,15 @@ blank.
 
 <i>Note: the `amount` field is not included in the `initialState` object and will render like normal</i>
 
-```
+```tsx
 <ShareModal 
   injectInitialState={true}
   initialFlow={'multipleConditions'}
-  initialCondition={'group}
-  initialState={
+  initialCondition={'group'}
+  initialState={{
     address: '0x495f947276749ce646f68ac8c248420045cb7b5e',
     contractType: 'ERC721'
-  }
+  }}
 />
 ```
 
